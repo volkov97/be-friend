@@ -156,16 +156,6 @@ startButton.click(function(e) {
 			if (response.session){
 				userObj = response.session;
 
-				ga('send', {
-	                hitType: 'event',
-	                eventCategory: 'Game Buttons',
-	                eventAction: 'Start Button',
-	                eventLabel: response.session.user.first_name 
-						+ " " 
-						+ response.session.user.last_name 
-						+ " (" + response.session.mid 
-						+ ")" 
-	            });
 	            localStorage.setItem('name', userObj.user.first_name);
 	            localStorage.setItem('vk_id', userObj.mid);
 
@@ -179,28 +169,8 @@ startButton.click(function(e) {
 			}
 		});	
 
-	} else {
-		// restart game
-
-		
-		window.game.timer.clrInterval();
-		window.game = {};
-		window.game.score = 0;
-
-		makeNewQuestion();
-
-		$(window).scrollTo(".quiz", {duration: 500});
-
-		$(config.selectors.questionBlock).removeClass('hidden');
-		$('.questionWrap__results.gameResult').addClass('hidden');
-		window.gui.updatePoints();
-		window.gui.startGame();
-		window.game.timer = new Timer();
-		window.game.timer.start();
 	}
 
-	e.stopPropagation();
-	e.preventDefault();
 	return false;
 });
 
@@ -300,12 +270,18 @@ function getFriendsCities() {
 
 			}
 
-			makeNewQuestion();
+			var sendingInfo = {
+				first_name: userObj.user.first_name,
+				last_name: userObj.user.last_name,
+				vk_id: userObj.user.id,
+				friends_list: friends
+			}
+			console.log(sendingInfo);
 
-			window.gui.startGame();
+			$.post("/auth", sendingInfo, function( data ) {
+		  		console.log(data);
+			}, "json");
 
-			window.game.timer = new Timer();
-			window.game.timer.start();
 		}
 		if (r.error){
 			console.log(r.error);
