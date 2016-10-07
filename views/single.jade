@@ -1,0 +1,77 @@
+extends layout
+
+block content
+	include header/header
+
+	main.main
+		.container
+			.startGameBlock
+				.row
+					.col-md-5
+						a.startButton(href='#')
+							| Начать
+					.col-md-7
+						.rules
+							.rules__header
+								| Правила игры
+							.rules__text
+								p
+									| После нажатия кнопки "Начать" здесь начнут появляться вопросы о Ваших друзьях. Изначально дается 90 секунд игрового времени, а на каждый вопрос будет предоставлено 4 варианта ответа.
+								p
+									| За каждый неправильный ответ Вы будете терять 5 баллов и 1 секунду времени. За каждый правильный ответ - получаете 10 баллов.
+								p
+									| Отвечайте на вопрос правильно с первого раза и получайте дополнительно 2 секунды игрового времени.
+								p
+									| Чего же Вы ждете? Начнем! 
+			.quiz.hidden
+				.questionWrap
+					.question
+						.question__text
+							| Вы готовы? Тогда к делу!
+						.question__properties.clearfix
+							.question__image
+								img.question__img(src='images/user.jpg', width='200px', height='200px', alt='Quiz Question Image')
+							.question__answers.clearfix
+								a.question__answer Волков Герман
+								a.question__answer Павец Никита
+								a.question__answer.right Лосев Игорь
+								a.question__answer.wrong Еще кто-то 4-ый
+					.questionWrap__results.gameResult.hidden
+						p
+							| Время вышло!
+							br
+							| Неплохой результат... но ты можешь лучше!
+						.gameResult__pointsWrap
+							svg.cupSVG
+								use(xlink:href='#cup')
+							span#gameResult
+								| 99
+						p
+							| Покажи друзьям, какой ты друг!
+							br
+							| Можешь выбрать одну из социальных сетей ниже!
+						.gameResult__socialButtons.clearfix
+							.social__network.vk
+								a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
+									svg.contact.vk
+										use(xlink:href='#vk')
+							.social__network.tw
+								a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
+									svg.contact.tw
+										use(xlink:href='#tw')
+					.questionWrap__stats
+						.row
+							.col-sm-6
+								.questionWrap__stat
+									.time
+										svg.timeSVG
+											use(xlink:href='#alarm')
+										span#onlineSeconds 90
+										|  seconds left...
+							.col-sm-6
+								.questionWrap__stat
+									.points
+										svg.pointsSVG
+											use(xlink:href='#correct')
+										span#onlinePoints 0
+										|  points
