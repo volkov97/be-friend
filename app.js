@@ -6,8 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var singleGame = require('./routes/singleGame');
-var multiplayerGame = require('./routes/multiplayerGame');
+var stats = require('./routes/stats');
+var single = require('./routes/single');
+var network = require('./routes/network');
 
 var app = express();
 
@@ -23,8 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/singleGame', singleGame);
-app.use('/multiplayerGame', multiplayerGame);
+app.use('/stats', stats);
+app.use('/single', single);
+app.use('/network', network);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
