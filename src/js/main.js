@@ -36,6 +36,7 @@ window.vkapp = new VKApp();
 
 var config = {
 	selectors: {
+		authButton: ".authButton",
 		openButton: ".openButton",
 		betaErrorList: ".beta-errorsList",
 		betaFirstScreen: ".beta-firstScreen",
@@ -66,6 +67,7 @@ window.logger.turnLoggerOff();
 var startButton = $(config.selectors.startButton);
 var questionBlock = $(config.selectors.questionBlock);
 var openButton = $(config.selectors.openButton);
+var authButton = $(config.selectors.authButton);
 
 
 /*************************************************************************/
@@ -132,44 +134,26 @@ function vibrate(val){
 /*************************************************************************/
 /*************************************************************************/
 
-openButton.click(function(e) {
+authButton.click(function(e) {
 
-	var betaFirstScreen = $(config.selectors.betaFirstScreen);
-	betaFirstScreen.addClass("hidden");
+	friends = [];
 
-	e.preventDefault();
-	return false;
-});
+	VK.Auth.login(function(response){
+		if (response.session){
+			userObj = response.session;
 
-startButton.click(function(e) {
+            localStorage.setItem('name', userObj.user.first_name);
+            localStorage.setItem('vk_id', userObj.mid);
 
-	if (!startButton.hasClass('disabled')) {
-		// first time start game
-
-		startButton.addClass("disabled");
-
-		friends = [];
-
-		startButton.text("Заново");
-
-		VK.Auth.login(function(response){
-			if (response.session){
-				userObj = response.session;
-
-	            localStorage.setItem('name', userObj.user.first_name);
-	            localStorage.setItem('vk_id', userObj.mid);
-
-				//console.log(response.session);
-				getFriendsIDs();			
-				if (response.settings){
-					//console.log(response.settings);
-				}
-			} else {
-				console.log("login err");
+			//console.log(response.session);
+			getFriendsIDs();			
+			if (response.settings){
+				//console.log(response.settings);
 			}
-		});	
-
-	}
+		} else {
+			console.log("login err");
+		}
+	});
 
 	return false;
 });
@@ -190,7 +174,7 @@ function addListenersToOptions(){
 
 				makeNewQuestion();
 
-			} else {
+			} else { 
 				vibrate(100);
 				$(this).addClass("wrong");
 				window.game.score -= 5;
@@ -211,7 +195,7 @@ function getFriendsIDs(){
 	VK.Api.call('friends.get', {
 			user_id: userObj.mid,
 			version: "5.53"
-	}, function(r){
+	}, function(r){ 
 		if (r.response){
 			friends = r.response;
 			stringOfUserIDs = friends.join();
