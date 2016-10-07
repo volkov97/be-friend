@@ -258,7 +258,7 @@ function getFriendsInfo(){
 		user_ids: stringOfUserIDs,
 		fields: "bdate,city,photo_200,relation,education,universities,schools,status,followers_count,sex,followers_count,personal,first_name_gen,last_name_gen,relation",
 		version: "5.53"
-	}, function(r){
+	}, function(r) {
 		if (r.response){
 			friends = r.response;
 			friends = friends.filter(function(tempUser){
