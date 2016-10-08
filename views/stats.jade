@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+	include header/header
+
+	main.main
+		.container
+			.userResult
+				h3.userResult__header
+				.userResult__main
+				// echo dbRecords::getFirstRecordsTable(10);
+
+			canvas(id="myChart" width="400" height="400")
+	
+	.notification.hidden
+		| Спасибо за ваше сообщение об ошибке, мы постараемся исправить ситуацию как можно скорее!

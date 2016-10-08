@@ -1,0 +1,30 @@
+@import "../variables.scss";
+
+.authButton {
+	display: block;
+    text-align: center;
+    padding: 15px 0;
+    color: $white;
+    background-color: #167197; 
+    text-transform: uppercase;
+    font-size: 2.5em;
+    line-height: 80px;
+
+    &:hover, &:active, &:focus {
+    	text-decoration: none;
+    }
+
+    &:hover {
+    	color: $white;
+    	background-color: #14557d;
+    }
+
+    svg {
+		display: inline-block;
+    	height: 80px;
+    	width: 80px;
+    	vertical-align: top;
+    	margin-right: 15px;
+    	fill: $white;
+    }
+}
