@@ -36,6 +36,7 @@ window.vkapp = new VKApp();
 
 var config = {
 	selectors: {
+		authButton: ".authButton",
 		openButton: ".openButton",
 		betaErrorList: ".beta-errorsList",
 		betaFirstScreen: ".beta-firstScreen",
@@ -66,6 +67,7 @@ window.logger.turnLoggerOff();
 var startButton = $(config.selectors.startButton);
 var questionBlock = $(config.selectors.questionBlock);
 var openButton = $(config.selectors.openButton);
+var authButton = $(config.selectors.authButton);
 
 
 /*************************************************************************/
@@ -132,75 +134,27 @@ function vibrate(val){
 /*************************************************************************/
 /*************************************************************************/
 
-openButton.click(function(e) {
+authButton.click(function(e) {
 
-	var betaFirstScreen = $(config.selectors.betaFirstScreen);
-	betaFirstScreen.addClass("hidden");
+	friends = [];
 
-	e.preventDefault();
-	return false;
-});
+	VK.Auth.login(function(response){
+		if (response.session){
+			userObj = response.session;
 
-startButton.click(function(e) {
+            localStorage.setItem('name', userObj.user.first_name);
+            localStorage.setItem('vk_id', userObj.mid);
 
-	if (!startButton.hasClass('disabled')) {
-		// first time start game
-
-		startButton.addClass("disabled");
-
-		friends = [];
-
-		startButton.text("Заново");
-
-		VK.Auth.login(function(response){
-			if (response.session){
-				userObj = response.session;
-
-				ga('send', {
-	                hitType: 'event',
-	                eventCategory: 'Game Buttons',
-	                eventAction: 'Start Button',
-	                eventLabel: response.session.user.first_name 
-						+ " " 
-						+ response.session.user.last_name 
-						+ " (" + response.session.mid 
-						+ ")" 
-	            });
-	            localStorage.setItem('name', userObj.user.first_name);
-	            localStorage.setItem('vk_id', userObj.mid);
-
-				//console.log(response.session);
-				getFriendsIDs();			
-				if (response.settings){
-					//console.log(response.settings);
-				}
-			} else {
-				console.log("login err");
+			//console.log(response.session);
+			getFriendsIDs();			
+			if (response.settings){
+				//console.log(response.settings);
 			}
-		});	
+		} else {
+			console.log("login err");
+		}
+	});
 
-	} else {
-		// restart game
-
-		
-		window.game.timer.clrInterval();
-		window.game = {};
-		window.game.score = 0;
-
-		makeNewQuestion();
-
-		$(window).scrollTo(".quiz", {duration: 500});
-
-		$(config.selectors.questionBlock).removeClass('hidden');
-		$('.questionWrap__results.gameResult').addClass('hidden');
-		window.gui.updatePoints();
-		window.gui.startGame();
-		window.game.timer = new Timer();
-		window.game.timer.start();
-	}
-
-	e.stopPropagation();
-	e.preventDefault();
 	return false;
 });
 
@@ -220,7 +174,7 @@ function addListenersToOptions(){
 
 				makeNewQuestion();
 
-			} else {
+			} else { 
 				vibrate(100);
 				$(this).addClass("wrong");
 				window.game.score -= 5;
@@ -241,7 +195,7 @@ function getFriendsIDs(){
 	VK.Api.call('friends.get', {
 			user_id: userObj.mid,
 			version: "5.53"
-	}, function(r){
+	}, function(r){ 
 		if (r.response){
 			friends = r.response;
 			stringOfUserIDs = friends.join();
@@ -258,7 +212,7 @@ function getFriendsInfo(){
 		user_ids: stringOfUserIDs,
 		fields: "bdate,city,photo_200,relation,education,universities,schools,status,followers_count,sex,followers_count,personal,first_name_gen,last_name_gen,relation",
 		version: "5.53"
-	}, function(r){
+	}, function(r) {
 		if (r.response){
 			friends = r.response;
 			friends = friends.filter(function(tempUser){
@@ -300,12 +254,18 @@ function getFriendsCities() {
 
 			}
 
-			makeNewQuestion();
+			var sendingInfo = {
+				first_name: userObj.user.first_name,
+				last_name: userObj.user.last_name,
+				vk_id: userObj.user.id,
+				friends_list: friends
+			}
+			console.log(sendingInfo);
 
-			window.gui.startGame();
+			$.post("/auth", sendingInfo, function( data ) {
+		  		console.log(data);
+			}, "json");
 
-			window.game.timer = new Timer();
-			window.game.timer.start();
 		}
 		if (r.error){
 			console.log(r.error);

@@ -1,20 +1,8 @@
 extends layout
 
 block content
-	header.header
-		.container
-			.clearfix.header__top
-				a.logo(href='http://befriend.owuteam.com')
-					img.logo__image(src='images/logo_beta.png', alt='vkQuiz Logo')
-				.social.clearfix
-					.social__network.vk
-						a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
-							svg.contact.vk
-								use(xlink:href='#vk')
-					.social__network.tw
-						a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
-							svg.contact.tw
-								use(xlink:href='#tw')
+	include header/header
+
 	main.main
 		.container
 			.about
@@ -22,8 +10,10 @@ block content
 					.col-md-5
 						.imageWrap
 							img.image(src='images/friends.jpeg', alt='Friends')
-						a.startButton(href='#')
-							| Начать
+						a.authButton(href='/stats')
+							svg.vk
+								use(xlink:href='#vk')
+							| Вход
 					.col-md-7
 						h3.about__header
 							| Будьте в курсе того, что происходит в жизни Ваших друзей!
@@ -35,89 +25,28 @@ block content
 							p
 								| Не забывайте своих старых друзей! Наше приложение позволит Вам узнать, где сейчас живет Ваш старый друг, где он учится, состоит ли с кем-то в отношениях, а также многое другое.
 							p Ну так чего же Вы ждете? Вперед - за новыми рекордами:)
-			.quiz.hidden
-				.questionWrap
-					.question
-						.question__text
-							| Кто из этих людей мог разместить на странице такой статус: "Жизнь - боль"?
-						.question__properties.clearfix
-							.question__image
-								img.question__img(src='images/user.jpg', width='200px', height='200px', alt='Quiz Question Image')
-							.question__answers.clearfix
-								a.question__answer Волков Герман
-								a.question__answer Павец Никита
-								a.question__answer.right Лосев Игорь
-								a.question__answer.wrong Еще кто-то 4-ый
-					.questionWrap__results.gameResult.hidden
-						p
-							| Время вышло!
-							br
-							| Неплохой результат... но ты можешь лучше!
-						.gameResult__pointsWrap
-							svg.cupSVG
-								use(xlink:href='#cup')
-							span#gameResult
-								| 99
-						p
-							| Покажи друзьям, какой ты друг!
-							br
-							| Можешь выбрать одну из социальных сетей ниже!
-						.gameResult__socialButtons.clearfix
-							.social__network.vk
-								a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
-									svg.contact.vk
-										use(xlink:href='#vk')
-							.social__network.tw
-								a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
-									svg.contact.tw
-										use(xlink:href='#tw')
-					.questionWrap__stats
-						.row
-							.col-sm-6
-								.questionWrap__stat
-									.time
-										svg.timeSVG
-											use(xlink:href='#alarm')
-										span#onlineSeconds 90
-										| seconds left...
-							.col-sm-6
-								.questionWrap__stat
-									.points
-										svg.pointsSVG
-											use(xlink:href='#correct')
-										span#onlinePoints 0
-										| points
-			.row
-				.col-sm-4
-					.benefitsList
+			.benefitsList
+				.row
+					.col-md-4
 						.benefit
 							.benefit__image
 								svg.contact.hug
 									use(xlink:href='#hugs2')
 							.benefit__text
 								| Будьте ближе к друзьям!
+					.col-md-4
 						.benefit
 							.benefit__image
 								svg.contact.talk
 									use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#talk2')
 							.benefit__text
 								| Найдите больше общих тем для общения!
+					.col-md-4
 						.benefit
 							.benefit__image
 								svg.contact.happy
 									use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#happy2')
 							.benefit__text
 								| Узнайте друг друга лучше!
-				.col-sm-8
-					.userResult
-						h3.userResult__header
-						.userResult__main
-						// echo dbRecords::getFirstRecordsTable(10);
-	footer.footer
-		.container
-			.madeby
-				| OneWayUp
-			.footerWords
-				| Становитесь лучше вместе с нами!
-	.notification.hidden
-		| Спасибо за ваше сообщение об ошибке, мы постараемся исправить ситуацию как можно скорее!
+				
+	include footer/footer
