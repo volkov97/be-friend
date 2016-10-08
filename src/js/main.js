@@ -158,6 +158,17 @@ authButton.click(function(e) {
 	return false;
 });
 
+startButton.click(function(e) {
+
+	$.post("/getFriends", {
+		id: localStorage.getItem('vk_id')
+	}, function( data ) {
+		console.log(data);
+	}, "json");
+
+	return false;
+});
+
 function addListenersToOptions(){
 	var options = $(config.selectors.question__answer);
 
@@ -260,10 +271,11 @@ function getFriendsCities() {
 				vk_id: userObj.user.id,
 				friends_list: friends
 			}
-			console.log(sendingInfo);
 
 			$.post("/auth", sendingInfo, function( data ) {
 		  		console.log(data);
+
+				window.location.href = window.location.href + "/stats";
 			}, "json");
 
 		}
