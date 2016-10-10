@@ -11,8 +11,8 @@ block content
 						.imageWrap
 							img.image(src='images/friends.jpeg', alt='Friends')
 						button.authButton
-							svg.vk
-								use(href='#vk')
+							svg.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+								use(xlink:href='#vk')
 							| Вход
 					.col-md-7
 						h3.about__header
@@ -33,7 +33,7 @@ block content
 						.modes__content
 							.modes__rules
 								| В этом режиме игры необходимо ответить на как можно большее количество вопросов за отведенное время. У Вас есть 90 секунд, за каждый неправильный ответ отнимается 5 баллов и секунда времени, если Вы отвечаете правильно с первого раза - ко времени добавляется 2 секунды. Удачи!
-							button.startSingleGameButton(href="#") Начать
+							button.startSingleGameButton Начать
 					.col-md-6
 						h3.modes__header
 							| Сетевая игра
@@ -67,8 +67,8 @@ block content
 							br
 							| Неплохой результат... но ты можешь лучше!
 						.gameResult__pointsWrap
-							svg.cupSVG
-								use(href='#cup')
+							svg.cupSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+								use(xlink:href='#cup')
 							span#gameResult
 								| 99
 						p
@@ -78,26 +78,26 @@ block content
 						.gameResult__socialButtons.clearfix
 							.social__network.vk
 								a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
-									svg.contact.vk
-										use(href='#vk')
+									svg.contact.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+										use(xlink:href='#vk')
 							.social__network.tw
 								a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
-									svg.contact.tw
-										use(href='#tw')
+									svg.contact.tw(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+										use(xlink:href='#tw')
 					.questionWrap__stats
 						.row
 							.col-sm-6
 								.questionWrap__stat
 									.time
-										svg.timeSVG
-											use(href='#alarm')
+										svg.timeSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+											use(xlink:href='#alarm')
 										span#onlineSeconds 90
 										|  seconds left...
 							.col-sm-6
 								.questionWrap__stat
 									.points
-										svg.pointsSVG
-											use(href='#correct')
+										svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+											use(xlink:href='#correct')
 										span#onlinePoints 0
 										|  points
 			.stats
@@ -105,20 +105,20 @@ block content
 					.col-sm-4
 						.benefit
 							.benefit__image
-								svg.contact.hug
-									use(href='#hugs2')
+								svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+									use(xlink:href='#hugs2')
 							.benefit__text
 								| Будьте ближе к друзьям!
 						.benefit
 							.benefit__image
-								svg.contact.talk
-									use(xmlns:xlink='http://www.w3.org/1999/xlink', href='#talk2')
+								svg.contact.talk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+									use(xlink:href='#talk2')
 							.benefit__text
 								| Найдите больше общих тем для общения!
 						.benefit
 							.benefit__image
-								svg.contact.happy
-									use(xmlns:xlink='http://www.w3.org/1999/xlink', href='#happy2')
+								svg.contact.happy(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+									use(xlink:href='#happy2')
 							.benefit__text
 								| Узнайте друг друга лучше!
 					.col-sm-8
