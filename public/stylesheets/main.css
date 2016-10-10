@@ -1483,11 +1483,12 @@ header {
   background-color: #FFFFFF;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
   .rate__header {
-    margin-top: 0;
-    margin-bottom: 15px;
     font-size: 1.4em;
-    font-weight: 400; }
-    .rate__header .top5 {
+    font-weight: 400;
+    margin-top: 0;
+    padding: 0;
+    margin-bottom: 15px; }
+    .rate__header .top {
       float: right;
       font-weight: bold;
       color: #00838f; }

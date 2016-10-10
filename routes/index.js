@@ -9,33 +9,12 @@ var pool = mysql.createPool({
 	database : 'heroku_78e942bc13adfed'
 });
 
-function getTopList(num) {
-	return new Promise(function(resolve, reject) {
-		pool.getConnection(function (err, connection) {
-			if (err) {
-				reject("error2");
-				throw err;
-			}
-
-			connection.query('SELECT records.vk_id, records.first_name, records.last_name, statistics.maxScore FROM records, statistics WHERE records.vk_id=statistics.vk_id ORDER BY maxScore DESC LIMIT ' + num, function (err, rows, fields) {
-				if (err) {
-					reject("error1");
-					throw err;
-				}
-
-				connection.release();
-				resolve(rows);
-			});
-
-		});
-	});
-}
-
 router.get('/', function(req, res) {
 
 	getTopList(10).then(
 		function(result) {
 			res.render("index", {
+				title: "beFriend",
 				topList: result
 			});
 		},
@@ -144,5 +123,27 @@ router.post('/sendGameResults', function(req, res) {
 	});
 
 });
+
+function getTopList(num) {
+	return new Promise(function(resolve, reject) {
+		pool.getConnection(function (err, connection) {
+			if (err) {
+				reject("error2");
+				throw err;
+			}
+
+			connection.query('SELECT records.vk_id, records.first_name, records.last_name, statistics.maxScore FROM records, statistics WHERE records.vk_id=statistics.vk_id ORDER BY maxScore DESC LIMIT ' + num, function (err, rows, fields) {
+				if (err) {
+					reject("error1");
+					throw err;
+				}
+
+				connection.release();
+				resolve(rows);
+			});
+
+		});
+	});
+}
 
 module.exports = router;
