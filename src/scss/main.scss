@@ -1,4 +1,21 @@
-@import "variables.scss";
+@import "_data.scss";
+
+@import "_bootstrap.scss";
+@import "_animate.scss";
+
+// blocks
+@import "blocks/_about";
+@import "blocks/_benefits";
+@import "blocks/_beta";
+@import "blocks/_footer";
+@import "blocks/_header";
+@import "blocks/_menu";
+@import "blocks/_modes";
+@import "blocks/_notify";
+@import "blocks/_question";
+@import "blocks/_quiz";
+@import "blocks/_rate";
+@import "blocks/_userResult";
 
 body {
     margin: 0 auto; 

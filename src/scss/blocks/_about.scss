@@ -1,0 +1,87 @@
+@import "../_data";
+
+.about {
+    @extend .block;
+
+    @media only screen and (max-width: $screen_medium) {
+        margin-bottom: 40px;
+        padding: 20px 20px;
+    }
+
+    &__header {
+        margin-top: 0px;
+        margin-bottom: 20px;
+        font-size: 1.4em;
+        font-weight: normal;
+    }
+
+    &__content {
+        text-align: justify;
+
+        p {
+            margin: 0px 0px 20px;
+        }
+
+        p:last-child {
+            margin-bottom: 0px;
+        }
+
+    }
+
+    .imageWrap {
+        margin-bottom: 20px;
+
+        img {
+            width: 100%;
+        }
+
+    }
+
+}
+
+.authButton {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    color: $white;
+    background-color: #167197;
+    text-transform: uppercase;
+    font-size: 2.5em;
+    line-height: 80px;
+    border: none;
+    outline: none;
+
+    @media only screen and (max-width: $screen_large) {
+        margin-bottom: 20px;
+    }
+
+    &:hover, &:active, &:focus {
+        text-decoration: none;
+        color: $white;
+    }
+
+    &:hover {
+        color: $white;
+        background-color: #14557d;
+    }
+
+    &.loading {
+        background: #167197 url(../images/loader.gif) 50% 50% no-repeat;
+        background-size: 64px;
+        color: transparent;
+
+        svg {
+            fill: transparent;
+        }
+    }
+
+    svg {
+        display: inline-block;
+        height: 80px;
+        width: 80px;
+        vertical-align: top;
+        margin-right: 15px;
+        fill: $white;
+    }
+}

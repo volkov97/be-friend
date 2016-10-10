@@ -13,7 +13,7 @@ var font2css = require('gulp-font2css').default;
 
 var paths = {
     // Styles
-    src_sassFiles: './src/scss/**/*.scss',
+    src_sassFiles: './src/scss/main.scss',
     dest_cssFolder: './public/stylesheets',
 
     // JS
@@ -32,22 +32,22 @@ gulp.task('sass', function () {
     return gulp.src(paths.src_sassFiles)
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('main.css'))
-        .pipe(autoprefixer({
-            browsers: ['last 20 versions'],
-            cascade: false
-        }))
-        .pipe(cleanCSS({compatibility: 'ie8'}))
+        //.pipe(autoprefixer({
+        //    browsers: ['last 20 versions'],
+        //    cascade: false
+        //}))
+        //.pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(gulp.dest(paths.dest_cssFolder));
 });
  
 gulp.task('sass:watch', function () {
-    gulp.watch(paths.src_sassFiles, ['sass']);
+    gulp.watch("./src/scss/**/*.scss", ['sass']);
 });
 
 gulp.task('js', function () {
     return gulp.src(paths.src_jsFiles)
-        .pipe(uglify())
-        .pipe(concat("script.js"))
+        //.pipe(uglify())
+        //.pipe(concat("script.js"))
         .pipe(gulp.dest(paths.dest_jsFolder))
 });
 
@@ -82,5 +82,5 @@ gulp.task('fonts', function() {
 
 gulp.task('watch', function () {
     gulp.watch(paths.src_jsFiles, ['js']);
-    gulp.watch(paths.src_sassFiles, ['sass']);
+    gulp.watch("./src/scss/**/*.scss", ['sass']);
 });

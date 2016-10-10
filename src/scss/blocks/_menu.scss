@@ -1,0 +1,42 @@
+@import "../_data";
+
+.menu {
+	display: table-row;
+	margin: 0;
+	padding: 0;
+	background-color: $white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); 
+
+	&__item {
+		display: table-cell;
+		width: 30%;
+		text-align: center;
+	}
+
+	&__link {
+		display: block;
+		padding: 20px 0;
+		text-transform: uppercase;
+		font-weight: bold;
+    	color: #ff6a3c;
+    	letter-spacing: 1px;
+    	transition: 0.2s;
+
+		&:hover, &:focus, &:active {
+			text-decoration: none;
+		}
+
+		&:hover {
+			background-color: #b5b5b5;
+    		text-decoration: none;
+    		color: #fff;
+		}
+
+		&.active {
+			background-color: #ff5722;
+    		text-decoration: none;
+    		color: #fff;
+		}
+	}
+
+}
