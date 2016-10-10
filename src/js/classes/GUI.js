@@ -8,6 +8,8 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
         vkapi.loginUser().then(
             function(result) {
+                vkapi.setId(parseInt(result));
+
                 $(".about").addClass("fadeOut");
                 setTimeout(function() {
                     $(".about").addClass("hidden");
@@ -56,6 +58,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
                     $(this).addClass("right");
                     gameVariables.addPoints();
                     gui.updatePoints();
+                    statistics.incRightAnswers_count();
 
                     if ($(".question__answer.wrong").length == 0) {
                         timer.addTime();
@@ -73,6 +76,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
                     gui.updateTimer();
 
                     gui.updatePoints();
+                    statistics.incMistakes_count();
                 }
             })
         });
@@ -92,7 +96,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         $(".gameResult").removeClass('hidden');
 
         var promise = db.sendGameResults({
-            vk_id: vkapi.getUser(),
+            user_id: vkapi.getId(),
             score: gameVariables.getScore(),
             statistics: statistics.getStatistics()
         });

@@ -2,6 +2,14 @@ define(['db'], function(db) {
 
     var vkapi = {};
     var userObj;
+
+    vkapi.setId = function(num){
+        userObj.id = num;
+    };
+
+    vkapi.getId = function(){
+        return userObj.id;
+    };
     
     vkapi.getUser = function() {
         return userObj.mid;
@@ -98,9 +106,9 @@ define(['db'], function(db) {
                     friends_list: friends
                 };
 
-                db.authUser(sendingInfo);
-
-                resolve();
+                $.post("/auth", sendingInfo, function(data) {
+                    resolve(data);
+                }, "json");
             }
             if (r.error){
                 console.log(r.error);
