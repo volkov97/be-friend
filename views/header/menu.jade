@@ -1,8 +1,0 @@
-.header__menu
-	ul.menu
-		- each item in [["/stats", "Мои достижения"], ["/single", "Одиночная игра"], ["/network", "Сетевая игра"]]
-			li.menu__item 
-				if menuActiveItem == item[0] 
-					a.menu__link.active(href=item[0]) #{item[1]} 
-				else 
-					a.menu__link(href=item[0]) #{item[1]} 

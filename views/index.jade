@@ -12,7 +12,7 @@ block content
 							img.image(src='images/friends.jpeg', alt='Friends')
 						button.authButton
 							svg.vk
-								use(xlink:href='#vk')
+								use(href='#vk')
 							| Вход
 					.col-md-7
 						h3.about__header
@@ -55,7 +55,7 @@ block content
 							| Вы готовы? Тогда к делу!
 						.question__properties.clearfix
 							.question__image
-								img.question__img(src='images/user.jpg', width='200px', height='200px', alt='Quiz Question Image')
+								img.question__img(src='#', width='200', height='200', alt='Quiz Question Image')
 							.question__answers.clearfix
 								a.question__answer Волков Герман
 								a.question__answer Павец Никита
@@ -68,7 +68,7 @@ block content
 							| Неплохой результат... но ты можешь лучше!
 						.gameResult__pointsWrap
 							svg.cupSVG
-								use(xlink:href='#cup')
+								use(href='#cup')
 							span#gameResult
 								| 99
 						p
@@ -79,25 +79,25 @@ block content
 							.social__network.vk
 								a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
 									svg.contact.vk
-										use(xlink:href='#vk')
+										use(href='#vk')
 							.social__network.tw
 								a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
 									svg.contact.tw
-										use(xlink:href='#tw')
+										use(href='#tw')
 					.questionWrap__stats
 						.row
 							.col-sm-6
 								.questionWrap__stat
 									.time
 										svg.timeSVG
-											use(xlink:href='#alarm')
+											use(href='#alarm')
 										span#onlineSeconds 90
 										|  seconds left...
 							.col-sm-6
 								.questionWrap__stat
 									.points
 										svg.pointsSVG
-											use(xlink:href='#correct')
+											use(href='#correct')
 										span#onlinePoints 0
 										|  points
 			.stats
@@ -106,19 +106,19 @@ block content
 						.benefit
 							.benefit__image
 								svg.contact.hug
-									use(xlink:href='#hugs2')
+									use(href='#hugs2')
 							.benefit__text
 								| Будьте ближе к друзьям!
 						.benefit
 							.benefit__image
 								svg.contact.talk
-									use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#talk2')
+									use(xmlns:xlink='http://www.w3.org/1999/xlink', href='#talk2')
 							.benefit__text
 								| Найдите больше общих тем для общения!
 						.benefit
 							.benefit__image
 								svg.contact.happy
-									use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#happy2')
+									use(xmlns:xlink='http://www.w3.org/1999/xlink', href='#happy2')
 							.benefit__text
 								| Узнайте друг друга лучше!
 					.col-sm-8
@@ -133,11 +133,10 @@ block content
 											th №
 											th Имя
 											th Оценка
-										- for (var i = 0; i < topList.length; i++) {
-										tr
-											td.number #{i + 1}
-											td.name
-												a(href="http://vk.com/id#{topList[i].vk_id}" target="_blank") #{topList[i].first_name} #{topList[i].last_name}
-											td.points #{topList[i].maxScore}
-										- }
+										- for (var i = 0; i < topList.length; i++)
+											tr
+												td.number #{i + 1}
+												td.name
+													a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
+												td.points #{topList[i].maxScore}
 	include footer/footer
