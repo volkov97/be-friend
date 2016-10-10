@@ -1,4 +1,4 @@
-define(['vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], function(vkapi, gameLogic, vibration, gameVariables, timer, db) {
+define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db) {
 
     var gui = {};
 

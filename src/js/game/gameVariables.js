@@ -1,7 +1,5 @@
 define([], function() {
 
-
-
     var gameObj = {
         score: 0,
         timer: null

@@ -9,13 +9,13 @@ define([], function() {
         gameObj.score += 10;
     };
 
-    gameObj.substractPoints = function() {
+    gameObj.subtractPoints = function() {
         gameObj.score -= 5;
     };
 
     gameObj.getScore = function() {
         return gameObj.score;
-    }
+    };
 
     return gameObj;
 

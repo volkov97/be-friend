@@ -1,4 +1,4 @@
-define(['vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], function(vkapi, gameLogic, vibration, gameVariables, timer, db) {
+define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db) {
 
     var gui = {};
 
@@ -6,9 +6,7 @@ define(['vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], func
 
         $('.authButton').addClass('loading');
 
-        var promise = vkapi.loginUser();
-
-        promise.then(
+        vkapi.loginUser().then(
             function(result) {
                 $(".about").addClass("fadeOut");
                 setTimeout(function() {
@@ -26,7 +24,6 @@ define(['vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], func
     
     gui.singleGame = function() {
         $(".quiz").removeClass('hidden');
-        //$(window).scrollTo(".quiz", {duration: 500});
 
         gui.drawQuestion(gameLogic.makeNewQuestion());
         timer.start();
@@ -70,7 +67,7 @@ define(['vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], func
                 } else {
                     vibration.vibrate(100);
                     $(this).addClass("wrong");
-                    gameVariables.substractPoints();
+                    gameVariables.subtractPoints();
 
                     timer.substractTime();
                     gui.updateTimer();
