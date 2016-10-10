@@ -113,7 +113,6 @@ router.post('/sendGameResults', function(req, res) {
 
 	pool.getConnection(function(err, connection) {
 
-		console.log("UPDATE statistics SET maxScore=IF(maxScore>" + obj.score + ", maxScore, " + obj.score + ") WHERE vk_id=" + obj.vk_id);
 		connection.query("UPDATE statistics SET maxScore=IF(maxScore>" + obj.score + ", maxScore, " + obj.score + ") WHERE vk_id=" + obj.vk_id, function(err, rows, fields) {
 			if (err) throw err;
 

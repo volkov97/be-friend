@@ -9,6 +9,7 @@ requirejs.config({
 		gui: 'classes/GUI',
 		timer: 'classes/Timer',
 		db: 'classes/Database',
+		statistics: 'classes/Statistics',
 
 		// HTML5 APIs
 		vibration: 'html5apis/vibration',

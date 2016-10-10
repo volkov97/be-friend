@@ -1,4 +1,4 @@
-define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db) {
+define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db', 'statistics'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db, statistics) {
 
     var gui = {};
 
@@ -93,7 +93,8 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
         var promise = db.sendGameResults({
             vk_id: vkapi.getUser(),
-            score: gameVariables.getScore()
+            score: gameVariables.getScore(),
+            statistics: statistics.getStatistics()
         });
 
         promise.then(
