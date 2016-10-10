@@ -32,11 +32,11 @@ gulp.task('sass', function () {
     return gulp.src(paths.src_sassFiles)
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('main.css'))
-        //.pipe(autoprefixer({
-        //    browsers: ['last 20 versions'],
-        //    cascade: false
-        //}))
-        //.pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(autoprefixer({
+            browsers: ['last 20 versions'],
+            cascade: false
+        }))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(gulp.dest(paths.dest_cssFolder));
 });
  
