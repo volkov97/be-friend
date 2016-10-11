@@ -3,6 +3,7 @@ requirejs.config({
 	paths: {
 		// Libs
 		jquery: 'libs/jquery-3.1.1.min',
+		socketio: 'libs/socket.io',
 
 		// Classes
 		vkapi: 'classes/VKFuncs',
@@ -16,11 +17,14 @@ requirejs.config({
 
 		// Game
 		gameLogic: 'game/gameLogic',
-		gameVariables: 'game/gameVariables'
+		gameVariables: 'game/gameVariables',
+		multiplayer: 'game/multiplayer'
 	}
 });
 
-define(['jquery', 'gui'], function ($, gui) {
+define(['jquery', 'multiplayer', 'gui'], function ($, onlineUser, gui) {
+
+	onlineUser.connect();
 
 	$(".authButton").click(function(event) {
 		gui.login();

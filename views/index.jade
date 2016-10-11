@@ -48,6 +48,19 @@ block content
 								.mode__rules
 									| Присоединитесь к уже созданной игре, введите секретный ключ
 								input.joinGameSecret(type="text" placeholder="XXX-XXX")
+							.duel
+								h4 Или вызовите игрока на дуэль!
+								.mode__rules
+									| Выберите одного игрока, из доступных ниже и ему придет запрос на дуэль!
+								.onlinePlayers
+									ul.playersList
+										li.playersList__player
+											a(href="#") Никита Павец
+										li.playersList__player
+											a(href="#") Герман Волков
+										li.playersList__player
+											a(href="#") Игорь Лосев
+
 			.quiz.hidden
 				.questionWrap
 					.question

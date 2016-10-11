@@ -15,14 +15,19 @@ define(['db'], function(db) {
         return userObj.mid;
     };
 
+    vkapi.getUserInfo = function() {
+        return {
+            id: userObj.mid,
+            first_name: userObj.user.first_name,
+            last_name: userObj.user.last_name
+        };
+    }
+
     vkapi.loginUser = function() {
         var promise = new Promise(function(resolve, reject) {
             VK.Auth.login(function (response) {
                 if (response.session) {
                     userObj = response.session;
-
-                    localStorage.setItem('name', userObj.user.first_name);
-                    localStorage.setItem('vk_id', userObj.mid);
 
                     vkapi.getFriendsIDs(resolve, reject);
                 } else {
@@ -102,8 +107,7 @@ define(['db'], function(db) {
                 var sendingInfo = {
                     first_name: userObj.user.first_name,
                     last_name: userObj.user.last_name,
-                    vk_id: userObj.user.id,
-                    friends_list: friends
+                    vk_id: userObj.user.id
                 };
 
                 $.post("/auth", sendingInfo, function(data) {

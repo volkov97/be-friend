@@ -35,14 +35,32 @@ router.post('/auth', function(req, res) {
 
 	pool.getConnection(function(err, connection) {
 
-		var sql = 'REPLACE INTO records ' +
-			'SET ?';
-		connection.query(sql, user, function(err, result) {
-			if (err) {
-				throw(err);
+		var sql = 'SELECT * FROM records WHERE vk_id=?';
+		connection.query(sql, [
+			user.vk_id
+		], function(err, result) {
+			if (err) throw err;
+
+			if (result[0]) {
+				// user exists - just response with his id
+
+				connection.release();
+				res.end(result[0].id.toString());
+			} else {
+				// user not exists
+
+				var sql = 'INSERT INTO records(vk_id, first_name, last_name) VALUES (?, ?, ?)';
+				connection.query(sql, [
+					user.vk_id,
+					user.first_name,
+					user.last_name
+				], function(err, result) {
+					if (err) throw err;
+
+					connection.release();
+					res.end(result.insertId.toString());
+				});
 			}
-			connection.release();
-			res.end(result.insertId.toString());
 		});
 
 	});
@@ -98,7 +116,7 @@ function getTopList(num) {
 	return new Promise(function(resolve, reject) {
 		pool.getConnection(function (err, connection) {
 			if (err) {
-				reject("error2");
+				reject("error");
 				throw err;
 			}
 
@@ -106,9 +124,11 @@ function getTopList(num) {
 				'(SELECT MAX(score) FROM games WHERE user_id = r.id) AS maxScore ' +
 				'FROM records r ' +
 				'INNER JOIN games g ON g.user_id = r.id ';
+			// забыл про Limit и порядок выдачи
+			// выдает несколько раз, если играл несколько раз - хотя может это норм?
 			connection.query(sql, function (err, rows, fields) {
 				if (err) {
-					reject("error1");
+					reject("error");
 					throw err;
 				}
 

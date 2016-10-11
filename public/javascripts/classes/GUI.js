@@ -1,4 +1,4 @@
-define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db', 'statistics'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db, statistics) {
+define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db', 'statistics', 'multiplayer'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db, statistics, onlineUser) {
 
     var gui = {};
 
@@ -9,6 +9,8 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         vkapi.loginUser().then(
             function(result) {
                 vkapi.setId(parseInt(result));
+
+                onlineUser.identify(vkapi.getUserInfo());
 
                 $(".about").addClass("fadeOut");
                 setTimeout(function() {
