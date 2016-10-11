@@ -42,9 +42,9 @@ define(['timer'], function(timer){
 			obj.averageTimePerGame = 0;
 			obj.averageMistakesPerGame = 0;
 		} else {
-			obj.averageScorePerGame = data['SUM(score)'] / data['COUNT(*)'];
-			obj.averageTimePerGame = data['SUM(game_time)'] / data['COUNT(*)'];
-			obj.averageMistakesPerGame = data['SUM(misses)'] / data['COUNT(*)'];
+			obj.averageScorePerGame = Math.round(data['SUM(score)'] / data['COUNT(*)'] * 100) / 100;
+			obj.averageTimePerGame = Math.round(data['SUM(game_time)'] / data['COUNT(*)'] * 100) / 100;
+			obj.averageMistakesPerGame = Math.round(data['SUM(misses)'] / data['COUNT(*)'] * 100) / 100;
 		}
 
 		if (obj.rightAnswers_count + obj.mistakes_count == 0){
