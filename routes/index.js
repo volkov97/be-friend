@@ -88,6 +88,7 @@ router.post('/sendGameResults', function(req, res) {
 	last_game.score = parseInt(req.body.score);
 	last_game.hits = parseInt(req.body.statistics.rightAnswers_count);
 	last_game.misses = parseInt(req.body.statistics.mistakes_count);
+	last_game.game_time = parseInt(req.body.statistics.game_time);
 
 	pool.getConnection(function(err, connection) {
 

@@ -1,8 +1,8 @@
-define([], function(){
+define(['timer'], function(timer){
 
 	var statistics = {
 		rightAnswers_count: 0,
-		mistakes_count: 0
+		mistakes_count: 0,
 	}
 
 	statistics.resetStatistic = function(){
@@ -21,7 +21,8 @@ define([], function(){
 	statistics.getStatistics = function(){
 		var obj = {
 			rightAnswers_count: statistics.rightAnswers_count,
-			mistakes_count: statistics.mistakes_count
+			mistakes_count: statistics.mistakes_count,
+			game_time: timer.totalGameTime() 
 		}
 
 		console.log(obj);

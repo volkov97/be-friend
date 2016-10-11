@@ -124,7 +124,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
                 str += "<tr><td class ='number'>"+(i+1)
                     +"</td><td class='name'><a href='https://vk.com/id"+data[i]["vk_id"]
                     +"' target = '_blank'>"+data[i]["first_name"]+" "+data[i]["last_name"]
-                    +"</a></td><td class='points'>"+data[i]["maxScore"]+"</td></tr>";
+                    +"</a></td><td class='points'>"+data[i]["max_score"]+"</td></tr>";
             }
 
             $(".winners").html(str);
