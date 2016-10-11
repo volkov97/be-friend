@@ -50,7 +50,7 @@ define(['timer'], function(timer){
 		if (obj.rightAnswers_count + obj.mistakes_count == 0){
 			obj.rightAnswers_percent = 0;
 		} else {
-			obj.rightAnswers_percent = (obj.rightAnswers_count/(obj.rightAnswers_count + obj.mistakes_count)) * 100 + "%";
+			obj.rightAnswers_percent = Math.round((obj.rightAnswers_count/(obj.rightAnswers_count + obj.mistakes_count)) * 10000)/100 + "%";
 		}
 
 		return obj;
