@@ -30,22 +30,28 @@ define(['timer'], function(timer){
 
 	statistics.getFullStatistics = function(data){
 
-		var divisionByZero;
+		var obj = {};
+
+		obj.games_count = data['COUNT(*)'];
+		obj.rightAnswers_count = data['SUM(hits)'];
+		obj.mistakes_count = data['SUM(misses)'];
+		obj.maxScore = data['MAX(score)'];
+
 		if (data['COUNT(*)'] == 0){
-			divisionByZero = 1;
+			obj.averageScorePerGame = 0;
+			obj.averageTimePerGame = 0;
+			obj.averageMistakesPerGame = 0;
 		} else {
-			divisionByZero = 0;
+			obj.averageScorePerGame = data['SUM(score)'] / data['COUNT(*)'];
+			obj.averageTimePerGame = data['SUM(game_time)'] / data['COUNT(*)'];
+			obj.averageMistakesPerGame = data['SUM(misses)'] / data['COUNT(*)'];
 		}
 
-		var obj = {
-			games_count: data['COUNT(*)'],
-			rightAnswers_count: data['SUM(hits)'],
-			mistakes_count: data['SUM(misses)'],
-			maxScore: data['MAX(score)'],
-			averageScorePerGame: data['SUM(score)'] / (data['COUNT(*)'] + divisionByZero),
-			averageTimePerGame: data['SUM(game_time)'] / (data['COUNT(*)'] + divisionByZero),
-			averageMistakesPerGame: data['SUM(misses)'] / (data['COUNT(*)'] + divisionByZero)
- 		}
+		if (obj.rightAnswers_count + obj.mistakes_count == 0){
+			obj.rightAnswers_percent = 0;
+		} else {
+			obj.rightAnswers_percent = (obj.rightAnswers_count/(obj.rightAnswers_count + obj.mistakes_count)) * 100 + "%";
+		}
 
 		return obj;
 	}
