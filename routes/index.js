@@ -116,6 +116,20 @@ router.post('/sendGameResults', function(req, res) {
 
 });
 
+router.post('/getStatistics', function(req, res){
+
+	var vk_id = req.body.id;
+
+	getStatistics(vk_id).then(
+		function(result) {
+			res.json(result);
+		},
+		function(error) {
+			console.log(error);
+		}
+	);
+});
+
 function getTopList(num) {
 	return new Promise(function(resolve, reject) {
 		pool.getConnection(function (err, connection) {
@@ -191,6 +205,31 @@ function getNeighbours(num, user_id){
 				connection.release();
 				resolve(result);
 			});
+		});
+	});
+}
+
+function getStatistics(id){
+	return new Promise(function(resolve, reject) {
+		pool.getConnection(function (err, connection) {
+			if (err) {
+				reject("error");
+				throw err;
+			}
+
+			var sql = 'SELECT COUNT(*), SUM(score), SUM(hits), SUM(misses), SUM(game_time), MAX(score) ' + 
+			'FROM games g ' +
+			'WHERE g.user_id = ?';
+			connection.query(sql, id, function (err, rows) {
+				if (err) {
+					reject("error");
+					throw err;
+				}
+
+				connection.release();
+				resolve(rows);
+			});
+
 		});
 	});
 }

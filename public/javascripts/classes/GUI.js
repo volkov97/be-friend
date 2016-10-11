@@ -17,6 +17,8 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
                     $(".about").addClass("hidden");
                     $(".modes").removeClass("hidden").addClass("fadeIn");
                 }, 1000);
+
+                gui.updateStatistics();
             },
             function(error) {
                 // вторая функция - запустится при вызове reject
@@ -100,7 +102,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         var promise = db.sendGameResults({
             user_id: vkapi.getId(),
             score: gameVariables.getScore(),
-            statistics: statistics.getStatistics()
+            statistics: statistics.getOneGameStatistics()
         });
 
         promise.then(
@@ -129,8 +131,16 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
             $(".winners").html(str);
         }, "json");
-
     };
+
+    gui.updateStatistics = function(){
+        $.post("/getStatistics", {
+            id: vkapi.getId()
+        }, function(data){
+            var stats = statistics.getFullStatistics(data[0]);
+            console.log(stats);
+        }, "json");
+    }
 
     return gui;
 

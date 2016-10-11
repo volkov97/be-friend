@@ -28,7 +28,6 @@ define(['db'], function(db) {
             VK.Auth.login(function (response) {
                 if (response.session) {
                     userObj = response.session;
-
                     vkapi.getFriendsIDs(resolve, reject);
                 } else {
                     console.log("login err");
