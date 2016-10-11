@@ -13,6 +13,16 @@ router.get('/', function(req, res) {
 
 	getTopList(10).then(
 		function(result) {
+
+			getNeighbours(10, 2252).then(
+				function(result){
+
+				},
+				function(error){
+					console.log(error);
+				}
+			);
+
 			res.render("index", {
 				title: "beFriend",
 				topList: result
@@ -133,6 +143,54 @@ function getTopList(num) {
 				resolve(rows);
 			});
 
+		});
+	});
+}
+
+function getNeighbours(num, user_id){
+
+	return new Promise(function(resolve, reject) {
+		pool.getConnection(function (err, connection) {
+			if (err) {
+				reject("error");
+				throw err;
+			}
+
+			var sql = 'SELECT DISTINCT(r.vk_id), r.first_name, r.last_name, r.id AS user_id, ' +
+				'(SELECT MAX(score) FROM games WHERE user_id = r.id) AS max_score ' +
+				'FROM records r ' +
+				'INNER JOIN games g ON g.user_id = r.id ' +
+				'ORDER BY max_score DESC';
+			connection.query(sql,function (err, rows) {
+				if (err) {
+					reject("error");
+					throw err;
+				}
+
+				var pos = -1;
+				for (var i = 0; i < rows.length; i++) {
+					if(rows[i].user_id == user_id){
+						pos = i;
+						break;
+					}
+				}
+
+				var result = [];
+				if (pos != -1) {
+					if (pos > 0 && pos < num / 2){
+						result = rows.slice(0, num);
+					} else if (pos > rows.length - num / 2 && pos < rows.length){
+						result = rows.slice(rows.length - num);
+					} else {
+						result = rows.slice(pos - num / 2, pos + num / 2);
+					}
+				}
+
+				console.log(result);
+
+				connection.release();
+				resolve(result);
+			});
 		});
 	});
 }
