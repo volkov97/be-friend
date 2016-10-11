@@ -35,7 +35,9 @@ router.post('/auth', function(req, res) {
 
 	pool.getConnection(function(err, connection) {
 
-		var sql = 'SELECT * FROM records WHERE vk_id=?';
+		var sql = 'SELECT * ' +
+            'FROM records ' +
+            'WHERE vk_id = ?';
 		connection.query(sql, [
 			user.vk_id
 		], function(err, result) {
@@ -49,12 +51,9 @@ router.post('/auth', function(req, res) {
 			} else {
 				// user not exists
 
-				var sql = 'INSERT INTO records(vk_id, first_name, last_name) VALUES (?, ?, ?)';
-				connection.query(sql, [
-					user.vk_id,
-					user.first_name,
-					user.last_name
-				], function(err, result) {
+				var sql = 'INSERT INTO records ' +
+                    'SET ?';
+				connection.query(sql, user, function(err, result) {
 					if (err) throw err;
 
 					connection.release();
@@ -85,22 +84,16 @@ router.post('/getTopList', function(req, res) {
 router.post('/sendGameResults', function(req, res) {
 
 	var last_game = {};
-	last_game.user_id = req.body.user_id;
-	last_game.score = req.body.score;
-	last_game.hits = req.body.statistics.rightAnswers_count;
-	last_game.misses = req.body.statistics.mistakes_count;
+	last_game.user_id = parseInt(req.body.user_id);
+	last_game.score = parseInt(req.body.score);
+	last_game.hits = parseInt(req.body.statistics.rightAnswers_count);
+	last_game.misses = parseInt(req.body.statistics.mistakes_count);
 
 	pool.getConnection(function(err, connection) {
 
-		var sql = 'INSERT INTO games(user_id, score, hits, misses) ' +
-			'VALUES(?, ?, ?, ?)';
-		connection.query(sql,
-			[
-				last_game.user_id,
-				last_game.score,
-				last_game.hits,
-				last_game.misses
-			], function(err, rows, fields) {
+		var sql = 'INSERT INTO games ' +
+			'SET ?';
+		connection.query(sql, last_game, function(err, result) {
 			if (err) {
 				throw err;
 			}
@@ -120,13 +113,16 @@ function getTopList(num) {
 				throw err;
 			}
 
-			var sql = 'SELECT r.vk_id, r.first_name, r.last_name, ' +
-				'(SELECT MAX(score) FROM games WHERE user_id = r.id) AS maxScore ' +
+            var top_limit = parseInt(num);
+			var sql = 'SELECT DISTINCT(r.vk_id), r.first_name, r.last_name, ' +
+				'(SELECT MAX(score) FROM games WHERE user_id = r.id) AS max_score ' +
 				'FROM records r ' +
-				'INNER JOIN games g ON g.user_id = r.id ';
+				'INNER JOIN games g ON g.user_id = r.id ' +
+                'ORDER BY max_score DESC ' +
+                'LIMIT ?';
 			// забыл про Limit и порядок выдачи
 			// выдает несколько раз, если играл несколько раз - хотя может это норм?
-			connection.query(sql, function (err, rows, fields) {
+			connection.query(sql, top_limit,function (err, rows) {
 				if (err) {
 					reject("error");
 					throw err;

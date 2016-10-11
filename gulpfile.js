@@ -10,6 +10,31 @@ var path = require('path');
 var concat   = require('gulp-concat');
 var uglify = require('gulp-uglifyjs');
 var font2css = require('gulp-font2css').default;
+var server = require('gulp-develop-server');
+var browserSync	= require('browser-sync');
+
+var options = {
+    server: {
+        path: 'bin/www',
+        execArgv: [ '--harmony' ]
+    },
+    browserSync: {
+        proxy: 'http://localhost:3000',
+        notify: false
+    }
+};
+
+gulp.task( 'server:start', function() {
+    server.listen( options.server, function( error ) {
+        if( ! error ) browserSync( options.browserSync );
+    });
+});
+
+gulp.task( 'server:restart', function() {
+    server.restart( function( error ) {
+        if( ! error ) browserSync.reload();
+    });
+});
 
 var paths = {
     // Styles
@@ -37,7 +62,8 @@ gulp.task('sass', function () {
             cascade: false
         }))
         .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(gulp.dest(paths.dest_cssFolder));
+        .pipe(gulp.dest(paths.dest_cssFolder))
+        .pipe(browserSync.reload({stream: true}))
 });
  
 gulp.task('sass:watch', function () {
@@ -80,7 +106,11 @@ gulp.task('fonts', function() {
         .pipe(gulp.dest(paths.dest_cssFolder))
 })
 
-gulp.task('watch', function () {
-    gulp.watch(paths.src_jsFiles, ['js']);
+gulp.task('watch', ['server:start'], function () {
+    gulp.watch(paths.src_jsFiles, ['js'], browserSync.reload);
     gulp.watch("./src/scss/**/*.scss", ['sass']);
+    gulp.watch('views/**/*.jade', browserSync.reload);
+    gulp.watch('routes/**/*.js', ['server:restart']);
 });
+
+gulp.task('default', ['watch']);
