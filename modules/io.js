@@ -15,6 +15,15 @@ module.exports = function(server) {
             io.emit('update online users list', game.getOnlineSocketsInfo());
         });
 
+        socket.on('game request', function(obj) {
+            console.log('new game request');
+            console.log(obj);
+
+            io.to(game.getSocketIdByVkId(obj.to)).emit('game request', {
+                from: obj.from
+            });
+        });
+
         socket.on('disconnect', function(){
             console.log('user disconnected');
 
@@ -22,6 +31,7 @@ module.exports = function(server) {
                 // if user was identified
 
                 game.disconnectSocket(socket.udata.id);
+                io.emit('update online users list', game.getOnlineSocketsInfo());
             }
         });
     });

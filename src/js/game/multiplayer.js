@@ -1,4 +1,4 @@
-define(['socketio'], function (io) {
+define(['require', 'socketio', 'vkapi', 'notify'], function (require, io, vkapi, notify) {
 
     var onlineUser = {
         socket: null
@@ -11,21 +11,24 @@ define(['socketio'], function (io) {
     onlineUser.identify = function(obj) {
         onlineUser.socket.emit('identification', obj);
 
+        // Listeners
         onlineUser.socket.on('update online users list', function(list) {
-            //gui.updateOnlinePlayersList();
-            //gui.updateOnlinePlayersList = function(list) {
-            var code = "";
+            require('gui').updateOnlinePlayersList(list);
+        });
 
-            for (var i = 0; i < list.length; i++) {
-                code += "<li><a href=\'https://vk.com/id" + list[i].id + "\'>" +
-                    list[i].first_name + " " + list[i].last_name + "</a></li>"
-            }
+        onlineUser.socket.on('game request', function(obj) {
+            console.log(obj);
 
-            $('.playersList').html(code);
-            //};
+            notify.makeNotification("GAME REQUEST", "FROM " + obj.from);
+        });
+    };
+
+    onlineUser.sendRequestTo = function(id) {
+        onlineUser.socket.emit('game request', {
+            from: vkapi.getUser(),
+            to: id
         });
     };
 
     return onlineUser;
-
 });

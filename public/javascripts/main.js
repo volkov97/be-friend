@@ -14,24 +14,20 @@ requirejs.config({
 
 		// HTML5 APIs
 		vibration: 'html5apis/vibration',
+		notify: 'html5apis/notification',
 
 		// Game
 		gameLogic: 'game/gameLogic',
 		gameVariables: 'game/gameVariables',
-		multiplayer: 'game/multiplayer'
+		multiplayer: 'game/multiplayer',
+
+		// App
+		app: 'app'
 	}
 });
 
-define(['jquery', 'multiplayer', 'gui'], function ($, onlineUser, gui) {
+define(['app'], function (app) {
 
-	onlineUser.connect();
-
-	$(".authButton").click(function(event) {
-		gui.login();
-	});
-
-	$('.startSingleGameButton').click(function(event) {
-		gui.singleGame();
-	});
+	app.init();
 
 });

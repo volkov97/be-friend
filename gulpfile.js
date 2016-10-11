@@ -106,7 +106,14 @@ gulp.task('fonts', function() {
         .pipe(gulp.dest(paths.dest_cssFolder))
 })
 
-gulp.task('watch', ['server:start'], function () {
+gulp.task('watch', function () {
+    gulp.watch(paths.src_jsFiles, ['js']);
+    gulp.watch("./src/scss/**/*.scss", ['sass']);
+    gulp.watch('views/**/*.jade');
+    gulp.watch('routes/**/*.js');
+});
+
+gulp.task('watchWithSync', ['server:start'], function () {
     gulp.watch(paths.src_jsFiles, ['js'], browserSync.reload);
     gulp.watch("./src/scss/**/*.scss", ['sass']);
     gulp.watch('views/**/*.jade', browserSync.reload);

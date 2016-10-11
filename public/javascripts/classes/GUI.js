@@ -53,39 +53,6 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         addListenersToOptions();
     };
 
-    function addListenersToOptions(){
-        var options = $(".question__answer");
-
-        options.each(function(index) {
-            $(this).click(function(){
-                if ($(this).text().indexOf(window.rightAnswer) != -1){
-                    $(this).addClass("right");
-                    gameVariables.addPoints();
-                    gui.updatePoints();
-                    statistics.incRightAnswers_count();
-
-                    if ($(".question__answer.wrong").length == 0) {
-                        timer.addTime();
-                        gui.updateTimer();
-                    }
-
-                    gui.drawQuestion(gameLogic.makeNewQuestion());
-
-                } else {
-                    vibration.vibrate(100);
-                    $(this).addClass("wrong");
-                    gameVariables.subtractPoints();
-
-                    timer.substractTime();
-                    gui.updateTimer();
-
-                    gui.updatePoints();
-                    statistics.incMistakes_count();
-                }
-            })
-        });
-    };
-
     gui.updatePoints = function() {
         onlinePoints.innerHTML = gameVariables.getScore();
     };
@@ -116,7 +83,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
     };
 
-    gui.updateTopList = function(){
+    gui.updateTopList = function() {
         $.post("/getTopList", {
             number: 10
         }, function(data) {
@@ -133,85 +100,88 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         }, "json");
     };
 
-    gui.updateStatistics = function(){
+    gui.updateStatistics = function() {
         $.post("/getStatistics", {
             id: vkapi.getId()
         }, function(data){
             var stats = statistics.getFullStatistics(data[0]);
             console.log(stats);
         }, "json");
+    };
+
+    gui.updateOnlinePlayersList = function(list) {
+        var code = "";
+
+        for (var i = 0; i < list.length; i++) {
+            code += "<li class='onlinePlayers__player'><a href=\'https://vk.com/id" + list[i].id + "\' class='onlinePlayers__link'>" +
+                list[i].first_name + " " + list[i].last_name + "</a></li>"
+        }
+
+        $('.onlinePlayers__list').html(code);
+
+        gui.setEventListenerOnOnlineUsers();
+    };
+
+    gui.setEventListenerOnAuth = function() {
+        $(".authButton").click(function(event) {
+            gui.login();
+
+            // set other Event Listeners
+            gui.setEventListenerOnSingleGame();
+            gui.setEventListenerOnOnlineUsers();
+        });
+    };
+
+    gui.setEventListenerOnSingleGame = function() {
+        $('.startSingleGameButton').click(function(event) {
+            gui.singleGame();
+        });
+    };
+
+    gui.setEventListenerOnOnlineUsers = function() {
+        $('.onlinePlayers__link').click(function(event) {
+            alert('a');
+            event.preventDefault();
+
+            onlineUser.sendRequestTo($(this).attr('href').slice(17));
+
+            return false;
+        });
+    }
+
+    function addListenersToOptions() {
+        var options = $(".question__answer");
+
+        options.each(function(index) {
+            $(this).click(function(){
+                if ($(this).text().indexOf(window.rightAnswer) != -1){
+                    $(this).addClass("right");
+                    gameVariables.addPoints();
+                    gui.updatePoints();
+                    statistics.incRightAnswers_count();
+
+                    if ($(".question__answer.wrong").length == 0) {
+                        timer.addTime();
+                        gui.updateTimer();
+                    }
+
+                    gui.drawQuestion(gameLogic.makeNewQuestion());
+
+                } else {
+                    vibration.vibrate(100);
+                    $(this).addClass("wrong");
+                    gameVariables.subtractPoints();
+
+                    timer.substractTime();
+                    gui.updateTimer();
+
+                    gui.updatePoints();
+                    statistics.incMistakes_count();
+                }
+            })
+        });
     }
 
     return gui;
 
 });
-/*
-
-    this.updateTopList = function(data){
-        var winners = $(".winners");
-        var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
-
-        for (var i = 0; i<data.length; i++){
-            str += "<tr><td class ='number'>"+(i+1)
-                +"</td><td class='name'><a href='https://vk.com/id"+data[i]["vk_id"]
-                +"' target = '_blank'>"+data[i]["first_name"]+" "+data[i]["last_name"]
-                +"</a></td><td class='points'>"+data[i]["points"]+"</td></tr>";
-        }
-
-        winners.html(str);
-
-        window.gui.prepareDrawUsersRate();
-    }
-
-    this.prepareDrawUsersRate = function(){
-        var userResultHeader = $(".userResult__header");
-        var userResultMain = $(".userResult__main");
-
-        if (localStorage.getItem('vk_id')){
-            var str = "Привет, " + localStorage.getItem('name')
-                + "!<br>Это твой лучший результат в рейтинге!";
-            userResultHeader.html(str);
-
-            // Search neibours for user in the table
-            window.db.getNearbyRecords(localStorage.getItem('vk_id'), window.gui.drawUsersRate);
-        } else {
-            var str = "Здесь может быть твое имя!"
-                + "<br>Соревнуйся за звание лучшего друга планеты!";
-            userResultHeader.html(str);
-            str = "<div class='row'><div class='userResult__fakeImage'><img src='images/vkQuizTable.png'></div></div>";
-            userResultMain.html(str);
-        }
-    }
-
-    this.drawUsersRate = function(loginnedUser){
-        var usersRate = $(".userResult__main");
-        var str = '<div class="row"><div class="userMark col-sm-4"><div class="mark">'
-            +loginnedUser.neighbors[loginnedUser.currentIndex].points+'</div>баллов</div>'
-            +'<div class="userRate col-sm-8"><table class="rate__table userRateTable">';
-        var setClass;
-
-        for (var i = 0; i < loginnedUser.neighbors.length; i++){
-            if (!loginnedUser.neighbors[i]){
-                continue;
-            }
-            if (i == loginnedUser.currentIndex){
-                setClass = "class='currentUser'";
-            } else {
-                setClass = '';
-            }
-
-            str += '<tr '+setClass+'><td class="number">'+loginnedUser.neighborsNums[i]
-                +'</td><td class="name">'
-                +'<a href="https://vk.com/id'+loginnedUser.neighbors[i].vk_id+'" target = "_blank">'
-                +loginnedUser.neighbors[i].first_name+' '+loginnedUser.neighbors[i].last_name
-                +'</a></td><td class="points">'+loginnedUser.neighbors[i].points+'</td></tr>';
-        }
-
-        str += '</table></div></div>';
-        logger.log(str);
-        logger.log("BATYA");
-        usersRate.html(str);
-    }
-
-}
-*/

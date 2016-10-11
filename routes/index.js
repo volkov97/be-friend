@@ -14,6 +14,7 @@ router.get('/', function(req, res) {
 	getTopList(10).then(
 		function(result) {
 
+			/*
 			getNeighbours(10, 2252).then(
 				function(result){
 
@@ -22,6 +23,7 @@ router.get('/', function(req, res) {
 					console.log(error);
 				}
 			);
+			*/
 
 			res.render("index", {
 				title: "beFriend",

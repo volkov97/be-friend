@@ -10,6 +10,14 @@ function Game() {
         delete sockets_connected[id];
     };
 
+    this.getSocketIdByVkId = function(vkID) {
+        for (var key in sockets_connected) {
+            if (sockets_connected[key].udata.id == vkID) {
+                return sockets_connected[key].id;
+            }
+        }
+    };
+
     this.getOnlineSocketsInfo = function() {
         var info = [];
 
