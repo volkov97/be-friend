@@ -29,14 +29,22 @@ define(['timer'], function(timer){
 	}
 
 	statistics.getFullStatistics = function(data){
+
+		var divisionByZero;
+		if (data['COUNT(*)'] == 0){
+			divisionByZero = 1;
+		} else {
+			divisionByZero = 0;
+		}
+
 		var obj = {
 			games_count: data['COUNT(*)'],
 			rightAnswers_count: data['SUM(hits)'],
 			mistakes_count: data['SUM(misses)'],
 			maxScore: data['MAX(score)'],
-			averageScorePerGame: data['SUM(score)'] / data['COUNT(*)'],
-			averageTimePerGame: data['SUM(game_time)'] / data['COUNT(*)'],
-			averageMistakesPerGame: data['SUM(misses)'] / data['COUNT(*)']
+			averageScorePerGame: data['SUM(score)'] / (data['COUNT(*)'] + divisionByZero),
+			averageTimePerGame: data['SUM(game_time)'] / (data['COUNT(*)'] + divisionByZero),
+			averageMistakesPerGame: data['SUM(misses)'] / (data['COUNT(*)'] + divisionByZero)
  		}
 
 		return obj;

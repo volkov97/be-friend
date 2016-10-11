@@ -227,6 +227,14 @@ function getStatistics(id){
 				}
 
 				connection.release();
+
+				if (rows[0]['COUNT(*)'] == 0){
+					rows[0]['SUM(score)'] = 0;
+					rows[0]['SUM(hits)'] = 0;
+					rows[0]['SUM(misses)'] = 0;
+					rows[0]['SUM(game_time)'] = 0;
+					rows[0]['MAX(score)'] = 0;
+				}
 				resolve(rows);
 			});
 
