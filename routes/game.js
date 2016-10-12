@@ -84,6 +84,21 @@ function getNeighboursPOST(req, res) {
     );
 }
 
+function getLast10GamesPOST(req, res){
+
+    var id = req.body.id;
+    var num = req.body.num;
+
+    getLast10Games(id, num).then(
+        function(result){
+            res.json(result);
+        },
+        function(error){
+            console.log(error);
+        }
+    );
+}
+
 function getTopList(num) {
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
@@ -204,6 +219,33 @@ function getStatistics(id){
                     rows[0]['SUM(game_time)'] = 0;
                     rows[0]['MAX(score)'] = 0;
                 }
+                resolve(rows);
+            });
+
+        });
+    });
+}
+
+function getLastGames(id, num){
+    return new Promise(function(resolve, reject) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                reject("error");
+                throw err;
+            }
+
+            var sql = 'SELECT * ' +
+                'FROM games g ' +
+                'WHERE g.user_id = ? ' +
+                'ORDER BY g.id DESC ' + 
+                'LIMIT ?';
+            connection.query(sql, id, num, function (err, rows) {
+                if (err) {
+                    reject("error");
+                    throw err;
+                }
+
+                connection.release();
                 resolve(rows);
             });
 
