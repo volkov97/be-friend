@@ -16,7 +16,7 @@ var game = {
     getNeighboursPOST: getNeighboursPOST,
     getTopList: getTopList,
     getLastGamesPOST: getLastGamesPOST
-}
+};
 
 function getTopListPOST(req, res) {
 

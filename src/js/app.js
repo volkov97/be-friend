@@ -1,10 +1,10 @@
-define(['gui', 'multiplayer', 'notify', 'sw', 'chart'], function(gui, onlineUser, notify, sw, chart) {
+define(['gui', 'multiplayer', 'notify', 'sw'], function(gui, onlineUser, notify, sw) {
 
     var app = {};
 
     app.init = function() {
 
-        chart.drawCharts();
+
 
 
         onlineUser.connect();
