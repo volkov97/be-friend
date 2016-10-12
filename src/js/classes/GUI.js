@@ -1,4 +1,14 @@
-define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db', 'statistics', 'multiplayer'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db, statistics, onlineUser) {
+define([
+    'jquery',
+    'vkapi',
+    'gameLogic',
+    'vibration',
+    'gameVariables',
+    'timer',
+    'statistics',
+    'multiplayer',
+    'chart'
+], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart) {
 
     var gui = {};
 
@@ -67,20 +77,14 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         gameResult.innerHTML = gameVariables.getScore();
         $(".gameResult").removeClass('hidden');
 
-        var promise = db.sendGameResults({
+        $.post("/sendGameResults", {
             user_id: vkapi.getId(),
             score: gameVariables.getScore(),
             statistics: statistics.getOneGameStatistics()
+        }, function(data) {
+            gui.updateTopList();
+            gui.updateNeigbours();
         });
-
-        promise.then(
-            function(result) {
-                gui.updateTopList();
-            },
-            function(error) {
-                console.log(error);
-            }
-        )
 
     };
 
@@ -175,7 +179,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
             return false;
         });
-    }
+    };
 
     function addListenersToOptions() {
         var options = $(".question__answer");

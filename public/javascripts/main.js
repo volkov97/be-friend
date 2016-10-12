@@ -4,13 +4,14 @@ requirejs.config({
 		// Libs
 		jquery: 'libs/jquery-3.1.1.min',
 		socketio: 'libs/socket.io',
+		chartLib: 'libs/Chart.min',
 
 		// Classes
 		vkapi: 'classes/VKFuncs',
 		gui: 'classes/GUI',
 		timer: 'classes/Timer',
-		db: 'classes/Database',
 		statistics: 'classes/Statistics',
+		chart: 'classes/Chart',
 
 		// HTML5 APIs
 		vibration: 'html5apis/vibration',

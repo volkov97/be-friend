@@ -1,4 +1,4 @@
-define(['db'], function(db) {
+define([], function() {
 
     var vkapi = {};
     var userObj;
