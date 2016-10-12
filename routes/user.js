@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jwt-simple');
+var md5 = require("nodejs-md5");
 var mysql = require('mysql');
 var pool = mysql.createPool({
     host     : 'us-cdbr-iron-east-04.cleardb.net',
@@ -40,7 +41,13 @@ function vkAuthPOST(req, res) {
                 // user exists - just response with his id
 
                 connection.release();
-                res.send(genToken(user.id));
+                var token = genToken(user.id);
+                var token_title = md5.string('hashToken');
+                res.cookie(token_title, token, { expires: new Date(Date.now() + 0xFFFFFFF), httpOnly: true });
+                res.send({
+                    user_id: user.id,
+                    token: token
+                });
             } else {
                 // user not exists
 
@@ -53,7 +60,13 @@ function vkAuthPOST(req, res) {
                     }
 
                     connection.release();
-                    res.send(genToken(result.insertId));
+                    var token = genToken(result.insertId);
+                    var token_title = md5.string('hashToken');
+                    res.cookie(token_title, token, { expires: new Date(Date.now() + 0xFFFFFFF), httpOnly: true });
+                    res.send({
+                        user_id: result.insertId,
+                        token: token
+                    });
                 });
             }
         });
@@ -68,11 +81,7 @@ function genToken(user_id) {
         exp: expires
     }, secret.hash);
 
-    return {
-        token: token,
-        expires: expires,
-        user_id: user_id
-    };
+    return token;
 }
 
 function expiresIn(numDays) {
