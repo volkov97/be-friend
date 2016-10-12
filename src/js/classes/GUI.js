@@ -29,7 +29,7 @@ define([
                 }, 1000);
 
                 gui.updateNeigbours(true);
-                gui.updateStatistics();
+                gui.updateStatistics(true);
             },
             function(error) {
                 // вторая функция - запустится при вызове reject
@@ -84,6 +84,7 @@ define([
         }, function(data) {
             gui.updateTopList();
             gui.updateNeigbours();
+            gui.updateStatistics();
         });
 
     };
@@ -105,12 +106,21 @@ define([
         }, "json");
     };
 
-    gui.updateStatistics = function() {
+    gui.updateStatistics = function(show) {
         $.post("/getStatistics", {
             id: vkapi.getId()
         }, function(data){
             var stats = statistics.getFullStatistics(data[0]);
             console.log(stats);
+
+            $('.mistakesPerGame').text(stats.averageMistakesPerGame);
+            $('.pointsPerGame').text(stats.averageScorePerGame);
+            $('.gamesPlayed').text(stats.games_count);
+            $('.oneGameTime').text(stats.averageTimePerGame);
+
+            if (show) {
+                $('.charts').removeClass('hidden');
+            }
         }, "json");
     };
 

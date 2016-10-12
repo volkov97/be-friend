@@ -162,13 +162,13 @@ block content
 												td.name
 													a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
 												td.points #{topList[i].max_score}
-			.charts
+			.charts.hidden
 				.row
 					.numbers
 						.row
 							.col-md-3
 								.numberStat
-									.numberStat__num
+									.numberStat__num.mistakesPerGame
 										| 43
 									.numberStat__label
 										| Ошибок за игру
@@ -176,7 +176,7 @@ block content
 										| в среднем
 							.col-md-3
 								.numberStat
-									.numberStat__num
+									.numberStat__num.pointsPerGame
 										| 4233
 									.numberStat__label
 										| Очков за игру
@@ -184,7 +184,7 @@ block content
 										| в среднем
 							.col-md-3
 								.numberStat
-									.numberStat__num
+									.numberStat__num.gamesPlayed
 										| 234
 									.numberStat__label
 										| Игр сыграно
@@ -192,7 +192,7 @@ block content
 										| &nbsp;
 							.col-md-3
 								.numberStat.nobrd
-									.numberStat__num
+									.numberStat__num.oneGameTime
 										| 4223
 									.numberStat__label
 										| Время одной игры
