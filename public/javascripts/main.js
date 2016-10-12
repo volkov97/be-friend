@@ -15,6 +15,7 @@ requirejs.config({
 		// HTML5 APIs
 		vibration: 'html5apis/vibration',
 		notify: 'html5apis/notification',
+		sw: 'html5apis/serviceWorker',
 
 		// Game
 		gameLogic: 'game/gameLogic',

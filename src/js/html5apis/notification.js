@@ -1,7 +1,7 @@
-define([], function() {
+define(['sw'], function(sw) {
 
     var notify = {};
-
+    /*
     notify.notification = window.Notification || window.mozNotification || window.webkitNotification;
 
     notify.askPermission = function() {
@@ -39,6 +39,24 @@ define([], function() {
             console.log('notification.Close');
         };
         return true;
+    };
+    */
+
+    notify.showNotification = function(title, text) {
+
+        Notification.requestPermission(function(result) {
+            if (result === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                    registration.showNotification(title, {
+                        body: text,
+                        dir: 'auto', // or ltr, rtl
+                        lang: 'RU', //lang used within the notification.
+                        tag: 'notificationPopup', //An element ID to get/set the content
+                        icon: '' //The URL of an image to be used as an icon
+                    });
+                });
+            }
+        });
     };
 
     return notify;

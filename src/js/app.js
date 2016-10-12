@@ -1,4 +1,4 @@
-define(['gui', 'multiplayer', 'notify'], function(gui, onlineUser, notify) {
+define(['gui', 'multiplayer', 'notify', 'sw'], function(gui, onlineUser, notify, sw) {
 
     var app = {};
 
@@ -6,7 +6,7 @@ define(['gui', 'multiplayer', 'notify'], function(gui, onlineUser, notify) {
         onlineUser.connect();
         gui.setEventListenerOnAuth();
 
-        notify.askPermission();
+        sw.register();
     };
 
     return app;

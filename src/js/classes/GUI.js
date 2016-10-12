@@ -140,7 +140,6 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
     gui.setEventListenerOnOnlineUsers = function() {
         $('.onlinePlayers__link').click(function(event) {
-            alert('a');
             event.preventDefault();
 
             onlineUser.sendRequestTo($(this).attr('href').slice(17));
