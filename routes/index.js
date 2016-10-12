@@ -37,6 +37,8 @@ router.post('/getStatistics', game.getStatisticsPOST);
 router.post('/getNeighbours', game.getNeighboursPOST);
 
 router.get('/vl/test', function(req, res) {
+
+	console.log(req.cookies);
 	console.log("TEST");
 });
 
