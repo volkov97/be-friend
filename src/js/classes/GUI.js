@@ -110,6 +110,13 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
             var stats = statistics.getFullStatistics(data[0]);
             console.log(stats);
         }, "json");
+
+        $.post("/getLastGames", {
+            id: vkapi.getId(),
+            num: 10
+        }, function(data){
+            console.log(data);
+        }, "json");
     };
 
     gui.updateNeigbours = function(show) {
