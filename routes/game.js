@@ -90,9 +90,6 @@ function getLastGamesPOST(req, res){
     var id = req.body.id;
     var num = req.body.num;
 
-    console.log("AIDI" + id);
-    console.log(num);
-
     getLastGames(id, num).then(
         function(result){
             res.json(result);
@@ -244,16 +241,19 @@ function getLastGames(id, num){
             var sql = 'SELECT * ' +
                 'FROM games g ' +
                 'WHERE g.user_id = ? ' +
-                'ORDER BY g.id DESC ' + 
-                'LIMIT ?';
-            connection.query(sql, [id, num], function (err, rows) {
+                'ORDER BY g.id DESC';
+            connection.query(sql, id, function (err, rows) {
                 if (err) {
                     reject("error");
                     throw err;
                 }
-                
+
+                var obj = {
+                    countOfGames: rows.length,
+                    rows: rows.slice(0, num - 1)
+                }
                 connection.release();
-                resolve(rows);
+                resolve(obj);
             });
 
         });

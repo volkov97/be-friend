@@ -2,22 +2,22 @@ define(['jquery', 'chartLib'], function($, Chart) {
 
     var chart = {};
 
-    chart.drawCharts = function() {
-        chart.drawPieChart();
-        chart.drawBarChart();
+    chart.drawCharts = function(pieChartData, barChartData) {
+        chart.drawPieChart(pieChartData);
+        chart.drawBarChart(barChartData);
     };
 
-    chart.drawPieChart = function() {
+    chart.drawPieChart = function(pieChartData) {
         var ctx = $("#lastGamesChart");
-
+        
         var data = {
             labels: [
-                "Hits",
-                "Misses"
+                "Правильные ответы",
+                "Ошибочные ответы"
             ],
             datasets: [
                 {
-                    data: [10, 20],
+                    data: pieChartData,
                     backgroundColor: [
                         "#FF6384",
                         "#36A2EB",
@@ -44,16 +44,16 @@ define(['jquery', 'chartLib'], function($, Chart) {
         });
     };
 
-    chart.drawBarChart = function() {
+    chart.drawBarChart = function(barChartData) {
         var ctx = $("#hitsAndMissesChart");
 
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: barChartData.labels,
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'Количество очков',
+                    data: barChartData.data,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

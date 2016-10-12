@@ -111,8 +111,8 @@ define([
     gui.updateStatistics = function(show) {
         $.post("/getStatistics", {
             id: vkapi.getId()
-        }, function(data){
-            var stats = statistics.getFullStatistics(data[0]);
+        }, function(statisticsData){
+            var stats = statistics.getFullStatistics(statisticsData[0]);
             console.log(stats);
 
             $('.mistakesPerGame').text(stats.averageMistakesPerGame);
@@ -124,19 +124,33 @@ define([
                 $('.charts').removeClass('hidden');
             }
 
-            chart.drawCharts({
-                data: []
-            }, {
-                labels: [],
-                data: []
-            });
-        }, "json");
+            var countOfGames = 10;
 
-        $.post("/getLastGames", {
-            id: vkapi.getId(),
-            num: 10
-        }, function(data){
-            console.log(data);
+            $.post("/getLastGames", {
+                id: vkapi.getId(),
+                num: countOfGames
+            }, function(lastGamesData){
+                var pieChartData = [stats.rightAnswers_count, stats.mistakes_count];
+
+                var barChartData = {
+                    labels: [],
+                    data: []
+                };
+                for(var i = 0; i<lastGamesData.rows.length; i++){
+                    barChartData.labels[i] = "Game №" + (lastGamesData.countOfGames - lastGamesData.rows.length + i + 1).toString();
+                    barChartData.data[lastGamesData.rows.length - 1 - i] = lastGamesData.rows[i].score;
+                }
+
+                console.log(pieChartData);
+                console.log(barChartData);
+
+                chart.drawCharts(
+                    pieChartData, {
+                    labels: barChartData.labels,
+                    data: barChartData.data
+                });
+            }, "json");
+
         }, "json");
     };
 
