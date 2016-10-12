@@ -111,7 +111,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
             console.log(stats);
         }, "json");
 
-        $.post("/getLastGames".{
+        $.post("/getLastGames", {
             id: vkapi.getId(),
             num: 10
         }, function(data){

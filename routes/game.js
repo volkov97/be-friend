@@ -14,7 +14,8 @@ var game = {
     sendGameResultsPOST: sendGameResultsPOST,
     getStatisticsPOST: getStatisticsPOST,
     getNeighboursPOST: getNeighboursPOST,
-    getTopList: getTopList
+    getTopList: getTopList,
+    getLastGamesPOST: getLastGamesPOST
 }
 
 function getTopListPOST(req, res) {
@@ -84,12 +85,15 @@ function getNeighboursPOST(req, res) {
     );
 }
 
-function getLast10GamesPOST(req, res){
+function getLastGamesPOST(req, res){
 
     var id = req.body.id;
     var num = req.body.num;
 
-    getLast10Games(id, num).then(
+    console.log("AIDI" + id);
+    console.log(num);
+
+    getLastGames(id, num).then(
         function(result){
             res.json(result);
         },
@@ -234,17 +238,20 @@ function getLastGames(id, num){
                 throw err;
             }
 
+            id = parseInt(id);
+            num = parseInt(num);
+
             var sql = 'SELECT * ' +
                 'FROM games g ' +
                 'WHERE g.user_id = ? ' +
                 'ORDER BY g.id DESC ' + 
                 'LIMIT ?';
-            connection.query(sql, id, num, function (err, rows) {
+            connection.query(sql, [id, num], function (err, rows) {
                 if (err) {
                     reject("error");
                     throw err;
                 }
-
+                
                 connection.release();
                 resolve(rows);
             });
