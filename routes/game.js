@@ -250,7 +250,7 @@ function getLastGames(id, num){
 
                 var obj = {
                     countOfGames: rows.length,
-                    rows: rows.slice(0, num - 1)
+                    rows: rows.slice(0, num)
                 }
                 connection.release();
                 resolve(obj);
