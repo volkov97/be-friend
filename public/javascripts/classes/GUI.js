@@ -8,7 +8,9 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
         vkapi.loginUser().then(
             function(result) {
-                vkapi.setId(parseInt(result));
+
+                console.log(result);
+                vkapi.setId(result.user_id);
 
                 onlineUser.identify(vkapi.getUserInfo());
 
