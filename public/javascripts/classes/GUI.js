@@ -12,12 +12,13 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
                 onlineUser.identify(vkapi.getUserInfo());
 
-                $(".about").addClass("fadeOut");
+                $(".about").addClass("bounceOutRight");
                 setTimeout(function() {
                     $(".about").addClass("hidden");
-                    $(".modes").removeClass("hidden").addClass("fadeIn");
+                    $(".modes").removeClass("hidden").addClass("bounceInLeft");
                 }, 1000);
 
+                gui.updateNeigbours(true);
                 gui.updateStatistics();
             },
             function(error) {
@@ -90,10 +91,10 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
             var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
 
             for (var i = 0; i<data.length; i++){
-                str += "<tr><td class ='number'>"+(i+1)
-                    +"</td><td class='name'><a href='https://vk.com/id"+data[i]["vk_id"]
-                    +"' target = '_blank'>"+data[i]["first_name"]+" "+data[i]["last_name"]
-                    +"</a></td><td class='points'>"+data[i]["max_score"]+"</td></tr>";
+                str += "<tr><td class ='number'>" + (i + 1)
+                    + "</td><td class='name'><a href='https://vk.com/id" + data[i].vk_id
+                    + "' target = '_blank'>" + data[i].first_name + " " + data[i].last_name
+                    + "</a></td><td class='points'>" + data[i].max_score + "</td></tr>";
             }
 
             $(".winners").html(str);
@@ -107,6 +108,34 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
             var stats = statistics.getFullStatistics(data[0]);
             console.log(stats);
         }, "json");
+    };
+
+    gui.updateNeigbours = function(show) {
+        $.post("/getNeighbours", {
+            id: vkapi.getId(),
+            num: 5
+        }, function(data) {
+            var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
+
+            var ms = data.list;
+            for (var i = 0; i < ms.length; i++) {
+                if (data.userPos == ms[i].realPos) {
+                    str += "<tr class='currentUser'>"
+                } else {
+                    str += "<tr>";
+                }
+                str += "<td class ='number'>" + ms[i].realPos
+                    + "</td><td class='name'><a href='https://vk.com/id" + ms[i].vk_id
+                    + "' target = '_blank'>"+ms[i].first_name + " " + ms[i].last_name
+                    + "</a></td><td class='points'>" + ms[i].max_score + "</td></tr>";
+            }
+
+            $('.userTopRate table.rate__table tbody').html(str);
+
+            if (show) {
+                $('.userTopRate').removeClass('hidden');
+            }
+        });
     };
 
     gui.updateOnlinePlayersList = function(list) {

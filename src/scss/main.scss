@@ -18,7 +18,8 @@
 @import "blocks/_userResult";
 
 body {
-    margin: 0 auto; 
+    margin: 0 auto;
+    overflow-x: hidden;
     background: $white url("../images/mp-02.png") 0 0;
     font-family: "roboto";
 }

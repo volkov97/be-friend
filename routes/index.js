@@ -14,21 +14,11 @@ router.get('/', function(req, res) {
 	getTopList(10).then(
 		function(result) {
 
-			/*
-			getNeighbours(10, 2252).then(
-				function(result){
-
-				},
-				function(error){
-					console.log(error);
-				}
-			);
-			*/
-
 			res.render("index", {
 				title: "beFriend",
 				topList: result
 			});
+
 		},
 		function(error) {
 			console.log(error);
@@ -132,6 +122,22 @@ router.post('/getStatistics', function(req, res){
 	);
 });
 
+router.post('/getNeighbours', function(req, res) {
+
+	var id = req.body.id;
+	var num = req.body.num || 5;
+
+	getNeighbours(num, id).then(
+		function(result){
+			res.json(result);
+		},
+		function(error){
+			console.log(error);
+		}
+	);
+
+});
+
 function getTopList(num) {
 	return new Promise(function(resolve, reject) {
 		pool.getConnection(function (err, connection) {
@@ -183,29 +189,53 @@ function getNeighbours(num, user_id){
 					throw err;
 				}
 
+				console.log("NEIGHBOURS");
+
+
 				var pos = -1;
 				for (var i = 0; i < rows.length; i++) {
-					if(rows[i].user_id == user_id){
+					if (rows[i].user_id == user_id){
 						pos = i;
+						console.log("FOUND " + pos);
 						break;
 					}
 				}
 
 				var result = [];
+				pos++;
+
 				if (pos != -1) {
-					if (pos > 0 && pos < num / 2){
+					if (pos >= 1 && pos <= Math.floor(num / 2) + 1){
+						console.log("1");
 						result = rows.slice(0, num);
-					} else if (pos > rows.length - num / 2 && pos < rows.length){
+
+						for (var i = 0; i < num; i++) {
+							result[i].realPos = i + 1;
+						}
+					} else if (pos >= rows.length - Math.floor(num / 2) && pos <= rows.length){
+						console.log("2");
 						result = rows.slice(rows.length - num);
+
+						for (var i = 0; i < num; i++) {
+							result[i].realPos = (rows.length - num + 1) + i;
+						}
 					} else {
-						result = rows.slice(pos - num / 2, pos + num / 2);
+						console.log("3");
+						result = rows.slice(pos - Math.floor(num / 2) - 1, pos + Math.floor(num / 2));
+
+						for (var i = 0; i < num; i++) {
+							result[i].realPos = (pos - Math.floor(num / 2)) + i;
+						}
 					}
 				}
 
 				console.log(result);
 
 				connection.release();
-				resolve(result);
+				resolve({
+					userPos: pos,
+					list: result
+				});
 			});
 		});
 	});
