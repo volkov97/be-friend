@@ -35,5 +35,10 @@ router.post('/getTopList', game.getTopListPOST);
 router.post('/sendGameResults', game.sendGameResultsPOST);
 router.post('/getStatistics', game.getStatisticsPOST);
 router.post('/getNeighbours', game.getNeighboursPOST);
+router.post('/getLastGames', game.getLastGamesPOST);
+
+router.get('/vl/test', function(req, res) {
+	console.log("TEST");
+});
 
 module.exports = router;

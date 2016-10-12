@@ -18,7 +18,9 @@ define([
 
         vkapi.loginUser().then(
             function(result) {
-                vkapi.setId(parseInt(result));
+
+                console.log(result);
+                vkapi.setId(result.user_id);
 
                 onlineUser.identify(vkapi.getUserInfo());
 
@@ -121,6 +123,13 @@ define([
             if (show) {
                 $('.charts').removeClass('hidden');
             }
+        }, "json");
+
+        $.post("/getLastGames", {
+            id: vkapi.getId(),
+            num: 10
+        }, function(data){
+            console.log(data);
         }, "json");
     };
 
