@@ -120,11 +120,16 @@ define([
             $('.gamesPlayed').text(stats.games_count);
             $('.oneGameTime').text(stats.averageTimePerGame);
 
-            chart.drawCharts();
-
             if (show) {
                 $('.charts').removeClass('hidden');
             }
+
+            chart.drawCharts({
+                data: []
+            }, {
+                labels: [],
+                data: []
+            });
         }, "json");
 
         $.post("/getLastGames", {
