@@ -99,7 +99,7 @@ define([
 
     gui.updateTopList = function() {
         $.post("/getTopList", {
-            number: 10
+            number: 5
         }, function(data) {
             var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
 

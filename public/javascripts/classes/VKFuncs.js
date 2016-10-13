@@ -16,10 +16,12 @@ define([], function() {
     };
 
     vkapi.getUserInfo = function() {
+        console.log(userObj);
         return {
             id: userObj.mid,
             first_name: userObj.user.first_name,
-            last_name: userObj.user.last_name
+            last_name: userObj.user.last_name,
+            img_src: userObj.img_src
         };
     }
 
@@ -45,7 +47,7 @@ define([], function() {
         }, function(r){
             if (r.response){
                 friends = r.response;
-                stringOfUserIDs = friends.join();
+                stringOfUserIDs = userObj.mid + ',' + friends.join();
 
                 vkapi.getFriendsInfo(resolve, reject);
             }
@@ -63,6 +65,7 @@ define([], function() {
         }, function(r) {
             if (r.response){
                 friends = r.response;
+                userObj.img_src = friends.shift().photo_200;
                 friends = friends.filter(function(tempUser){
                     if (tempUser.deactivated == "deleted") {
                         return false;
