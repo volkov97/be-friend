@@ -1,4 +1,14 @@
-define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', 'db', 'statistics', 'multiplayer'], function($, vkapi, gameLogic, vibration, gameVariables, timer, db, statistics, onlineUser) {
+define([
+    'jquery',
+    'vkapi',
+    'gameLogic',
+    'vibration',
+    'gameVariables',
+    'timer',
+    'statistics',
+    'multiplayer',
+    'chart'
+], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart) {
 
     var gui = {};
 
@@ -21,7 +31,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
                 }, 1000);
 
                 gui.updateNeigbours(true);
-                gui.updateStatistics();
+                gui.updateStatistics(true);
             },
             function(error) {
                 // вторая функция - запустится при вызове reject
@@ -69,20 +79,15 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         gameResult.innerHTML = gameVariables.getScore();
         $(".gameResult").removeClass('hidden');
 
-        var promise = db.sendGameResults({
+        $.post("/sendGameResults", {
             user_id: vkapi.getId(),
             score: gameVariables.getScore(),
             statistics: statistics.getOneGameStatistics()
+        }, function(data) {
+            gui.updateTopList();
+            gui.updateNeigbours();
+            gui.updateStatistics();
         });
-
-        promise.then(
-            function(result) {
-                gui.updateTopList();
-            },
-            function(error) {
-                console.log(error);
-            }
-        )
 
     };
 
@@ -103,19 +108,49 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
         }, "json");
     };
 
-    gui.updateStatistics = function() {
+    gui.updateStatistics = function(show) {
         $.post("/getStatistics", {
             id: vkapi.getId()
-        }, function(data){
-            var stats = statistics.getFullStatistics(data[0]);
+        }, function(statisticsData){
+            var stats = statistics.getFullStatistics(statisticsData[0]);
             console.log(stats);
-        }, "json");
 
-        $.post("/getLastGames", {
-            id: vkapi.getId(),
-            num: 10
-        }, function(data){
-            console.log(data);
+            $('.mistakesPerGame').text(stats.averageMistakesPerGame);
+            $('.pointsPerGame').text(stats.averageScorePerGame);
+            $('.gamesPlayed').text(stats.games_count);
+            $('.oneGameTime').text(stats.averageTimePerGame);
+
+            if (show) {
+                $('.charts').removeClass('hidden');
+            }
+
+            var countOfGames = 10;
+
+            $.post("/getLastGames", {
+                id: vkapi.getId(),
+                num: countOfGames
+            }, function(lastGamesData){
+                var pieChartData = [stats.rightAnswers_count, stats.mistakes_count];
+
+                var barChartData = {
+                    labels: [],
+                    data: []
+                };
+                for(var i = 0; i<lastGamesData.rows.length; i++){
+                    barChartData.labels[i] = "Game №" + (lastGamesData.countOfGames - lastGamesData.rows.length + i + 1).toString();
+                    barChartData.data[lastGamesData.rows.length - 1 - i] = lastGamesData.rows[i].score;
+                }
+
+                console.log(pieChartData);
+                console.log(barChartData);
+
+                chart.drawCharts(
+                    pieChartData, {
+                    labels: barChartData.labels,
+                    data: barChartData.data
+                });
+            }, "json");
+
         }, "json");
     };
 
@@ -184,7 +219,7 @@ define(['jquery', 'vkapi', 'gameLogic', 'vibration', 'gameVariables', 'timer', '
 
             return false;
         });
-    }
+    };
 
     function addListenersToOptions() {
         var options = $(".question__answer");
