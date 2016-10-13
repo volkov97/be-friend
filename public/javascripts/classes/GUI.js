@@ -25,14 +25,18 @@ define([
 
                 onlineUser.identify(vkapi.getUserInfo());
 
-                $(".about").addClass("bounceOutRight");
-                setTimeout(function() {
-                    $(".about").addClass("hidden");
-                    $(".modes").removeClass("hidden").addClass("bounceInLeft");
-                }, 1000);
+                gui.updateNeigbours();
 
-                gui.updateNeigbours(true);
-                gui.updateStatistics(true);
+                $(".welcomeBlocks .rate, .about").addClass("bounceOutRight");
+                $(".welcomeBlocks .descr").addClass("bounceOutLeft");
+                setTimeout(function() {
+                    $(".welcomeBlocks .rate, .welcomeBlocks .descr, .about").addClass("hidden");
+
+                    $(".stats .rate.miniTop, .charts").addClass("bounceInRight").removeClass("hidden");
+                    $(".modes, .rate.userTopRate").addClass("bounceInLeft").removeClass("hidden");
+
+                    gui.updateStatistics();
+                }, 1000);
             },
             function(error) {
                 // вторая функция - запустится при вызове reject
@@ -110,10 +114,16 @@ define([
         }, "json");
     };
 
+<<<<<<< HEAD
     gui.updateStatistics = function(show) {
         $.post("/vl/getStatistics", {
             id: vkapi.getId(),
             access_token: security.getToken()
+=======
+    gui.updateStatistics = function() {
+        $.post("/getStatistics", {
+            id: vkapi.getId()
+>>>>>>> 283d45aec450b51b595c5ea09a392ed29799ecc1
         }, function(statisticsData){
             var stats = statistics.getFullStatistics(statisticsData[0]);
             console.log(stats);
@@ -122,10 +132,6 @@ define([
             $('.pointsPerGame').text(stats.averageScorePerGame);
             $('.gamesPlayed').text(stats.games_count);
             $('.oneGameTime').text(stats.averageTimePerGame);
-
-            if (show) {
-                $('.charts').removeClass('hidden');
-            }
 
             var countOfGames = 10;
 
@@ -141,15 +147,14 @@ define([
                     data: []
                 };
                 for(var i = 0; i<lastGamesData.rows.length; i++){
-                    barChartData.labels[i] = "Game №" + (lastGamesData.countOfGames - lastGamesData.rows.length + i + 1).toString();
+                    barChartData.labels[i] = "Игра №" + (lastGamesData.countOfGames - lastGamesData.rows.length + i + 1).toString();
                     barChartData.data[lastGamesData.rows.length - 1 - i] = lastGamesData.rows[i].score;
                 }
 
                 console.log(pieChartData);
                 console.log(barChartData);
 
-                chart.drawCharts(
-                    pieChartData, {
+                chart.drawCharts(pieChartData, {
                     labels: barChartData.labels,
                     data: barChartData.data
                 });
@@ -158,8 +163,13 @@ define([
         }, "json");
     };
 
+<<<<<<< HEAD
     gui.updateNeigbours = function(show) {
         $.post("/vl/getNeighbours", {
+=======
+    gui.updateNeigbours = function() {
+        $.post("/getNeighbours", {
+>>>>>>> 283d45aec450b51b595c5ea09a392ed29799ecc1
             id: vkapi.getId(),
             num: 5,
             access_token: security.getToken()
@@ -180,10 +190,6 @@ define([
             }
 
             $('.userTopRate table.rate__table tbody').html(str);
-
-            if (show) {
-                $('.userTopRate').removeClass('hidden');
-            }
         });
     };
 
