@@ -208,6 +208,7 @@ define([
     gui.setEventListenerOnSingleGame = function() {
         $('.startSingleGameButton').click(function(event) {
             gui.singleGame();
+
         });
     };
 
