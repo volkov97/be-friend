@@ -114,16 +114,10 @@ define([
         }, "json");
     };
 
-<<<<<<< HEAD
     gui.updateStatistics = function(show) {
         $.post("/vl/getStatistics", {
             id: vkapi.getId(),
             access_token: security.getToken()
-=======
-    gui.updateStatistics = function() {
-        $.post("/getStatistics", {
-            id: vkapi.getId()
->>>>>>> 283d45aec450b51b595c5ea09a392ed29799ecc1
         }, function(statisticsData){
             var stats = statistics.getFullStatistics(statisticsData[0]);
             console.log(stats);
@@ -163,13 +157,8 @@ define([
         }, "json");
     };
 
-<<<<<<< HEAD
     gui.updateNeigbours = function(show) {
         $.post("/vl/getNeighbours", {
-=======
-    gui.updateNeigbours = function() {
-        $.post("/getNeighbours", {
->>>>>>> 283d45aec450b51b595c5ea09a392ed29799ecc1
             id: vkapi.getId(),
             num: 5,
             access_token: security.getToken()
@@ -219,6 +208,7 @@ define([
     gui.setEventListenerOnSingleGame = function() {
         $('.startSingleGameButton').click(function(event) {
             gui.singleGame();
+
         });
     };
 
