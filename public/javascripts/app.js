@@ -4,9 +4,6 @@ define(['gui', 'multiplayer', 'notify', 'sw'], function(gui, onlineUser, notify,
 
     app.init = function() {
 
-
-
-
         onlineUser.connect();
         gui.setEventListenerOnAuth();
 

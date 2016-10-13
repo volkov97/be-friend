@@ -3,6 +3,8 @@ requirejs.config({
 	paths: {
 		// Libs
 		jquery: 'libs/jquery-3.1.1.min',
+		jquery_cookie: 'libs/jquery.cookie',
+		jquery_md5: 'libs/jquery.md5',
 		socketio: 'libs/socket.io',
 		chartLib: 'libs/Chart.min',
 
@@ -12,6 +14,7 @@ requirejs.config({
 		timer: 'classes/Timer',
 		statistics: 'classes/Statistics',
 		chart: 'classes/Chart',
+		security: 'classes/Security',
 
 		// HTML5 APIs
 		vibration: 'html5apis/vibration',
