@@ -1,0 +1,46 @@
+@import "../_data";
+
+.multiplayer {
+  @extend .block;
+}
+
+.styledInput {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    padding: 0px 20px;
+    text-transform: uppercase;
+    background-color: #f44336;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  input {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 0px 20px;
+    outline: none;
+    height: 40px;
+    line-height: 40px;
+
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-top: none;
+  }
+
+  &.key label {
+
+  }
+
+  &.points label {
+    background-color: #4caf50;
+  }
+
+  &.players label {
+    background-color: #00ACED;
+  }
+}

@@ -1,21 +1,22 @@
 function Game() {
 
     var sockets_connected = {};
+    var self = this;
 
-    this.connectSocket = function(id, socket) {
-        sockets_connected[id] = socket;
+    this.connectSocket = function(vk_id, socket) {
+        sockets_connected[vk_id] = socket;
     };
 
-    this.disconnectSocket = function(id) {
-        delete sockets_connected[id];
+    this.disconnectSocket = function(vk_id) {
+        delete sockets_connected[vk_id];
     };
 
-    this.getSocketIdByVkId = function(vkID) {
-        for (var key in sockets_connected) {
-            if (sockets_connected[key].udata.id == vkID) {
-                return sockets_connected[key].id;
-            }
-        }
+    this.writeAllConnectedSockets = function() {
+        self.writeAllConnectedSockets();
+    };
+
+    this.getSocketIdByVkId = function(vk_id) {
+        return sockets_connected[vk_id].id;
     };
 
     this.getOnlineSocketsInfo = function() {
@@ -28,6 +29,8 @@ function Game() {
                 last_name: sockets_connected[key].udata.last_name
             });
         }
+
+        self.writeAllConnectedSockets();
 
         return info;
     };

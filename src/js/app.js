@@ -4,13 +4,12 @@ define(['gui', 'multiplayer', 'notify', 'sw'], function(gui, onlineUser, notify,
 
     app.init = function() {
 
-
-
-
         onlineUser.connect();
         gui.setEventListenerOnAuth();
 
-        sw.register();
+        if (sw.register()) {
+            console.log("Service Workers are not working!");
+        }
     };
 
     return app;

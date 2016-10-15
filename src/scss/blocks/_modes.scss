@@ -2,4 +2,24 @@
 
 .modes {
   @extend .block;
+
+  &__rules {
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+}
+
+.startSingleGameButton {
+  display: block;
+  padding: 20px 0;
+  background-color: #009688;
+  width: 100%;
+  border: none;
+  font-size: 3em;
+  text-transform: uppercase;
+  color: white;
+
+  &:hover {
+    background-color: #037369;
+  }
 }

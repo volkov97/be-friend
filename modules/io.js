@@ -24,6 +24,14 @@ module.exports = function(server) {
             });
         });
 
+        socket.on('multiplayer create', function(obj) {
+            console.log("creating new room \'" + obj.roomName + "\'");
+
+            socket.join(obj.roomName);
+
+            game.writeAllConnectedSockets();
+        });
+
         socket.on('disconnect', function(){
             console.log('user disconnected');
 

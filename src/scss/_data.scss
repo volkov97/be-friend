@@ -29,3 +29,9 @@ $bronze: rgba(150, 90, 56, 0.3);
   padding: 0;
   margin-bottom: 15px;
 }
+
+h4 {
+  @extend .headers;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}

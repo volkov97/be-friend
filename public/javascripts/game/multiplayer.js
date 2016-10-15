@@ -26,6 +26,12 @@ define(['require', 'socketio', 'vkapi', 'notify'], function (require, io, vkapi,
         });
     };
 
+    onlineUser.createRoom = function(vk_id) {
+        onlineUser.socket.emit('multiplayer create', {
+            roomName: "roomOf" + vk_id
+        });
+    };
+
     onlineUser.sendRequestTo = function(id) {
         onlineUser.socket.emit('game request', {
             from: vkapi.getUserInfo(),

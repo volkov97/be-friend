@@ -1,262 +1,289 @@
 extends layout
 
 block content
-	include header/header
+    include header/header
 
-	main.main
-		.container
-			.about.animated
-				.row
-					.col-md-5
-						.imageWrap
-							img.image(src='images/friends.jpeg', alt='Friends')
-						button.authButton
-							svg.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-								use(xlink:href='#vk')
-							| Вход
-					.col-md-7
-						h3.about__header
-							| Будьте в курсе того, что происходит в жизни Ваших друзей!
-						.about__content
-							p
-								| Сколько у Вас друзей? Такой простой вопрос, но в наше время на него бывает очень сложно ответить. Можно ли считать человека, который находится у Вас в списке друзей в "Вконтакте", но с которым вы практически не общаетесь, настоящим другом?
-							p
-								| Наше приложение позволит Вам сблизиться со всеми вашими знакомыми и заводить настоящих друзей. Мы поможем Вам узнать знакомых намного лучше, а также обнаружить у них Ваши общие интересы. Все это сделает из Вас внимательного, привлекательного в общении человека.
-							p
-								| Не забывайте своих старых друзей! Наше приложение позволит Вам узнать, где сейчас живет Ваш старый друг, где он учится, состоит ли с кем-то в отношениях, а также многое другое.
-							p Ну так чего же Вы ждете? Вперед - за новыми рекордами:)
-			.modes.hidden.animated
-				.row
-					.col-md-6
-						h3.modes__header
-							| Одиночная игра
-						.modes__content
-							.modes__rules
-								| В этом режиме игры необходимо ответить на как можно большее количество вопросов за отведенное время. У Вас есть 90 секунд, за каждый неправильный ответ отнимается 5 баллов и секунда времени, если Вы отвечаете правильно с первого раза - ко времени добавляется 2 секунды. Удачи!
-							button.startSingleGameButton Начать
-					.col-md-6
-						h3.modes__header
-							| Сетевая игра
-						.modes__content
-							.createGame
-								h4 Создать свою игру
-								.mode__rules
-									| Начните сетевую игру и раздайте секретный ключ другим игрокам, чтобы присоединиться к Вашей комнате.
-								button.createGameButton Создать
-							.joinGame
-								h4 Присоединиться к игре
-								.mode__rules
-									| Присоединитесь к уже созданной игре, введите секретный ключ
-								input.joinGameSecret(type="text" placeholder="XXX-XXX")
-							.duel
-								h4 Или вызовите игрока на дуэль!
-								.mode__rules
-									| Выберите одного игрока, из доступных ниже и ему придет запрос на дуэль!
-								.onlinePlayers
-									ul.onlinePlayers__list
-										li.onlinePlayers__player
-											a.onlinePlayers__link(href="#") Никита Павец
-										li.onlinePlayers__player
-											a.onlinePlayers__link(href="#") Герман Волков
-										li.onlinePlayers__player
-											a.onlinePlayers__link(href="#") Игорь Лосев
-
-			.quiz.hidden
-				.questionWrap
-					.question
-						.question__text
-							| Вы готовы? Тогда к делу!
-						.question__properties.clearfix
-							.question__image
-								img.question__img(src='#', width='200', height='200', alt='Quiz Question Image')
-							.question__answers.clearfix
-								a.question__answer Волков Герман
-								a.question__answer Павец Никита
-								a.question__answer.right Лосев Игорь
-								a.question__answer.wrong Еще кто-то 4-ый
-					.questionWrap__results.gameResult.hidden
-						p
-							| Время вышло!
-							br
-							| Неплохой результат... но ты можешь лучше!
-						.gameResult__pointsWrap
-							svg.cupSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-								use(xlink:href='#cup')
-							span#gameResult
-								| 99
-						p
-							| Покажи друзьям, какой ты друг!
-							br
-							| Можешь выбрать одну из социальных сетей ниже!
-						.gameResult__socialButtons.clearfix
-							.social__network.vk
-								a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
-									svg.contact.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-										use(xlink:href='#vk')
-							.social__network.tw
-								a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
-									svg.contact.tw(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-										use(xlink:href='#tw')
-					.questionWrap__stats
-						.row
-							.col-sm-6
-								.questionWrap__stat
-									.time
-										svg.timeSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-											use(xlink:href='#alarm')
-										span#onlineSeconds 90
-										|  seconds left...
-							.col-sm-6
-								.questionWrap__stat
-									.points
-										svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-											use(xlink:href='#correct')
-										span#onlinePoints 0
-										|  points
-			.welcomeBlocks.row
-				.col-md-6
-					.descr.animated
-						.descr__header
-							| Мы гарантируем!
-							br
-							| Вы узнаете о своих друзьях много нового!
-						.descr__content
-							.offer.clearfix
-								.offer__img
-									svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-										use(xlink:href='#camera')
-								.offer__content
-									.offer__header
-										| Фотографии друзей
-									.offer__text
-										| А Вы уверены, что узнаете всех своих по их фотографиям?
-							.offer.clearfix
-								.offer__img
-									svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-										use(xlink:href='#university')
-								.offer__content
-									.offer__header
-										| Учебные заведения
-									.offer__text
-										| Вы знаете, где учились или учатся сейчас все Ваши друзья?
-							.offer.clearfix
-								.offer__img
-									svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-										use(xlink:href='#birth')
-								.offer__content
-									.offer__header
-										| Дата Рождения
-									.offer__text
-										| Вы забываете поздравить своих друзей с Днем Рождения? Срочно заходите через ВК и запоминайте!
-							.offer.clearfix
-								.offer__img
-									svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-										use(xlink:href='#city')
-								.offer__content
-									.offer__header
-										| Город
-									.offer__text
-										| У Вас есть много друзей из других городов? Наверное сложно запомнить, где кто живет... Мы поможем!
-							.offer.clearfix
-								.offer__img
-									svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-										use(xlink:href='#rings')
-								.offer__content
-									.offer__header
-										| Семейное положение
-									.offer__text
-										| В наше время в этом вопросе может быть много интересного;)
-						.descr__more
-							| и многое другое...
-				.col-md-6
-					.rate.animated
-						header.rate__header
-							| Лучшие игроки
-							.top ТОП 10
-						.rate__main
-							table.rate__table.winners
-								tbody
-									tr.tableHead
-										th №
-										th Имя
-										th Оценка
-									- for (var i = 0; i < topList.length; i++)
-										tr
-											td.number #{i + 1}
-											td.name
-												a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
-											td.points #{topList[i].max_score}
-			.stats
-				.row
-					.col-md-6
-						.userTopRate.rate.animated.hidden
-							header.rate__header
-								| Ваш лучший результат
-							.rate__main
-								table.rate__table
-									tbody
-										tr.tableHead
-											th №
-											th Имя
-											th Оценка
-					.col-md-6
-						.rate.miniTop.animated.hidden
-							header.rate__header
-								| Лучшие игроки
-								.top ТОП 5
-							.rate__main
-								table.rate__table.winners
-									tbody
-										tr.tableHead
-											th №
-											th Имя
-											th Оценка
-										- for (var i = 0; i < 5; i++)
-											tr
-												td.number #{i + 1}
-												td.name
-													a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
-												td.points #{topList[i].max_score}
-				.row
-					.col-md-12
-						.charts.animated.hidden
-							.row
-								.numbers
-									.row
-										.col-md-3
-											.numberStat
-												.numberStat__num.mistakesPerGame
-													| 0
-												.numberStat__label
-													| Ошибок за игру
-													br
-													| в среднем
-										.col-md-3
-											.numberStat
-												.numberStat__num.pointsPerGame
-													| 0
-												.numberStat__label
-													| Очков за игру
-													br
-													| в среднем
-										.col-md-3
-											.numberStat
-												.numberStat__num.gamesPlayed
-													| 0
-												.numberStat__label
-													| Игр сыграно
-													br
-													| &nbsp;
-										.col-md-3
-											.numberStat.nobrd
-												.numberStat__num.oneGameTime
-													| 0
-												.numberStat__label
-													| Время одной игры
-								.lastGames
-									.row
-										.col-md-4
-											canvas(id='lastGamesChart' width="100%" height="300px")
-										.col-md-8
-											canvas(id='hitsAndMissesChart' width="100%" height="300px")
-	include footer/footer
+    main.main
+        .container
+            .about.animated
+                .row
+                    .col-md-5
+                        .imageWrap
+                            img.image(src='images/friends.jpeg', alt='Friends')
+                        button.authButton
+                            svg.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                use(xlink:href='#vk')
+                            | Вход
+                    .col-md-7
+                        h3.about__header
+                            | Будьте в курсе того, что происходит в жизни Ваших друзей!
+                        .about__content
+                            p
+                                | Сколько у Вас друзей? Такой простой вопрос, но в наше время на него бывает очень сложно ответить. Можно ли считать человека, который находится у Вас в списке друзей в "Вконтакте", но с которым вы практически не общаетесь, настоящим другом?
+                            p
+                                | Наше приложение позволит Вам сблизиться со всеми вашими знакомыми и заводить настоящих друзей. Мы поможем Вам узнать знакомых намного лучше, а также обнаружить у них Ваши общие интересы. Все это сделает из Вас внимательного, привлекательного в общении человека.
+                            p
+                                | Не забывайте своих старых друзей! Наше приложение позволит Вам узнать, где сейчас живет Ваш старый друг, где он учится, состоит ли с кем-то в отношениях, а также многое другое.
+                            p Ну так чего же Вы ждете? Вперед - за новыми рекордами:)
+            .modes.hidden.animated
+                .row
+                    .col-md-4
+                        h3.modes__header
+                            | Одиночная игра
+                        .modes__content
+                            .modes__rules
+                                | В этом режиме игры необходимо ответить на как можно большее количество вопросов за отведенное время. У Вас есть 90 секунд, за каждый неправильный ответ отнимается 5 баллов и секунда времени, если Вы отвечаете правильно с первого раза - ко времени добавляется 2 секунды. Удачи!
+                            button.startSingleGameButton Начать
+                    .col-md-8
+                        h3.modes__header
+                            | Мультиплеер
+                        .modes__content
+                            .row
+                                .col-md-6
+                                    .createGame
+                                        h4 Создать свою игру
+                                        .mode__rules
+                                            | Начните сетевую игру и раздайте секретный ключ другим игрокам, чтобы играть вместе.
+                                        button.createRoomButton Создать
+                                .col-md-6
+                                    .joinGame
+                                        h4 Присоединиться к игре
+                                        .mode__rules
+                                            | Присоединитесь к уже созданной игре, введите секретный ключ
+                                        input.joinGameSecret(type="text" placeholder="XXX-XXX")
+                            .duel
+                                h4 Или вызовите игрока на дуэль!
+                                .mode__rules
+                                    | Выберите одного игрока, из доступных ниже и ему придет запрос на дуэль!
+                                .onlinePlayers
+                                    ul.onlinePlayers__list
+                                        li.onlinePlayers__player
+                                            a.onlinePlayers__link(href="#") Никита Павец
+                                        li.onlinePlayers__player
+                                            a.onlinePlayers__link(href="#") Герман Волков
+                                        li.onlinePlayers__player
+                                            a.onlinePlayers__link(href="#") Игорь Лосев
+            .multiplayer
+                h3 Мультиплеер
+                .row
+                    .col-md-6
+                        .row
+                            .col-md-6
+                                .styledInput.key.clearfix
+                                    label(for="secretKey") Ключ
+                                    input(id="secretKey" placeholder="0000-0000")
+                            .col-md-6
+                                .styledInput.points.clearfix
+                                    label(for="winPoints") Победные очки
+                                    input(id="winPoints" placeholder="1000")
+                            .col-md-6
+                                .styledInput.players.clearfix
+                                    label(for="maxPlayers") Допустимо игроков
+                                    input(id="maxPlayers" placeholder="9")
+                    .col-md-6
+                        .members
+                            table.rate__table
+                                tbody
+                                    tr.tableHead
+                                        th №
+                                        th Имя
+                                        th Баллы
+            .quiz
+                .questionWrap
+                    .question
+                        .question__text
+                            | Вы готовы? Тогда к делу!
+                        .question__properties.clearfix
+                            .question__image
+                                img.question__img(src='#', width='200', height='200', alt='Quiz Question Image')
+                            .question__answers.clearfix
+                                a.question__answer Волков Герман
+                                a.question__answer Павец Никита
+                                a.question__answer.right Лосев Игорь
+                                a.question__answer.wrong Еще кто-то 4-ый
+                    .questionWrap__results.gameResult.hidden
+                        p
+                            | Время вышло!
+                            br
+                            | Неплохой результат... но ты можешь лучше!
+                        .gameResult__pointsWrap
+                            svg.cupSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                use(xlink:href='#cup')
+                            span#gameResult
+                                | 99
+                        p
+                            | Покажи всем, какой ты друг!
+                            br
+                            | Можешь выбрать одну из социальных сетей ниже!
+                        .gameResult__socialButtons.clearfix
+                            .social__network.vk
+                                a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
+                                    svg.contact.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#vk')
+                            .social__network.tw
+                                a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
+                                    svg.contact.tw(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#tw')
+                    .questionWrap__stats
+                        .row
+                            .col-sm-6
+                                .questionWrap__stat
+                                    .time
+                                        svg.timeSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                            use(xlink:href='#alarm')
+                                        span#onlineSeconds 90
+                                        |  seconds left...
+                            .col-sm-6
+                                .questionWrap__stat
+                                    .points
+                                        svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                            use(xlink:href='#correct')
+                                        span#onlinePoints 0
+                                        |  points
+            .welcomeBlocks.row
+                .col-md-6
+                    .descr.animated
+                        .descr__header
+                            | Мы гарантируем!
+                            br
+                            | Вы узнаете о своих друзьях много нового!
+                        .descr__content
+                            .offer.clearfix
+                                .offer__img
+                                    svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#camera')
+                                .offer__content
+                                    .offer__header
+                                        | Фотографии друзей
+                                    .offer__text
+                                        | А Вы уверены, что узнаете всех своих по их фотографиям?
+                            .offer.clearfix
+                                .offer__img
+                                    svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#university')
+                                .offer__content
+                                    .offer__header
+                                        | Учебные заведения
+                                    .offer__text
+                                        | Вы знаете, где учились или учатся сейчас все Ваши друзья?
+                            .offer.clearfix
+                                .offer__img
+                                    svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#birth')
+                                .offer__content
+                                    .offer__header
+                                        | Дата Рождения
+                                    .offer__text
+                                        | Вы забываете поздравить своих друзей с Днем Рождения? Срочно заходите через ВК и запоминайте!
+                            .offer.clearfix
+                                .offer__img
+                                    svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#city')
+                                .offer__content
+                                    .offer__header
+                                        | Город
+                                    .offer__text
+                                        | У Вас есть много друзей из других городов? Наверное сложно запомнить, где кто живет... Мы поможем!
+                            .offer.clearfix
+                                .offer__img
+                                    svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#rings')
+                                .offer__content
+                                    .offer__header
+                                        | Семейное положение
+                                    .offer__text
+                                        | В наше время в этом вопросе может быть много интересного;)
+                        .descr__more
+                            | и многое другое...
+                .col-md-6
+                    .rate.animated
+                        header.rate__header
+                            | Лучшие игроки
+                            .top ТОП 10
+                        .rate__main
+                            table.rate__table.winners
+                                tbody
+                                    tr.tableHead
+                                        th №
+                                        th Имя
+                                        th Оценка
+                                    - for (var i = 0; i < topList.length; i++)
+                                        tr
+                                            td.number #{i + 1}
+                                            td.name
+                                                a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
+                                            td.points #{topList[i].max_score}
+            .stats
+                .row
+                    .col-md-6
+                        .userTopRate.rate.animated.hidden
+                            header.rate__header
+                                | Ваш лучший результат
+                            .rate__main
+                                table.rate__table
+                                    tbody
+                                        tr.tableHead
+                                            th №
+                                            th Имя
+                                            th Оценка
+                    .col-md-6
+                        .rate.miniTop.animated.hidden
+                            header.rate__header
+                                | Лучшие игроки
+                                .top ТОП 5
+                            .rate__main
+                                table.rate__table.winners
+                                    tbody
+                                        tr.tableHead
+                                            th №
+                                            th Имя
+                                            th Оценка
+                                        - for (var i = 0; i < 5; i++)
+                                            tr
+                                                td.number #{i + 1}
+                                                td.name
+                                                    a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
+                                                td.points #{topList[i].max_score}
+                .row
+                    .col-md-12
+                        .charts.animated.hidden
+                            .row
+                                .numbers
+                                    .row
+                                        .col-md-3
+                                            .numberStat
+                                                .numberStat__num.mistakesPerGame
+                                                    | 0
+                                                .numberStat__label
+                                                    | Ошибок за игру
+                                                    br
+                                                    | в среднем
+                                        .col-md-3
+                                            .numberStat
+                                                .numberStat__num.pointsPerGame
+                                                    | 0
+                                                .numberStat__label
+                                                    | Очков за игру
+                                                    br
+                                                    | в среднем
+                                        .col-md-3
+                                            .numberStat
+                                                .numberStat__num.gamesPlayed
+                                                    | 0
+                                                .numberStat__label
+                                                    | Игр сыграно
+                                                    br
+                                                    | &nbsp;
+                                        .col-md-3
+                                            .numberStat.nobrd
+                                                .numberStat__num.oneGameTime
+                                                    | 0
+                                                .numberStat__label
+                                                    | Время одной игры
+                                .lastGames
+                                    .row
+                                        .col-md-4
+                                            canvas(id='lastGamesChart' width="100%" height="300px")
+                                        .col-md-8
+                                            canvas(id='hitsAndMissesChart' width="100%" height="300px")
+    include footer/footer

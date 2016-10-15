@@ -206,6 +206,16 @@ define([
         });
     };
 
+    gui.setEventListenerOnCreateRoom = function() {
+        $('.createRoomButton').click(function(event) {
+            event.preventDefault();
+
+            onlineUser.createRoom(vkapi.getUserInfo().id);
+
+            return false;
+        });
+    };
+
     gui.setEventListenerOnOnlineUsers = function() {
         $('.onlinePlayers__link').click(function(event) {
             event.preventDefault();

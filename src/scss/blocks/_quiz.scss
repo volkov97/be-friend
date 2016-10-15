@@ -1,13 +1,5 @@
 @import "../_data";
 
-.quizWrap {
-    padding: 20px 0;
-
-    @media only screen and (max-width: $screen_medium) {
-        padding: 40px 0;
-    }
-}
-
 .quiz {
     margin-bottom: 40px;
 }
