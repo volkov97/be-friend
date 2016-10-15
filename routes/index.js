@@ -32,15 +32,9 @@ router.get('/', function(req, res) {
 router.post('/auth', user.vkAuthPOST);
 
 router.post('/getTopList', game.getTopListPOST);
-router.post('/sendGameResults', game.sendGameResultsPOST);
-router.post('/getStatistics', game.getStatisticsPOST);
-router.post('/getNeighbours', game.getNeighboursPOST);
-router.post('/getLastGames', game.getLastGamesPOST);
-
-router.get('/vl/test', function(req, res) {
-
-	console.log(req.cookies);
-	console.log("TEST");
-});
+router.post('/vl/sendGameResults', game.sendGameResultsPOST);
+router.post('/vl/getStatistics', game.getStatisticsPOST);
+router.post('/vl/getNeighbours', game.getNeighboursPOST);
+router.post('/vl/getLastGames', game.getLastGamesPOST);
 
 module.exports = router;

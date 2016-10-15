@@ -42,8 +42,8 @@ function vkAuthPOST(req, res) {
 
                 connection.release();
                 var token = genToken(user.id);
-                var token_title = md5.string('hashToken');
-                res.cookie(token_title, token, { expires: new Date(Date.now() + 0xFFFFFFF), httpOnly: true });
+                var token_title = md5.string.quiet('hashToken');
+                res.cookie(token_title, token, { expires: new Date(Date.now() + 0xFFFFFFF), httpOnly: false});
                 res.send({
                     user_id: user.id,
                     token: token
@@ -61,8 +61,8 @@ function vkAuthPOST(req, res) {
 
                     connection.release();
                     var token = genToken(result.insertId);
-                    var token_title = md5.string('hashToken');
-                    res.cookie(token_title, token, { expires: new Date(Date.now() + 0xFFFFFFF), httpOnly: true });
+                    var token_title = md5.string.quiet('hashToken');
+                    res.cookie(token_title, token, { expires: new Date(Date.now() + 0xFFFFFFF), httpOnly: false});
                     res.send({
                         user_id: result.insertId,
                         token: token

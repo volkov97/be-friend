@@ -59,9 +59,12 @@ function sendGameResultsPOST(req, res) {
 function getStatisticsPOST(req, res) {
 
     var vk_id = req.body.id;
+    console.log(req.body);
 
     getStatistics(vk_id).then(
         function(result) {
+            console.log(result);
+            res.status(200);
             res.json(result);
         },
         function(error) {

@@ -113,7 +113,7 @@ gulp.task('watch', function () {
     gulp.watch('routes/**/*.js');
 });
 
-gulp.task('watchWithSync', ['server:start'], function () {
+gulp.task('watch-sync', ['server:start'], function () {
     gulp.watch(paths.src_jsFiles, ['js'], browserSync.reload);
     gulp.watch("./src/scss/**/*.scss", ['sass']);
     gulp.watch('views/**/*.jade', browserSync.reload);

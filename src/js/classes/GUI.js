@@ -7,8 +7,9 @@ define([
     'timer',
     'statistics',
     'multiplayer',
-    'chart'
-], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart) {
+    'chart',
+    'security'
+], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security) {
 
     var gui = {};
 
@@ -83,10 +84,11 @@ define([
         gameResult.innerHTML = gameVariables.getScore();
         $(".gameResult").removeClass('hidden');
 
-        $.post("/sendGameResults", {
+        $.post("/vl/sendGameResults", {
             user_id: vkapi.getId(),
             score: gameVariables.getScore(),
-            statistics: statistics.getOneGameStatistics()
+            statistics: statistics.getOneGameStatistics(),
+            access_token: security.getToken()
         }, function(data) {
             gui.updateTopList();
             gui.updateNeigbours();
@@ -97,7 +99,7 @@ define([
 
     gui.updateTopList = function() {
         $.post("/getTopList", {
-            number: 10
+            number: 5
         }, function(data) {
             var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
 
@@ -112,9 +114,10 @@ define([
         }, "json");
     };
 
-    gui.updateStatistics = function() {
-        $.post("/getStatistics", {
-            id: vkapi.getId()
+    gui.updateStatistics = function(show) {
+        $.post("/vl/getStatistics", {
+            id: vkapi.getId(),
+            access_token: security.getToken()
         }, function(statisticsData){
             var stats = statistics.getFullStatistics(statisticsData[0]);
             console.log(stats);
@@ -126,9 +129,10 @@ define([
 
             var countOfGames = 10;
 
-            $.post("/getLastGames", {
+            $.post("/vl/getLastGames", {
                 id: vkapi.getId(),
-                num: countOfGames
+                num: countOfGames,
+                access_token: security.getToken()
             }, function(lastGamesData){
                 var pieChartData = [stats.rightAnswers_count, stats.mistakes_count];
 
@@ -153,10 +157,11 @@ define([
         }, "json");
     };
 
-    gui.updateNeigbours = function() {
-        $.post("/getNeighbours", {
+    gui.updateNeigbours = function(show) {
+        $.post("/vl/getNeighbours", {
             id: vkapi.getId(),
-            num: 5
+            num: 5,
+            access_token: security.getToken()
         }, function(data) {
             var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
 
@@ -203,6 +208,7 @@ define([
     gui.setEventListenerOnSingleGame = function() {
         $('.startSingleGameButton').click(function(event) {
             gui.singleGame();
+
         });
     };
 

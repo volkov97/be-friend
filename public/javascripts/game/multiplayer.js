@@ -19,10 +19,14 @@ define(['require', 'socketio', 'vkapi', 'notify'], function (require, io, vkapi,
         onlineUser.socket.on('game request', function(obj) {
             console.log(obj);
 
-            notify.showNotification("Вас вызывают на дуэль!", obj.from.first_name + " "
+            notify.showNotification(
+                "Вас вызывают на дуэль!",
+                obj.from.first_name + " "
                 + obj.from.last_name
                 + " (id" + obj.from.id
-                + ") хочет проверить, кто лучше знает Ваших общих друзей! Примите вызов?");
+                + ") хочет проверить, кто лучше знает Ваших общих друзей! Примите вызов?",
+                obj.from.img_src
+            );
         });
     };
 
@@ -33,6 +37,8 @@ define(['require', 'socketio', 'vkapi', 'notify'], function (require, io, vkapi,
     };
 
     onlineUser.sendRequestTo = function(id) {
+        console.log("1234")
+        console.log(vkapi.getUserInfo());
         onlineUser.socket.emit('game request', {
             from: vkapi.getUserInfo(),
             to: id
