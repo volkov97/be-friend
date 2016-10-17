@@ -44,6 +44,7 @@
 }
 
 .authButton {
+    position: relative;
     display: block;
     width: 100%;
     text-align: center;
@@ -68,16 +69,6 @@
 
     &:hover {
         background-color: #14557d;
-    }
-
-    &.loading {
-        background: #167197 url(../images/loader.gif) 50% 50% no-repeat;
-        background-size: 64px;
-        color: transparent;
-
-        svg {
-            fill: transparent;
-        }
     }
 
     svg {

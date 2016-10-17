@@ -2,15 +2,27 @@ define([], function() {
 
     var gameObj = {
         score: 0,
-        timer: null
+        timer: null,
+        points: {
+            forRight: 10,
+            forWrong: -5
+        }
+    };
+
+    gameObj.getPointsForRight = function() {
+        return gameObj.points.forRight;
+    };
+
+    gameObj.getPointsForWrong = function() {
+        return gameObj.points.forWrong;
     };
 
     gameObj.addPoints = function() {
-        gameObj.score += 10;
+        gameObj.score += gameObj.getPointsForRight();
     };
 
     gameObj.subtractPoints = function() {
-        gameObj.score -= 5;
+        gameObj.score += gameObj.getPointsForWrong();
     };
 
     gameObj.getScore = function() {

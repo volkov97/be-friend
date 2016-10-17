@@ -1,7 +1,17 @@
 define([], function() {
 
-    var gameLogic = {};
+    var gameLogic = {
+        rightAnswer: ""
+    };
     var questionNumbersToSelect = [];
+
+    gameLogic.getRightAnswer = function() {
+        return gameLogic.rightAnswer;
+    };
+
+    gameLogic.setRightAnswer = function(str) {
+        gameLogic.rightAnswer = str;
+    };
 
     var quiz = [
         {
@@ -27,11 +37,11 @@ define([], function() {
                     return Math.random() - 0.5;
                 });
 
-                window.rightAnswer = this.users_available[0].first_name + " " + this.users_available[0].last_name;
+                gameLogic.setRightAnswer(this.users_available[0].first_name + " " + this.users_available[0].last_name);
 
                 var result = [
                     this.users_available[0],
-                    window.rightAnswer,
+                    gameLogic.getRightAnswer(),
                     this.users_available[1].first_name + " " + this.users_available[1].last_name,
                     this.users_available[2].first_name + " " + this.users_available[2].last_name,
                     this.users_available[3].first_name + " " + this.users_available[3].last_name
@@ -83,7 +93,7 @@ define([], function() {
                     } else {
                         return true;
                     }
-                })
+                });
 
                 citiesWithoutDuplicates.sort(function(a, b) {
                     return Math.random() - 0.5;
@@ -97,7 +107,7 @@ define([], function() {
                     citiesWithoutDuplicates[2]
                 ];
 
-                window.rightAnswer = randomUser.cityName;
+                gameLogic.setRightAnswer(randomUser.cityName);
 
                 return result;
             },
@@ -138,7 +148,7 @@ define([], function() {
                     tempFriends[2].first_name + " " + tempFriends[2].last_name
                 ];
 
-                window.rightAnswer = randomUser.first_name + " " + randomUser.last_name;
+                gameLogic.setRightAnswer(randomUser.first_name + " " + randomUser.last_name);
 
                 return result;
             },
@@ -209,7 +219,7 @@ define([], function() {
                     universitiesWithoutDuplicates[2]
                 ];
 
-                window.rightAnswer = randomUser.universities[0].name;
+                gameLogic.setRightAnswer(randomUser.universities[0].name);
 
                 return result;
             },
@@ -259,7 +269,7 @@ define([], function() {
                     this.users_available[2].first_name + " " + this.users_available[2].last_name,
                 ];
 
-                window.rightAnswer = randomUser.first_name + " " + randomUser.last_name;
+                gameLogic.setRightAnswer(randomUser.first_name + " " + randomUser.last_name);
 
                 return result;
             },
@@ -292,7 +302,7 @@ define([], function() {
                     monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1, randomUser.bdate.lastIndexOf("."));
                 };
 
-                window.rightAnswer = months[monthNumber - 1];
+                gameLogic.setRightAnswer(months[monthNumber - 1]);
 
                 months.splice(monthNumber - 1, 1);
 
@@ -303,7 +313,7 @@ define([], function() {
 
                 var result = [
                     randomUser,
-                    window.rightAnswer,
+                    gameLogic.getRightAnswer(),
                     months[0],
                     months[1],
                     months[2]
@@ -333,7 +343,7 @@ define([], function() {
                 // Генерируем вопрос
                 this.question = "Как " + randomUser.first_name + " " + randomUser.last_name + " относится к курению ?";
 
-                window.rightAnswer = opinions[randomUser.personal.smoking - 1];
+                gameLogic.setRightAnswer(opinions[randomUser.personal.smoking - 1]);
 
                 opinions.splice(randomUser.personal.smoking - 1, 1);
 
@@ -344,7 +354,7 @@ define([], function() {
 
                 var result = [
                     randomUser,
-                    window.rightAnswer,
+                    gameLogic.getRightAnswer(),
                     opinions[0],
                     opinions[1],
                     opinions[2]
@@ -374,7 +384,7 @@ define([], function() {
                 // Генерируем вопрос
                 this.question = "Как " + randomUser.first_name + " " + randomUser.last_name + " относится к алкоголю ?";
 
-                window.rightAnswer = opinions[randomUser.personal.alcohol - 1];
+                gameLogic.setRightAnswer(opinions[randomUser.personal.alcohol - 1]);
 
                 //console.log(randomUser);
                 //console.log(window.rightAnswer);
@@ -390,7 +400,7 @@ define([], function() {
 
                 var result = [
                     randomUser,
-                    window.rightAnswer,
+                    gameLogic.getRightAnswer(),
                     opinions[0],
                     opinions[1],
                     opinions[2]
@@ -420,7 +430,7 @@ define([], function() {
                 // Генерируем вопрос
                 this.question = "Что для " + randomUser.first_name_gen + " " + randomUser.last_name_gen + " главное в жизни ?";
 
-                window.rightAnswer = opinions[randomUser.personal.life_main - 1];
+                gameLogic.setRightAnswer(opinions[randomUser.personal.life_main - 1]);
 
                 opinions.splice(randomUser.personal.life_main - 1, 1);
 
@@ -431,7 +441,7 @@ define([], function() {
 
                 var result = [
                     randomUser,
-                    window.rightAnswer,
+                    gameLogic.getRightAnswer(),
                     opinions[0],
                     opinions[1],
                     opinions[2]
@@ -465,7 +475,7 @@ define([], function() {
 
                 this.question = "Семейное положение " + randomUser.first_name_gen + " " + randomUser.last_name_gen + " ?";
 
-                window.rightAnswer = opinions[randomUser.relation - 1];
+                gameLogic.setRightAnswer(opinions[randomUser.relation - 1]);
 
                 opinions.splice(randomUser.relation - 1, 1);
 
@@ -476,7 +486,7 @@ define([], function() {
 
                 var result = [
                     randomUser,
-                    window.rightAnswer,
+                    gameLogic.getRightAnswer(),
                     opinions[0],
                     opinions[1],
                     opinions[2]
@@ -498,7 +508,7 @@ define([], function() {
 
     function getNumberOfQuestion(){
         if (questionNumbersToSelect.length == 0){
-            for (var i = 0; i<quiz.length; i++){
+            for (var i = 0; i < quiz.length; i++){
                 questionNumbersToSelect[i] = i;
             }
         }
@@ -510,8 +520,11 @@ define([], function() {
         return returnValue;
     }
 
-    gameLogic.makeNewQuestion = function() {
-        var questionObj = quiz[getNumberOfQuestion()];
+    gameLogic.makeNewQuestion = function(typeNum) {
+
+        if (typeNum < 0 || typeNum >= quiz.length) return false;
+
+        var questionObj = quiz[typeNum || getNumberOfQuestion()];
         questionObj.getAvailableUsers();
         var options = questionObj.chooseOptions();
         //console.log(options);

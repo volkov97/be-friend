@@ -15,7 +15,8 @@ define([
 
     gui.login = function() {
 
-        $('.authButton').addClass('loading');
+        $('.authButton .content').addClass('hidden');
+        $('.authButton .spinner').removeClass('hidden');
 
         vkapi.loginUser().then(
             function(result) {
@@ -53,7 +54,7 @@ define([
         timer.start();
     };
 
-    gui.drawQuestion = function(questionData) {
+    gui.drawQuestion = function(questionData, multiplayer) {
         // Добавляем вопрос
         $(".question__text").html(questionData.questionObj.question);
 
@@ -68,7 +69,14 @@ define([
             $(".question__answers").html($(".question__answers").html() + "<div class=question__answer>" + questionData.options[i] + "</div>");
         }
         $(".question__properties").html($(".question__properties").html() + "</div>");
-        addListenersToOptions();
+
+        if (multiplayer) {
+            addListenersToOptionsForMultiplayerGame();
+        } else {
+            addListenersToOptionsForSingleGame();
+        }
+
+        $('.quiz.hidden').addClass('bounceInLeft').removeClass('hidden');
     };
 
     gui.updatePoints = function() {
@@ -195,6 +203,36 @@ define([
         gui.setEventListenerOnOnlineUsers();
     };
 
+    gui.noSuchRoom = function() {
+        $('.joinGame .errorSpan').removeClass('hidden');
+    };
+
+    gui.updateOnlineRoom = function(obj, showBlock) {
+        $('.joinGame .errorSpan').addClass('hidden');
+
+        // updating online room users list
+        var list = obj.list;
+
+        var code = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Баллов</th></tr>';
+
+        for (var i = 0; i < list.length; i++) {
+            code += "<td class ='number'>" + (i + 1)
+                + "</td><td class='name'><a href='https://vk.com/id" + list[i].id
+                + "' target = '_blank'>"+list[i].first_name + " " + list[i].last_name
+                + "</a></td><td class='points'>" + list[i].points + "</td></tr>";
+        }
+
+        $('.roomOnline tbody').html(code);
+
+        // update room key
+        var key = obj.key;
+        $('.styledInput.key input').val(key);
+
+        if ($('.multiplayer').hasClass('hidden')) {
+            $('.multiplayer').addClass('bounceInRight').removeClass('hidden');
+        }
+    };
+
     gui.setEventListenerOnAuth = function() {
         $(".authButton").click(function(event) {
             gui.login();
@@ -202,13 +240,15 @@ define([
             // set other Event Listeners
             gui.setEventListenerOnSingleGame();
             gui.setEventListenerOnOnlineUsers();
+            gui.setEventListenerOnCreateRoom();
+            gui.setEventListenerOnJoinRoom();
+            gui.setEventListenerOnStartRoom();
         });
     };
 
     gui.setEventListenerOnSingleGame = function() {
         $('.startSingleGameButton').click(function(event) {
             gui.singleGame();
-
         });
     };
 
@@ -217,6 +257,26 @@ define([
             event.preventDefault();
 
             onlineUser.createRoom(vkapi.getUserInfo().id);
+
+            return false;
+        });
+    };
+
+    gui.setEventListenerOnJoinRoom = function() {
+        $('.joinRoomButton').click(function(event) {
+            event.preventDefault();
+
+            onlineUser.joinRoom($('.joinGameSecret').val());
+
+            return false;
+        });
+    };
+
+    gui.setEventListenerOnStartRoom = function() {
+        $('.startRoomButton').click(function(event) {
+            event.preventDefault();
+
+            onlineUser.getNewQuestion(onlineUser.getRoom());
 
             return false;
         });
@@ -232,12 +292,11 @@ define([
         });
     };
 
-    function addListenersToOptions() {
-        var options = $(".question__answer");
+    function addListenersToOptionsForSingleGame() {
 
-        options.each(function(index) {
+        $(".question__answer").each(function(index) {
             $(this).click(function(){
-                if ($(this).text().indexOf(window.rightAnswer) != -1){
+                if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1){
                     $(this).addClass("right");
                     gameVariables.addPoints();
                     gui.updatePoints();
@@ -262,6 +321,38 @@ define([
                     statistics.incMistakes_count();
                 }
             })
+        });
+    }
+
+    function addListenersToOptionsForMultiplayerGame() {
+        $(".question__answer").each(function(index) {
+            $(this).click(function () {
+                if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1) {
+                    $(this).addClass("right");
+                    gameVariables.addPoints();
+                    statistics.incRightAnswers_count();
+
+                    onlineUser.answer({
+                        vk_id: vkapi.getUserInfo().id,
+                        points: gameVariables.getPointsForRight(),
+                        roomName: onlineUser.getRoom(),
+                        right: true
+                    });
+
+                } else {
+                    vibration.vibrate(100);
+                    $(this).addClass("wrong");
+                    gameVariables.subtractPoints();
+                    statistics.incMistakes_count();
+
+                    onlineUser.answer({
+                        vk_id: vkapi.getUserInfo().id,
+                        points: gameVariables.getPointsForWrong(),
+                        roomName: onlineUser.getRoom(),
+                        right: false
+                    });
+                }
+            });
         });
     }
 

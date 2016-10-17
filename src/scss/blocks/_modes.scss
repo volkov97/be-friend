@@ -4,22 +4,24 @@
   @extend .block;
 
   &__rules {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: justify;
   }
 }
 
-.startSingleGameButton {
-  display: block;
-  padding: 20px 0;
-  background-color: #009688;
-  width: 100%;
-  border: none;
-  font-size: 3em;
-  text-transform: uppercase;
-  color: white;
+.errorSpan {
+  padding: 10px 0;
+  color: #f44336;
+}
 
-  &:hover {
-    background-color: #037369;
-  }
+.startSingleGameButton {
+  @extend .gameButton;
+}
+
+.createRoomButton {
+  @extend .gameButton;
+}
+
+.joinRoomButton {
+  @extend .gameButton;
 }
