@@ -194,8 +194,9 @@ define([
         var code = "";
 
         for (var i = 0; i < list.length; i++) {
-            code += "<li class='onlinePlayers__player'><a href=\'https://vk.com/id" + list[i].id + "\' class='onlinePlayers__link'>" +
-                list[i].first_name + " " + list[i].last_name + "</a></li>"
+            code += "<a href=\'https://vk.com/id" + list[i].id + "\' class='onlinePlayers__player'><img src='" +
+                    list[i].img_src+ "' class='onlinePlayers__img' width='32' height='32'>" +
+                    list[i].first_name + " " + list[i].last_name + "</a>"
         }
 
         $('.onlinePlayers__list').html(code);
@@ -240,9 +241,36 @@ define([
             // set other Event Listeners
             gui.setEventListenerOnSingleGame();
             gui.setEventListenerOnOnlineUsers();
+            gui.setEventListenerOnNavPanel();
+            gui.setEventListenerOnSearchPlayers();
             gui.setEventListenerOnCreateRoom();
             gui.setEventListenerOnJoinRoom();
             gui.setEventListenerOnStartRoom();
+        });
+    };
+
+    gui.setEventListenerOnNavPanel = function() {
+        $('.modes__panel .modes__link').click(function(event) {
+            event.preventDefault();
+
+            $('.modes__panel .modes__link').removeClass('active');
+            $(this).addClass('active');
+
+            $('.modes__content .mode').addClass('hidden');
+
+            $('.modes__content .mode' + $(this).attr('href')).removeClass('hidden');
+
+            return false;
+        });
+    };
+
+    gui.setEventListenerOnSearchPlayers = function() {
+        $('.searchUsersInput').keyup(function (event) {
+            $('.onlinePlayers .onlinePlayers__player').addClass('hidden');
+            $('.onlinePlayers .onlinePlayers__player').filter(function() {
+                console.log($(this).text().indexOf($('.searchUsersInput').val()) != -1);
+                return $(this).text().indexOf($('.searchUsersInput').val()) != -1;
+            }).removeClass('hidden');
         });
     };
 
@@ -283,7 +311,7 @@ define([
     };
 
     gui.setEventListenerOnOnlineUsers = function() {
-        $('.onlinePlayers__link').click(function(event) {
+        $('.onlinePlayers__player').click(function(event) {
             event.preventDefault();
 
             onlineUser.sendRequestTo($(this).attr('href').slice(17));

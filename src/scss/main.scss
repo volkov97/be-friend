@@ -17,7 +17,6 @@
 @import "blocks/_rate";
 @import "blocks/_userResult";
 @import "blocks/_chart";
-@import "blocks/_stats";
 @import "blocks/_elements";
 @import "blocks/_descr";
 @import "blocks/_multiplayer";
@@ -29,8 +28,3 @@ body {
     font-family: "roboto";
 }
 
-.hidden {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-} 

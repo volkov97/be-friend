@@ -1,10 +1,66 @@
 @import "../_data";
 
 .charts {
-  @extend .block;
 
   .numbers {
-    padding-bottom: 40px;
-    border-bottom: 1px solid #cecece;
+    margin-bottom: 40px;
   }
+
+  .lastGames {
+    margin-bottom: 40px;
+  }
+
+}
+
+.chart {
+  position: relative;
+  background-color: #FFF;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+
+  &__header {
+    padding: 10px 15px;
+    font-size: 1.2em;
+    text-align: center;
+    border-bottom: 1px solid #dedede;
+  }
+
+  &__content {
+    padding: 15px;
+  }
+
+
+}
+
+.numberStat {
+  position: relative;
+  background-color: #FFF;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+
+  &__header {
+    padding: 10px 15px;
+    font-size: 1.2em;
+    text-align: center;
+    border-bottom: 1px solid #dedede;
+  }
+
+  &__content {
+    text-align: center;
+    padding: 20px;
+
+    .num {
+      font-size: 4em;
+      line-height: 1em;
+      color: #f75a5a;
+    }
+
+    .dimension {
+      display: block;
+      font-size: 2em;
+      color: #81bd81;
+    }
+  }
+
+}
+
+.lastGames {
 }

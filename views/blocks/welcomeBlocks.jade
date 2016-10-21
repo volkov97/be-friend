@@ -1,0 +1,73 @@
+.welcomeBlocks.row
+    .col-md-6
+        .descr.animated
+            .descr__header
+                | Мы гарантируем!
+                br
+                | Вы узнаете о своих друзьях много нового!
+            .descr__content
+                .offer.clearfix
+                    .offer__img
+                        svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                            use(xlink:href='#camera')
+                    .offer__content
+                        .offer__header
+                            | Фотографии друзей
+                        .offer__text
+                            | А Вы уверены, что узнаете всех своих по их фотографиям?
+                .offer.clearfix
+                    .offer__img
+                        svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                            use(xlink:href='#university')
+                    .offer__content
+                        .offer__header
+                            | Учебные заведения
+                        .offer__text
+                            | Вы знаете, где учились или учатся сейчас все Ваши друзья?
+                .offer.clearfix
+                    .offer__img
+                        svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                            use(xlink:href='#birth')
+                    .offer__content
+                        .offer__header
+                            | Дата Рождения
+                        .offer__text
+                            | Вы забываете поздравить своих друзей с Днем Рождения? Срочно заходите через ВК и запоминайте!
+                .offer.clearfix
+                    .offer__img
+                        svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                            use(xlink:href='#city')
+                    .offer__content
+                        .offer__header
+                            | Город
+                        .offer__text
+                            | У Вас есть много друзей из других городов? Наверное сложно запомнить, где кто живет... Мы поможем!
+                .offer.clearfix
+                    .offer__img
+                        svg.contact.hug(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                            use(xlink:href='#rings')
+                    .offer__content
+                        .offer__header
+                            | Семейное положение
+                        .offer__text
+                            | В наше время в этом вопросе может быть много интересного;)
+            .descr__more
+                | и многое другое...
+    .col-md-6
+        .rate.animated
+            header.rate__header
+                | Лучшие игроки
+                .top ТОП 10
+            .rate__main
+                table.rate__table.winners
+                    tbody
+                        tr.tableHead
+                            th №
+                            th Имя
+                            th Оценка
+                        - for (var i = 0; i < topList.length; i++)
+                            tr
+                                td.number #{i + 1}
+                                td.name
+                                    a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
+                                td.points #{topList[i].max_score}

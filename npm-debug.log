@@ -10,7 +10,7 @@
 6 silly lifecycle application-name@0.0.1~prestart: no script for prestart, continuing
 7 info lifecycle application-name@0.0.1~start: application-name@0.0.1
 8 verbose lifecycle application-name@0.0.1~start: unsafe-perm in lifecycle true
-9 verbose lifecycle application-name@0.0.1~start: PATH: C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\Герман\Documents\Projects\befriend\node_modules\.bin;C:\Program Files\nodejs;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Heroku\bin;C:\Program Files (x86)\git\cmd;C:\Program Files (x86)\Git\cmd;C:\Program Files (x86)\Skype\Phone\;c:\altera\91\quartus\bin;C:\Users\Герман\AppData\Roaming\npm
+9 verbose lifecycle application-name@0.0.1~start: PATH: C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\Герман\Documents\Projects\befriend\node_modules\.bin;C:\Program Files\nodejs;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\nodejs\;C:\Program Files (x86)\Heroku\bin;C:\Program Files (x86)\git\cmd;C:\Program Files (x86)\Skype\Phone\;c:\altera\91\quartus\bin;C:\Program Files\Git\cmd;C:\Users\Герман\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft VS Code\bin
 10 verbose lifecycle application-name@0.0.1~start: CWD: C:\Users\Герман\Documents\Projects\befriend
 11 silly lifecycle application-name@0.0.1~start: Args: [ '/d /s /c', 'node ./bin/www' ]
 12 silly lifecycle application-name@0.0.1~start: Returned: code: 1  signal: null

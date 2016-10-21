@@ -1,17 +1,26 @@
 @import "../_data";
 
-.modes {
+.mode {
   @extend .block;
 
-  &__rules {
-    margin-bottom: 15px;
+  &__pic {
+    margin-bottom: 20px;
+    text-align: center;
+
+    svg {
+      width: 200px;
+    }
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__text {
+    margin-bottom: 20px;
     text-align: justify;
   }
-}
 
-.errorSpan {
-  padding: 10px 0;
-  color: #f44336;
 }
 
 .startSingleGameButton {
@@ -19,9 +28,67 @@
 }
 
 .createRoomButton {
-  @extend .gameButton;
+  @extend .button;
+  margin-bottom: 20px;
 }
 
 .joinRoomButton {
-  @extend .gameButton;
+  @extend .button;
 }
+
+.joinGameSecret {
+  display: block;
+  width: 100%;
+  font-size: 1em;
+  padding: 5px 15px;
+  border: 1px solid #009688;
+  border-bottom: none;
+  outline: none;
+}
+
+.onlinePlayers {
+  border: 1px solid #009688;
+
+  &__list {
+    padding: 10px 20px;
+    text-align: justify;
+    max-height: 200px;
+    overflow-y: scroll;
+  }
+
+  &__player {
+    display: block;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+
+    &:hover {
+      color: white;
+      text-decoration: none;
+      background-color: #00acc1;
+      border-radius: 8px;
+    }
+  }
+
+  &__img {
+    margin-right: 20px;
+    vertical-align: middle;
+    border-radius: 8px;
+  }
+
+  .searchUsersInput {
+    display: block;
+    width: 100%;
+    font-size: 1em;
+    padding: 5px 15px;
+    border: 1px solid #009688;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+  }
+
+}
+

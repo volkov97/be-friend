@@ -8,23 +8,23 @@ define(['jquery', 'chartLib'], function($, Chart) {
     };
 
     chart.drawPieChart = function(pieChartData) {
-        var ctx = $("#lastGamesChart");
+        var ctx = $("#hitsAndMissesChart");
         
         var data = {
             labels: [
-                "Правильные ответы",
-                "Ошибочные ответы"
+                "Верные ответы",
+                "Ошибки"
             ],
             datasets: [
                 {
                     data: pieChartData,
                     backgroundColor: [
-                        "#009688",
-                        "#d45d5d"
+                        "#76ab8e",
+                        "#ce7878"
                     ],
                     hoverBackgroundColor: [
-                        "#91dc5a",
-                        "#d45d5d"
+                        "#76ab8e",
+                        "#ce7878"
                     ]
                 }]
         };
@@ -37,13 +37,16 @@ define(['jquery', 'chartLib'], function($, Chart) {
                 maintainAspectRatio: false,
                 animation: {
                     animateRotate: true
+                },
+                legend: {
+                    display: false,
                 }
             }
         });
     };
 
     chart.drawBarChart = function(barChartData) {
-        var ctx = $("#hitsAndMissesChart");
+        var ctx = $("#lastGamesChart");
 
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -88,6 +91,9 @@ define(['jquery', 'chartLib'], function($, Chart) {
                             beginAtZero:true
                         }
                     }]
+                },
+                legend: {
+                    display: false,
                 }
             }
         });

@@ -14,10 +14,24 @@ $gold: rgba(217, 164, 65, 0.3);
 $silver: rgba(204, 194, 194, 0.3);
 $bronze: rgba(150, 90, 56, 0.3);
 
+.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
 .block {
   display: block;
   margin-bottom: 40px;
-  padding: 40px;
+  padding: 20px;
+  background-color: $white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.blockNoPadding {
+  display: block;
+  margin-bottom: 40px;
+  padding: 0px;
   background-color: $white;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
@@ -44,6 +58,23 @@ $bronze: rgba(150, 90, 56, 0.3);
 
   &:hover {
     background-color: #037369;
+  }
+}
+
+.button {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: none;
+  outline: 0;
+  text-transform: uppercase;
+  padding: 8px 0;
+  font-size: 1em;
+  background-color: #009688;
+  color: #FFF;
+
+  &:hover {
+    background-color: #046f65;
   }
 }
 

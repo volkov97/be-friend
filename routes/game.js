@@ -110,7 +110,7 @@ function getTopList(num) {
                 reject("error");
                 throw err;
             }
-
+ 
             var top_limit = parseInt(num);
             var sql = 'SELECT DISTINCT(r.vk_id), r.first_name, r.last_name, ' +
                 '(SELECT MAX(score) FROM games WHERE user_id = r.id) AS max_score ' +

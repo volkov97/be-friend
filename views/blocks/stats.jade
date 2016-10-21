@@ -1,0 +1,75 @@
+.stats.hidden
+    .row
+        .col-md-6
+            .userTopRate.rate.animated.hidden
+                header.rate__header
+                    | Ваш лучший результат
+                .rate__main
+                    table.rate__table
+                        tbody
+                            tr.tableHead
+                                th №
+                                th Имя
+                                th Оценка
+        .col-md-6
+            .rate.miniTop.animated.hidden
+                header.rate__header
+                    | Лучшие игроки
+                    .top ТОП 5
+                .rate__main
+                    table.rate__table.winners
+                        tbody
+                            tr.tableHead
+                                th №
+                                th Имя
+                                th Оценка
+                            - for (var i = 0; i < 5; i++)
+                                tr
+                                    td.number #{i + 1}
+                                    td.name
+                                        a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
+                                    td.points #{topList[i].max_score}
+
+.charts.hidden.animated
+    .numbers
+        .row
+            .col-md-3
+                .numberStat
+                    .numberStat__header
+                        | Ошибок за игру
+                    .numberStat__content
+                        .num.mistakesPerGame 0
+                        .dimension ошибок
+            .col-md-3
+                .numberStat
+                    .numberStat__header
+                        | Баллов за игру
+                    .numberStat__content
+                        .num.pointsPerGame 0
+                        .dimension баллов
+            .col-md-3
+                .numberStat
+                    .numberStat__header
+                        | Игр сыграно
+                    .numberStat__content
+                        .num.gamesPlayed 0
+                        .dimension игр
+            .col-md-3
+                .numberStat
+                    .numberStat__header
+                        | Время одной игры
+                    .numberStat__content
+                        .num.oneGameTime 0
+                        .dimension секунд
+    .lastGames
+        .row
+            .col-md-4
+                .chart
+                    .chart__header Верные ответы и ошибки
+                    .chart__content
+                        canvas(id='hitsAndMissesChart' width="100%" height="280px")
+            .col-md-8
+                .chart
+                    .chart__header Результаты последних 10 игр
+                    .chart__content
+                        canvas(id='lastGamesChart' width="100%" height="300px")

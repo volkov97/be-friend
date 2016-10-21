@@ -1,0 +1,23 @@
+.multiplayer.animated.hidden
+    .row
+        .col-md-4
+            .roomInfo
+                h3 Комната
+                form(action="/")
+                    .styledInput.key.clearfix
+                        label(for="secretKey") Ключ
+                        input(id="secretKey" type="text" placeholder="Секретный ключ" disabled required)
+                    .styledInput.points.clearfix
+                        label(for="winPoints") Финиш
+                        input(id="winPoints" type="number" min="0" max="1000000" placeholder="1000" required)
+                    button.startRoomButton(type="submit") Старт
+                .members
+                    table.rate__table.roomOnline
+                        tbody
+                            tr.tableHead
+                                th №
+                                th Имя
+                                th Баллы
+        .col-md-8
+            include quiz
+            +quiz("")
