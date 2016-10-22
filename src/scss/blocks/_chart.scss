@@ -1,66 +1,93 @@
 @import "../_data";
 
 .charts {
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #FFF;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
 
   .numbers {
-    margin-bottom: 40px;
+    padding-top: 5px;
+    border-bottom: 1px solid $grey;
+
+    @media only screen and (max-width: $screen_small) {
+      padding-bottom: 15px;
+    }
   }
 
   .lastGames {
-    margin-bottom: 40px;
+    padding-top: 15px;
   }
 
 }
 
 .chart {
   position: relative;
-  background-color: #FFF;
-  box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
 
   &__header {
-    padding: 10px 15px;
+    padding: 10px;
     font-size: 1.2em;
     text-align: center;
-    border-bottom: 1px solid #dedede;
   }
 
   &__content {
     padding: 15px;
   }
 
-
 }
 
 .numberStat {
   position: relative;
-  background-color: #FFF;
-  box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+  margin-bottom: 20px;
+
+  @media only screen and (max-width: $screen_small) {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+  }
 
   &__header {
-    padding: 10px 15px;
+    margin-bottom: 10px;
     font-size: 1.2em;
     text-align: center;
-    border-bottom: 1px solid #dedede;
+
+    @media only screen and (max-width: $screen_small) {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 0px;
+      font-size: 1em;
+    }
   }
 
   &__content {
     text-align: center;
-    padding: 20px;
+
+    @media only screen and (max-width: $screen_small) {
+      display: block;
+      text-align: left;
+    }
 
     .num {
-      font-size: 4em;
+      font-size: 3.4em;
       line-height: 1em;
       color: #f75a5a;
+
+      @media only screen and (max-width: $screen_small) {
+        display: inline-block;
+        margin-right: 6px;
+        font-size: 1em;
+      }
     }
 
     .dimension {
       display: block;
-      font-size: 2em;
+      font-size: 1.8em;
       color: #81bd81;
+
+      @media only screen and (max-width: $screen_small) {
+        display: inline-block;
+        font-size: 1em;
+      }
     }
   }
 
-}
-
-.lastGames {
 }

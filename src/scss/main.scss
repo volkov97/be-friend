@@ -1,9 +1,8 @@
 @import "_data.scss";
 
-@import "libs/_bootstrap.scss";
-@import "libs/_animate.scss";
-@import "libs/_slick.scss";
-@import "libs/_slick-theme.scss";
+@import "libs/_bootstrap";
+@import "libs/_animate";
+@import "libs/_slick";
 
 // blocks
 @import "blocks/_about";
@@ -25,6 +24,7 @@
 
 body {
   margin: 0 auto;
+  min-width: 440px;
   overflow-x: hidden;
   background: $white url("../images/mp-02.png") 0 0;
   font-family: "roboto";

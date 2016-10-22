@@ -16,8 +16,7 @@ define([
 
     gui.login = function() {
 
-        $('.authButton .content').addClass('hidden');
-        $('.authButton .spinner').removeClass('hidden');
+        $('.authButton').addClass('loading');
 
         vkapi.loginUser().then(
             function(result) {
@@ -37,26 +36,29 @@ define([
                     $(".stats .rate.miniTop, .charts").addClass("bounceInRight").removeClass("hidden");
                     $(".modes, .rate.userTopRate").addClass("bounceInLeft").removeClass("hidden");
 
-                    if ($( window ).width() <= 576) {
+                    if ($( window ).width() <= 767) {
                         $('.modes .row').slick({
                             slidesToShow: 1,
                             dots: true,
-                            centerMode: true,
-                            infinite: false
-                        });
-
-                        $('.charts .numbers .row').slick({
-                            slidesToShow: 1,
-                            centerMode: true,
-                            infinite: false
-                        });
-
-                        $('.charts .lastGames .row').slick({
-                            slidesToShow: 1,
-                            centerMode: true,
+                            prevArrow: false,
+                            nextArrow: false,
                             infinite: false
                         });
                     }
+
+                    $(window).resize(function() {
+                        if ($( window ).width() <= 767) {
+                            $('.modes .row').slick({
+                                slidesToShow: 1,
+                                dots: true,
+                                prevArrow: false,
+                                nextArrow: false,
+                                infinite: false
+                            });
+                        } else {
+                            $('.modes .row').slick('unslick');
+                        }
+                    });
 
                     gui.updateStatistics();
                 }, 1000);

@@ -9,7 +9,7 @@
     }
 
     &__header {
-        margin-top: 0px;
+        margin-top: 0;
         margin-bottom: 20px;
         font-size: 1.4em;
         font-weight: normal;
@@ -56,6 +56,15 @@
     line-height: 80px;
     border: none;
     outline: none;
+
+    &.loading {
+        color: transparent;
+        background: #167197 url('../images/loader.svg') no-repeat 50% 50%;
+
+        svg {
+            fill: transparent;
+        }
+    }
 
     @media only screen and (max-width: $screen_large) {
         margin-bottom: 20px;

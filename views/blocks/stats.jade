@@ -1,4 +1,4 @@
-.stats.hidden
+.stats.animated.hidden
     .row
         .col-md-6
             .userTopRate.rate.animated.hidden
@@ -29,32 +29,31 @@
                                     td.name
                                         a(href="http://vk.com/id" + topList[i].vk_id target="_blank") #{topList[i].first_name} #{topList[i].last_name}
                                     td.points #{topList[i].max_score}
-
-.charts.hidden.animated
+.charts.animated.hidden
     .numbers
         .row
-            .col-md-3
+            .col-md-3.col-xs-6
                 .numberStat
                     .numberStat__header
                         | Ошибок за игру
                     .numberStat__content
                         .num.mistakesPerGame 0
                         .dimension ошибок
-            .col-md-3
+            .col-md-3.col-xs-6
                 .numberStat
                     .numberStat__header
                         | Баллов за игру
                     .numberStat__content
                         .num.pointsPerGame 0
                         .dimension баллов
-            .col-md-3
+            .col-md-3.col-xs-6
                 .numberStat
                     .numberStat__header
                         | Игр сыграно
                     .numberStat__content
                         .num.gamesPlayed 0
                         .dimension игр
-            .col-md-3
+            .col-md-3.col-xs-6
                 .numberStat
                     .numberStat__header
                         | Время одной игры
@@ -64,12 +63,12 @@
     .lastGames
         .row
             .col-md-4
-                .chart
+                .chart.circle
                     .chart__header Верные ответы и ошибки
                     .chart__content
-                        canvas(id='hitsAndMissesChart' width="100%" height="280px")
+                        canvas(id='hitsAndMissesChart' width="100%" height="180px")
             .col-md-8
-                .chart
+                .chart.bar
                     .chart__header Результаты последних 10 игр
                     .chart__content
-                        canvas(id='lastGamesChart' width="100%" height="300px")
+                        canvas(id='lastGamesChart' width="100%" height="200px")

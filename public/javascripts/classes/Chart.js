@@ -19,12 +19,12 @@ define(['jquery', 'chartLib'], function($, Chart) {
                 {
                     data: pieChartData,
                     backgroundColor: [
-                        "#76ab8e",
-                        "#ce7878"
+                        "#81bd81",
+                        "#f75a5a"
                     ],
                     hoverBackgroundColor: [
-                        "#76ab8e",
-                        "#ce7878"
+                        "#81bd81",
+                        "#f75a5a"
                     ]
                 }]
         };

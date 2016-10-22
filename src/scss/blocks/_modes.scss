@@ -1,7 +1,14 @@
 @import "../_data";
 
 .mode {
-  @extend .block;
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: $white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+  @media only screen and (max-width: $screen_small) {
+    margin-bottom: 20px;
+  }
 
   &__pic {
     margin-bottom: 20px;
@@ -92,3 +99,32 @@
 
 }
 
+.slick-dots {
+  margin-bottom: 40px;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    margin-right: 10px;
+
+    button {
+      width: 12px;
+      height: 12px;
+      font-size: 0;
+      border: none;
+      outline: none;
+      border-radius: 50%;
+      background-color: white;
+    }
+
+    &.slick-active {
+
+      button {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
