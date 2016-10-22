@@ -1,4 +1,4 @@
-define(['gui', 'multiplayer', 'notify', 'sw'], function(gui, onlineUser, notify, sw) {
+define(['gui', 'multiplayer', 'notify', 'sw'], function(gui, onlineUser, notify, sw, slick) {
 
     var app = {};
 

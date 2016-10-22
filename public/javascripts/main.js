@@ -5,6 +5,7 @@ requirejs.config({
 		jquery: 'libs/jquery-3.1.1.min',
 		jquery_cookie: 'libs/jquery.cookie',
 		jquery_md5: 'libs/jquery.md5',
+		slick: 'libs/slick.min',
 		socketio: 'libs/socket.io',
 		chartLib: 'libs/Chart.min',
 

@@ -8,8 +8,9 @@ define([
     'statistics',
     'multiplayer',
     'chart',
-    'security'
-], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security) {
+    'security',
+    'slick'
+], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, slick) {
 
     var gui = {};
 
@@ -35,6 +36,27 @@ define([
 
                     $(".stats .rate.miniTop, .charts").addClass("bounceInRight").removeClass("hidden");
                     $(".modes, .rate.userTopRate").addClass("bounceInLeft").removeClass("hidden");
+
+                    if ($( window ).width() <= 576) {
+                        $('.modes .row').slick({
+                            slidesToShow: 1,
+                            dots: true,
+                            centerMode: true,
+                            infinite: false
+                        });
+
+                        $('.charts .numbers .row').slick({
+                            slidesToShow: 1,
+                            centerMode: true,
+                            infinite: false
+                        });
+
+                        $('.charts .lastGames .row').slick({
+                            slidesToShow: 1,
+                            centerMode: true,
+                            infinite: false
+                        });
+                    }
 
                     gui.updateStatistics();
                 }, 1000);

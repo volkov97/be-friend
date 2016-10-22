@@ -1,7 +1,9 @@
 @import "_data.scss";
 
-@import "_bootstrap.scss";
-@import "_animate.scss";
+@import "libs/_bootstrap.scss";
+@import "libs/_animate.scss";
+@import "libs/_slick.scss";
+@import "libs/_slick-theme.scss";
 
 // blocks
 @import "blocks/_about";
@@ -22,9 +24,9 @@
 @import "blocks/_multiplayer";
 
 body {
-    margin: 0 auto;
-    overflow-x: hidden;
-    background: $white url("../images/mp-02.png") 0 0;
-    font-family: "roboto";
+  margin: 0 auto;
+  overflow-x: hidden;
+  background: $white url("../images/mp-02.png") 0 0;
+  font-family: "roboto";
 }
 

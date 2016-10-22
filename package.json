@@ -17,6 +17,7 @@
     "mysql": "^2.11.1",
     "nodejs-md5": "^0.6.0",
     "owl.carousel": "^2.1.4",
+    "slick-carousel": "^1.6.0",
     "socket.io": "^1.5.0",
     "static-favicon": "~1.0.0"
   },
