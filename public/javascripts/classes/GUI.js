@@ -9,8 +9,9 @@ define([
     'multiplayer',
     'chart',
     'security',
-    'slick'
-], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, slick) {
+    'slick',
+    'events'
+], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, events, slick) {
 
     var gui = {};
 
@@ -25,8 +26,8 @@ define([
                 vkapi.setId(result.user_id);
 
                 onlineUser.identify(vkapi.getUserInfo());
-
-                gui.updateNeigbours();
+                gui.updateStatistics();
+                gui.updateNeighbors();
 
                 $(".welcomeBlocks .rate, .about").addClass("bounceOutRight");
                 $(".welcomeBlocks .descr").addClass("bounceOutLeft");
@@ -36,31 +37,8 @@ define([
                     $(".stats .rate.miniTop, .charts").addClass("bounceInRight").removeClass("hidden");
                     $(".modes, .rate.userTopRate").addClass("bounceInLeft").removeClass("hidden");
 
-                    if ($( window ).width() <= 767) {
-                        $('.modes .row').slick({
-                            slidesToShow: 1,
-                            dots: true,
-                            prevArrow: false,
-                            nextArrow: false,
-                            infinite: false
-                        });
-                    }
-
-                    $(window).resize(function() {
-                        if ($( window ).width() <= 767) {
-                            $('.modes .row').slick({
-                                slidesToShow: 1,
-                                dots: true,
-                                prevArrow: false,
-                                nextArrow: false,
-                                infinite: false
-                            });
-                        } else {
-                            $('.modes .row').slick('unslick');
-                        }
-                    });
-
-                    gui.updateStatistics();
+                    require('events').makeSlickSlider();
+                    require('events').setEventListenerOnWindowResize();
                 }, 1000);
             },
             function(error) {
@@ -69,13 +47,6 @@ define([
             }
         );
 
-    };
-    
-    gui.singleGame = function() {
-        $(".quiz").removeClass('hidden');
-
-        gui.drawQuestion(gameLogic.makeNewQuestion());
-        timer.start();
     };
 
     gui.drawQuestion = function(questionData, multiplayer) {
@@ -95,20 +66,20 @@ define([
         $(".question__properties").html($(".question__properties").html() + "</div>");
 
         if (multiplayer) {
-            addListenersToOptionsForMultiplayerGame();
+            require('events').addListenersToOptionsForMultiplayerGame();
         } else {
-            addListenersToOptionsForSingleGame();
+            require('events').addListenersToOptionsForSingleGame();
         }
 
         $('.quiz.hidden').addClass('bounceInLeft').removeClass('hidden');
     };
 
     gui.updatePoints = function() {
-        onlinePoints.innerHTML = gameVariables.getScore();
+        $("#onlinePoints").text(gameVariables.getScore());
     };
 
     gui.updateTimer = function() {
-        onlineSeconds.innerHTML = timer.getSecondsLeft();
+        $("#onlineSeconds").text(timer.getSecondsLeft());
     };
 
     gui.endGame = function() {
@@ -123,7 +94,7 @@ define([
             access_token: security.getToken()
         }, function(data) {
             gui.updateTopList();
-            gui.updateNeigbours();
+            gui.updateNeighbors();
             gui.updateStatistics();
         });
 
@@ -189,7 +160,7 @@ define([
         }, "json");
     };
 
-    gui.updateNeigbours = function(show) {
+    gui.updateNeighbors = function(show) {
         $.post("/vl/getNeighbours", {
             id: vkapi.getId(),
             num: 5,
@@ -225,14 +196,14 @@ define([
 
         $('.onlinePlayers__list').html(code);
 
-        gui.setEventListenerOnOnlineUsers();
+        require('events').setEventListenerOnOnlineUsers();
     };
 
     gui.noSuchRoom = function() {
         $('.joinGame .errorSpan').removeClass('hidden');
     };
 
-    gui.updateOnlineRoom = function(obj, showBlock) {
+    gui.updateOnlineRoom = function(obj) {
         $('.joinGame .errorSpan').addClass('hidden');
 
         // updating online room users list
@@ -254,159 +225,9 @@ define([
         $('.styledInput.key input').val(key);
 
         if ($('.multiplayer').hasClass('hidden')) {
-            $('.multiplayer').addClass('bounceInRight').removeClass('hidden');
+            $('.multiplayer').addClass('bounceInLeft').removeClass('hidden');
         }
     };
-
-    gui.setEventListenerOnAuth = function() {
-        $(".authButton").click(function(event) {
-            gui.login();
-
-            // set other Event Listeners
-            gui.setEventListenerOnSingleGame();
-            gui.setEventListenerOnOnlineUsers();
-            gui.setEventListenerOnNavPanel();
-            gui.setEventListenerOnSearchPlayers();
-            gui.setEventListenerOnCreateRoom();
-            gui.setEventListenerOnJoinRoom();
-            gui.setEventListenerOnStartRoom();
-        });
-    };
-
-    gui.setEventListenerOnNavPanel = function() {
-        $('.modes__panel .modes__link').click(function(event) {
-            event.preventDefault();
-
-            $('.modes__panel .modes__link').removeClass('active');
-            $(this).addClass('active');
-
-            $('.modes__content .mode').addClass('hidden');
-
-            $('.modes__content .mode' + $(this).attr('href')).removeClass('hidden');
-
-            return false;
-        });
-    };
-
-    gui.setEventListenerOnSearchPlayers = function() {
-        $('.searchUsersInput').keyup(function (event) {
-            $('.onlinePlayers .onlinePlayers__player').addClass('hidden');
-            $('.onlinePlayers .onlinePlayers__player').filter(function() {
-                console.log($(this).text().indexOf($('.searchUsersInput').val()) != -1);
-                return $(this).text().indexOf($('.searchUsersInput').val()) != -1;
-            }).removeClass('hidden');
-        });
-    };
-
-    gui.setEventListenerOnSingleGame = function() {
-        $('.startSingleGameButton').click(function(event) {
-            gui.singleGame();
-        });
-    };
-
-    gui.setEventListenerOnCreateRoom = function() {
-        $('.createRoomButton').click(function(event) {
-            event.preventDefault();
-
-            onlineUser.createRoom(vkapi.getUserInfo().id);
-
-            return false;
-        });
-    };
-
-    gui.setEventListenerOnJoinRoom = function() {
-        $('.joinRoomButton').click(function(event) {
-            event.preventDefault();
-
-            onlineUser.joinRoom($('.joinGameSecret').val());
-
-            return false;
-        });
-    };
-
-    gui.setEventListenerOnStartRoom = function() {
-        $('.startRoomButton').click(function(event) {
-            event.preventDefault();
-
-            onlineUser.getNewQuestion(onlineUser.getRoom());
-
-            return false;
-        });
-    };
-
-    gui.setEventListenerOnOnlineUsers = function() {
-        $('.onlinePlayers__player').click(function(event) {
-            event.preventDefault();
-
-            onlineUser.sendRequestTo($(this).attr('href').slice(17));
-
-            return false;
-        });
-    };
-
-    function addListenersToOptionsForSingleGame() {
-
-        $(".question__answer").each(function(index) {
-            $(this).click(function(){
-                if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1){
-                    $(this).addClass("right");
-                    gameVariables.addPoints();
-                    gui.updatePoints();
-                    statistics.incRightAnswers_count();
-
-                    if ($(".question__answer.wrong").length == 0) {
-                        timer.addTime();
-                        gui.updateTimer();
-                    }
-
-                    gui.drawQuestion(gameLogic.makeNewQuestion());
-
-                } else {
-                    vibration.vibrate(100);
-                    $(this).addClass("wrong");
-                    gameVariables.subtractPoints();
-
-                    timer.substractTime();
-                    gui.updateTimer();
-
-                    gui.updatePoints();
-                    statistics.incMistakes_count();
-                }
-            })
-        });
-    }
-
-    function addListenersToOptionsForMultiplayerGame() {
-        $(".question__answer").each(function(index) {
-            $(this).click(function () {
-                if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1) {
-                    $(this).addClass("right");
-                    gameVariables.addPoints();
-                    statistics.incRightAnswers_count();
-
-                    onlineUser.answer({
-                        vk_id: vkapi.getUserInfo().id,
-                        points: gameVariables.getPointsForRight(),
-                        roomName: onlineUser.getRoom(),
-                        right: true
-                    });
-
-                } else {
-                    vibration.vibrate(100);
-                    $(this).addClass("wrong");
-                    gameVariables.subtractPoints();
-                    statistics.incMistakes_count();
-
-                    onlineUser.answer({
-                        vk_id: vkapi.getUserInfo().id,
-                        points: gameVariables.getPointsForWrong(),
-                        roomName: onlineUser.getRoom(),
-                        right: false
-                    });
-                }
-            });
-        });
-    }
 
     return gui;
 

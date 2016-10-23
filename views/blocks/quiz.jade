@@ -1,5 +1,5 @@
-mixin quiz(hidden)
-    .quiz.animated(class="#{hidden}")
+mixin quiz(singleGame)
+    .quiz.animated(class=singleGame ? "quizForSingleGame hidden" : "quizForMultiplayerGame")
         .questionWrap
             .question
                 .question__text
@@ -35,19 +35,20 @@ mixin quiz(hidden)
                         a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
                             svg.contact.tw(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
                                 use(xlink:href='#tw')
-            .questionWrap__stats
-                .row
-                    .col-sm-6
-                        .questionWrap__stat
-                            .time
-                                svg.timeSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-                                    use(xlink:href='#alarm')
-                                span#onlineSeconds 90
-                                |  seconds left...
-                    .col-sm-6
-                        .questionWrap__stat
-                            .points
-                                svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-                                    use(xlink:href='#correct')
-                                span#onlinePoints 0
-                                |  points
+            - if (singleGame)
+                .questionWrap__stats
+                    .row
+                        .col-sm-6
+                            .questionWrap__stat
+                                .time
+                                    svg.timeSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#alarm')
+                                    span#onlineSeconds 90
+                                    |  seconds left...
+                        .col-sm-6
+                            .questionWrap__stat
+                                .points
+                                    svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                        use(xlink:href='#correct')
+                                    span#onlinePoints 0
+                                    |  points

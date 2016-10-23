@@ -2,11 +2,14 @@ define([], function() {
 
     var gameObj = {
         score: 0,
-        timer: null,
         points: {
             forRight: 10,
             forWrong: -5
         }
+    };
+
+    gameObj.resetScore = function() {
+        gameObj.score = 0;
     };
 
     gameObj.getPointsForRight = function() {

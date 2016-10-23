@@ -3,6 +3,7 @@ define(['require', 'gui'], function (require, gui) {
     var timer, gameTime = 0, gameTimeMax = 9000, totalGameTime = 0, self = this;
 
     this.start = function() {
+        console.log('timer started');
         timer = setInterval(function() {
             totalGameTime += 1000;
             gameTime += 1000;
@@ -21,6 +22,12 @@ define(['require', 'gui'], function (require, gui) {
 
     this.clrInterval = function(){
         clearInterval(timer);
+    };
+
+    this.reset = function() {
+        this.clrInterval();
+        gameTime = 0;
+        totalGameTime = 0;
     };
 
     this.getSecondsLeft = function() {

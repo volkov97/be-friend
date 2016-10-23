@@ -66,13 +66,14 @@
     [dir="rtl"] & {
         float: right;
     }
+    /*
     img {
         display: block;
     }
     &.slick-loading img {
         display: none;
     }
-
+    */
     display: none;
 
     &.dragging img {
@@ -96,3 +97,5 @@
 .slick-arrow.slick-hidden {
     display: none;
 }
+
+.slick-slide, .slick-slide *{ outline: none !important; }

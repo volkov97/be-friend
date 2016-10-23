@@ -1,7 +1,7 @@
 .modes.animated.hidden
     .row
         .col-md-4
-            .mode.single
+            .mode.singleMode
                 .mode__pic
                     svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
                         use(xlink:href='#single')
@@ -12,7 +12,7 @@
                         | В этом режиме игры необходимо ответить на как можно большее количество вопросов за отведенное время. У Вас есть 90 секунд, за каждый неправильный ответ отнимается 5 баллов и секунда времени, если Вы отвечаете правильно с первого раза - ко времени добавляется 2 секунды. Удачи!
                     button.startSingleGameButton Начать
         .col-md-4
-            .mode.multiplayer
+            .mode.multiplayerMode
                 .mode__pic
                     svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
                         use(xlink:href='#medal')
@@ -28,7 +28,7 @@
                     .errorSpan.hidden
                         | Извините, но такой комнаты не существует, проверьте секретный код еще раз
         .col-md-4
-            .mode.chooseOpponent
+            .mode.chooseOpponentMode
                 .mode__pic
                     svg.pointsSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
                         use(xlink:href='#boxing')
