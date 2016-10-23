@@ -84,7 +84,7 @@ define([
 
     gui.endGame = function() {
         $(".question").addClass('hidden');
-        gameResult.innerHTML = gameVariables.getScore();
+        gameResult = gameVariables.getScore();
         $(".gameResult").removeClass('hidden');
 
         $.post("/vl/sendGameResults", {
