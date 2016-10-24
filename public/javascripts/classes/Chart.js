@@ -106,6 +106,7 @@ define(['jquery', 'chartLib'], function($, Chart) {
                 }
             });
         } else {
+            myBarChart.data.labels = barChartData.labels;
             myBarChart.data.datasets[0].data = barChartData.data;
             myBarChart.update();
         }
