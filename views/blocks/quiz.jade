@@ -12,29 +12,30 @@ mixin quiz(singleGame)
                         a.question__answer Павец Никита
                         a.question__answer.right Лосев Игорь
                         a.question__answer.wrong Еще кто-то 4-ый
-            .questionWrap__results.gameResult.hidden
-                p
-                    | Время вышло!
-                    br
-                    | Неплохой результат... но ты можешь лучше!
-                .gameResult__pointsWrap
-                    svg.cupSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-                        use(xlink:href='#cup')
-                    span#gameResult
-                        | 99
-                p
-                    | Покажи всем, какой ты друг!
-                    br
-                    | Можешь выбрать одну из социальных сетей ниже!
-                .gameResult__socialButtons.clearfix
-                    .social__network.vk
-                        a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
-                            svg.contact.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-                                use(xlink:href='#vk')
-                    .social__network.tw
-                        a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
-                            svg.contact.tw(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
-                                use(xlink:href='#tw')
+            - if (singleGame)
+                .questionWrap__results.gameResult.hidden
+                    p
+                        | Время вышло!
+                        br
+                        | Неплохой результат... но ты можешь лучше!
+                    .gameResult__pointsWrap
+                        svg.cupSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                            use(xlink:href='#cup')
+                        span#gameResult
+                            | 99
+                    p
+                        | Покажи всем, какой ты друг!
+                        br
+                        | Можешь выбрать одну из социальных сетей ниже!
+                    .gameResult__socialButtons.clearfix
+                        .social__network.vk
+                            a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
+                                svg.contact.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                    use(xlink:href='#vk')
+                        .social__network.tw
+                            a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
+                                svg.contact.tw(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                                    use(xlink:href='#tw')
             - if (singleGame)
                 .questionWrap__stats
                     .row
