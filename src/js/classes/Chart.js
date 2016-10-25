@@ -16,18 +16,21 @@ define(['jquery', 'chartLib'], function($, Chart) {
             var data = {
                 labels: [
                     "Верные ответы",
-                    "Ошибки"
+                    "Ошибки",
+                    "Верные ответы с 1-ой попытки"
                 ],
                 datasets: [
                     {
                         data: pieChartData,
                         backgroundColor: [
                             "#81bd81",
-                            "#f75a5a"
+                            "#f75a5a",
+                            "#00E676"
                         ],
                         hoverBackgroundColor: [
                             "#81bd81",
-                            "#f75a5a"
+                            "#f75a5a",
+                            "#00E676"
                         ]
                     }]
             };

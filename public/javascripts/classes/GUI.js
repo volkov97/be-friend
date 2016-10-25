@@ -137,7 +137,7 @@ define([
                 num: countOfGames,
                 access_token: security.getToken()
             }, function(lastGamesData){
-                var pieChartData = [stats.rightAnswers_count, stats.mistakes_count];
+                var pieChartData = [stats.rightAnswers_count, stats.mistakes_count, stats.firstTryRightAnswers_count];
 
                 var barChartData = {
                     labels: [],
@@ -166,9 +166,14 @@ define([
             num: 5,
             access_token: security.getToken()
         }, function(data) {
+            var ms = data.list;
+
+            // Check for error
+            if (ms == -1){
+                return;
+            }
             var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
 
-            var ms = data.list;
             for (var i = 0; i < ms.length; i++) {
                 if (data.userPos == ms[i].realPos) {
                     str += "<tr class='currentUser'>"
