@@ -3,11 +3,13 @@ define(['timer'], function(timer){
 	var statistics = {
 		rightAnswers_count: 0,
 		mistakes_count: 0,
+		firstTryRightAnswers_count: 0
 	}
 
 	statistics.resetStatistic = function(){
 		statistics.rightAnswers_count = 0;
 		statistics.mistakes_count = 0;
+		statistics.firstTryRightAnswers_count = 0;
 	}
 
 	statistics.incRightAnswers_count = function(){
@@ -18,11 +20,16 @@ define(['timer'], function(timer){
 		statistics.mistakes_count++;
 	}
 
+	statistics.incFirstTryRightAnswers = function(){
+		statistics.firstTryRightAnswers_count++;
+	}
+
 	statistics.getOneGameStatistics = function(){
 		var obj = {
 			rightAnswers_count: statistics.rightAnswers_count,
 			mistakes_count: statistics.mistakes_count,
-			game_time: timer.getTotalGameTime()
+			game_time: timer.getTotalGameTime(),
+			firstTryRightAnswers_count: statistics.firstTryRightAnswers_count
 		}
 
 		return obj;
@@ -34,6 +41,7 @@ define(['timer'], function(timer){
 
 		obj.games_count = data['COUNT(*)'];
 		obj.rightAnswers_count = data['SUM(hits)'];
+		obj.firstTryRightAnswers_count = data['SUM(first_try_hits)'];
 		obj.mistakes_count = data['SUM(misses)'];
 		obj.maxScore = data['MAX(score)'];
 

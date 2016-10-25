@@ -136,6 +136,11 @@ define(['jquery',
                 if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1){
                     $(this).addClass("right");
                     gameVariables.addPoints();
+                    if (gameVariables.getIsFirstTryValue() == true){
+                        statistics.incFirstTryRightAnswers();
+                    } else {
+                        gameVariables.setIsFirstTryValue(true);
+                    }
                     gui.updatePoints();
                     gui.updateTimer();
                     statistics.incRightAnswers_count();
@@ -151,6 +156,7 @@ define(['jquery',
                     vibration.vibrate(100);
                     $(this).addClass("wrong");
                     gameVariables.subtractPoints();
+                    gameVariables.setIsFirstTryValue(false);
 
                     timer.substractTime();
                     gui.updateTimer();

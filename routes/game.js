@@ -40,6 +40,7 @@ function sendGameResultsPOST(req, res) {
     last_game.hits = parseInt(req.body.statistics.rightAnswers_count);
     last_game.misses = parseInt(req.body.statistics.mistakes_count);
     last_game.game_time = parseInt(req.body.statistics.game_time);
+    last_game.first_try_hits = parseInt(req.body.statistics.firstTryRightAnswers_count);
 
     pool.getConnection(function(err, connection) {
 
@@ -162,6 +163,17 @@ function getNeighbours(num, user_id){
                     }
                 }
 
+                console.log("TRY");
+                console.log(pos);
+                if (pos == -1){
+                    connection.release();
+                    resolve({
+                        userPos: -1,
+                        list: -1
+                    });
+                    return;
+                }
+
                 var result = [];
                 pos++;
 
@@ -205,7 +217,7 @@ function getStatistics(id){
                 throw err;
             }
 
-            var sql = 'SELECT COUNT(*), SUM(score), SUM(hits), SUM(misses), SUM(game_time), MAX(score) ' +
+            var sql = 'SELECT COUNT(*), SUM(score), SUM(hits), SUM(first_try_hits), SUM(misses), SUM(game_time), MAX(score) ' +
                 'FROM games g ' +
                 'WHERE g.user_id = ?';
             connection.query(sql, id, function (err, rows) {
@@ -219,6 +231,7 @@ function getStatistics(id){
                 if (rows[0]['COUNT(*)'] == 0){
                     rows[0]['SUM(score)'] = 0;
                     rows[0]['SUM(hits)'] = 0;
+                    rows[0]['SUM(first_try_hits)'] = 0;
                     rows[0]['SUM(misses)'] = 0;
                     rows[0]['SUM(game_time)'] = 0;
                     rows[0]['MAX(score)'] = 0;
