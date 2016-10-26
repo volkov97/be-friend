@@ -16,7 +16,7 @@ define(['require', 'gui'], function (require, gui) {
     };
 
     this.end = function() {
-        require("gui").endGame();
+        require("gui").endGame(true);
         clearInterval(timer);
     };
 
@@ -44,7 +44,7 @@ define(['require', 'gui'], function (require, gui) {
 
     this.getTotalGameTime = function(){
         return (totalGameTime / 1000);
-    }
+    };
 
     return this;
 

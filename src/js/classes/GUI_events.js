@@ -65,56 +65,78 @@ define(['jquery',
 
     events.setEventListenerOnSingleGame = function() {
         $('.startSingleGameButton').click(function(event) {
+            event.preventDefault();
 
-            // hide multiplayer mode
-            if (!$('.multiplayer').hasClass('hidden')) {
-                $('.multiplayer').removeClass('bounceInLeft').addClass('bounceOutRight');
+            returnAllToDefaultState($('.startSingleGameButton')).then(function() {
+                $('.startSingleGameButton').text('Заново');
 
-                setTimeout(function() {
-                    $('.multiplayer').addClass('hidden')
-                }, 1000);
-            }
+                gui.drawQuestion(gameLogic.makeNewQuestion());
 
-            // if game already ended and results are in the view
-            if (!$('.questionWrap__results.gameResult').hasClass('hidden')) {
-                $('.questionWrap__results.gameResult').addClass('hidden');
-                $('.questionWrap .question').removeClass('hidden');
-            }
+                $(".quizForSingleGame").removeClass("bounceOutRight").addClass("bounceInLeft").removeClass('hidden');
+                timer.start();
+            });
 
-            // check if already playing
-            if ($(this).hasClass('reset')) {
-                // reset all
-                statistics.resetStatistic();
-                timer.reset();
-                gui.updateTimer();
-                gameVariables.resetScore();
-            } else {
-                // not playing
-                $(this).addClass('reset').text('Заново');
-            }
-
-            gui.drawQuestion(gameLogic.makeNewQuestion());
-
-            $(".quizForSingleGame").addClass("bounceInLeft").removeClass('hidden');
-            timer.start();
+            return false;
         });
     };
 
     events.setEventListenerOnCreateRoom = function() {
         $('.createRoomButton').click(function(event) {
-            onlineUser.createRoom(vkapi.getUserInfo().id);
+            event.preventDefault();
+
+            returnAllToDefaultState($(this)).then(function() {
+                onlineUser.createRoom(vkapi.getUserInfo().id, $('#winPoints').val());
+
+                $(".multiplayer").removeClass("bounceOutRight").addClass("bounceInLeft").removeClass('hidden');
+            });
+
+            return false;
         });
     };
 
     events.setEventListenerOnJoinRoom = function() {
         $('.joinRoomButton').click(function(event) {
-            onlineUser.joinRoom($('.joinGameSecret').val());
+            event.preventDefault();
+
+            returnAllToDefaultState($('.joinRoomButton')).then(function() {
+                if ($('.joinGameSecret').val() == '') {
+                    require('gui').showMultiplayerError("Введите секретный код.");
+                    return false;
+                }
+
+                if (onlineUser.getRoom()) {
+                    onlineUser.clearRoom();
+                }
+                onlineUser.joinRoom($('.joinGameSecret').val());
+
+                $('.roomInfo .forCreator').addClass('hidden');
+                $('.roomInfo .forUser').removeClass('hidden');
+            });
+
+            return false;
         });
     };
 
     events.setEventListenerOnStartRoom = function() {
         $('.startRoomButton').click(function(event) {
+            event.preventDefault();
+
+            if ($('#winPoints').val() == '') {
+                require('gui').showMultiplayerStartError("Введите победные очки.");
+                return false;
+            } else {
+                $('.roomInfo .error').addClass('hidden');
+            }
+
+            onlineUser.setRoomOptions(onlineUser.getRoom(), {
+                maxScore: $('#winPoints').val()
+            });
+
             onlineUser.getNewQuestion(onlineUser.getRoom());
+
+            $('.startRoomButton').addClass('hidden');
+
+            return false;
         });
     };
 
@@ -197,6 +219,91 @@ define(['jquery',
                     });
                 }
             });
+        });
+    };
+
+    function returnAllToDefaultState($clickedButton) {
+        return new Promise(function(resolve, reject) {
+
+            // variables
+            var $singleGameButton = $('.startSingleGameButton');
+            var $multiplayerCreateButton = $('.createRoomButton');
+            var $multiplayerJoinButton = $('.joinRoomButton');
+
+            var $singleGameBlock = $('.quizForSingleGame');
+            var $multiplayerGameBlock = $('.multiplayer');
+            var $quizForMultiplayerGame = $('.quizForMultiplayerGame');
+            var $elementsForAdmin = $('.roomInfo .forCreator');
+            var $elementsForUser = $('.roomInfo .forUser');
+
+            var $gameResultBlock = $('.gameResult');
+            var $questionBlock = $('.questionWrap .question');
+
+            var waiting = false;
+
+            // disable the button
+            $clickedButton.prop("disabled",true);
+
+            // hide single mode
+            if (!$singleGameBlock.hasClass('hidden')) {
+                waiting = true;
+
+                $singleGameBlock.removeClass('bounceInLeft').addClass('bounceOutRight');
+
+                setTimeout(function() {
+                    $singleGameBlock.addClass('hidden');
+                    $clickedButton.prop("disabled", false);
+                    resolve();
+                }, 1000);
+            }
+
+            // hide multiplayer mode
+            if (!$multiplayerGameBlock.hasClass('hidden')) {
+                waiting = true;
+
+                $multiplayerGameBlock.removeClass('bounceInLeft').addClass('bounceOutRight');
+
+                // if already in the room - leave
+                if (onlineUser.getRoom()) {
+                    onlineUser.clearRoom();
+                }
+
+                setTimeout(function() {
+                    $multiplayerGameBlock.addClass('hidden');
+                    $quizForMultiplayerGame.removeClass('bounceInRight').addClass('hidden');
+                    $elementsForAdmin.removeClass('hidden');
+                    $elementsForUser.addClass('hidden');
+                    $clickedButton.prop("disabled", false);
+                    resolve();
+                }, 1000);
+            }
+
+            // if game already ended and results are in the view, for both modes
+            if (!$gameResultBlock.hasClass('hidden')) {
+                $gameResultBlock.addClass('hidden');
+                $questionBlock.removeClass('hidden');
+            }
+
+            // other buttons text to default, except clicked
+            if (!$singleGameButton.is($clickedButton)) {
+                console.log("ATTEMPT");
+                $singleGameButton.text('Начать');
+            }
+
+            // remove opened errors
+            $('.multiplayerMode .error').addClass('hidden');
+            $('.roomInfo .error').addClass('hidden');
+
+            // resetting game variables
+            statistics.resetStatistic();
+            timer.reset();
+            gui.updateTimer();
+            gameVariables.resetScore();
+
+            if (!waiting) {
+                $clickedButton.prop("disabled", false);
+                resolve();
+            }
         });
     }
 

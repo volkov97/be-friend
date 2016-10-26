@@ -7,13 +7,15 @@
                     .styledInput.key.clearfix
                         label(for="secretKey") Ключ
                         input(id="secretKey" type="text" placeholder="Секретный ключ" disabled required)
-                    .styledInput.points.clearfix
+                    .styledInput.points.forCreator.clearfix
                         label(for="winPoints") Финиш
                         input(id="winPoints" type="number" min="0" max="1000000" placeholder="1000" required)
-                    button.startRoomButton(type="submit") Старт
+                    button.startRoomButton.forCreator(type="submit") Старт
+                .error Ошибка
+                .waiting.forUser.hidden Ожидание старта...
                 .members
                     table.rate__table.roomOnline
-                        tbody
+                        thead
                             tr.tableHead
                                 th №
                                 th Имя

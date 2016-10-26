@@ -1,5 +1,5 @@
 mixin quiz(singleGame)
-    .quiz.animated(class=singleGame ? "quizForSingleGame hidden" : "quizForMultiplayerGame")
+    .quiz.animated(class=singleGame ? "quizForSingleGame hidden" : "quizForMultiplayerGame hidden")
         .questionWrap
             .question
                 .question__text
@@ -12,17 +12,26 @@ mixin quiz(singleGame)
                         a.question__answer Павец Никита
                         a.question__answer.right Лосев Игорь
                         a.question__answer.wrong Еще кто-то 4-ый
-            - if (singleGame)
-                .questionWrap__results.gameResult.hidden
+            .questionWrap__results.gameResult.hidden
+                - if (singleGame)
                     p
                         | Время вышло!
                         br
                         | Неплохой результат... но ты можешь лучше!
-                    .gameResult__pointsWrap
+                    .gameResult__points
                         svg.cupSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
                             use(xlink:href='#cup')
-                        span#gameResult
+                        span#gameResultPoints
                             | 99
+                - else
+                    p
+                        | Ваш результат
+                    .gameResult__place
+                        svg.cupSVG(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
+                            use(xlink:href='#cup')
+                        span#gameResultPlace
+                            | 99
+                .socialShare
                     p
                         | Покажи всем, какой ты друг!
                         br

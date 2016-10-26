@@ -13,6 +13,13 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
         return onlineUser.room;
     };
 
+    onlineUser.clearRoom = function() {
+        onlineUser.socket.emit('leave room', {
+            roomName: onlineUser.getRoom()
+        });
+        onlineUser.room = null;
+    };
+
     onlineUser.connect = function() {
         onlineUser.socket = io();
     };
@@ -35,7 +42,7 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
         });
 
         onlineUser.socket.on('room not exists', function(obj) {
-            require('gui').noSuchRoom();
+            require('gui').showMultiplayerError("Извините, но такой комнаты не существует, проверьте секретный код еще раз");
         });
 
         onlineUser.socket.on('game request', function(obj) {
@@ -53,6 +60,7 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
     };
 
     onlineUser.createRoom = function(vk_id) {
+        // TODO: Random numbers in room num
         onlineUser.setRoom("roomOf" + vk_id);
 
         onlineUser.socket.emit('multiplayer create', {
@@ -65,6 +73,13 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
 
         onlineUser.socket.emit('multiplayer join', {
             roomName: roomName
+        });
+    };
+
+    onlineUser.setRoomOptions = function(roomName, options) {
+        onlineUser.socket.emit('multiplayer set room options', {
+            roomName: roomName,
+            options: options
         });
     };
 
@@ -90,7 +105,7 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
     };
 
     onlineUser.sendRequestTo = function(id) {
-        console.log("1234")
+        console.log("1234");
         console.log(vkapi.getUserInfo());
         onlineUser.socket.emit('game request', {
             from: vkapi.getUserInfo(),

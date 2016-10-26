@@ -10,7 +10,7 @@ module.exports = function(server) {
             socket.udata = obj;
             socket.udata.points = 0;
 
-            io.emit('update online users list', getOnlineSocketsInfo(io));
+            io.emit('update online users list', getOnlineSocketsInfo());
         });
 
         socket.on('game request', function(obj) {
@@ -27,10 +27,12 @@ module.exports = function(server) {
 
             socket.join(obj.roomName);
 
-            io.to(obj.roomName).emit('update online room list', {
-                key: obj.roomName,
-                list: getUsersInRoom(obj.roomName)
-            });
+            if (roomExists(obj.roomName)) {
+                io.to(obj.roomName).emit('update online room list', {
+                    key: obj.roomName,
+                    list: getUsersInRoom(obj.roomName)
+                });
+            }
         });
 
         socket.on('multiplayer join', function(obj) {
@@ -49,8 +51,15 @@ module.exports = function(server) {
 
         });
 
+        socket.on('multiplayer set room options', function(obj) {
+            if (roomExists(obj.roomName) && obj.options) {
+                io.nsps["/"].adapter.rooms[obj.roomName].maxScore = obj.options.maxScore;
+            }
+        });
+
         socket.on('choose new question', function(obj) {
             if (roomExists(obj.roomName)) {
+
                 io.to(obj.roomName).emit('choosed question', {
                     num: chooseTypeOfQuestion()
                 });
@@ -60,8 +69,29 @@ module.exports = function(server) {
         });
 
         socket.on('multiplayer answer', function(obj) {
-            // getSocketIdByVkId(obj)
             socket.udata.points += obj.points;
+
+            if (roomExists(obj.roomName)) {
+                var endGame = false;
+                console.log("AAAAAAA");
+                if (socket.udata.points >= io.nsps["/"].adapter.rooms[obj.roomName].maxScore) {
+                    console.log("BBBBBBBBBB");
+                    endGame = true;
+                }
+
+                io.to(obj.roomName).emit('update online room list', {
+                    key: obj.roomName,
+                    list: getUsersInRoom(obj.roomName),
+                    endGame: endGame
+                });
+            }
+        });
+
+        socket.on('leave room', function(obj) {
+            socket.leave(obj.roomName);
+            socket.udata.points = 0;
+
+            console.log("room -1");
 
             io.to(obj.roomName).emit('update online room list', {
                 key: obj.roomName,
@@ -74,7 +104,7 @@ module.exports = function(server) {
 
             if (socket.udata) {
                 // if user was identified
-                io.emit('update online users list', getOnlineSocketsInfo(io));
+                io.emit('update online users list', getOnlineSocketsInfo());
             }
         });
     });
@@ -110,21 +140,23 @@ module.exports = function(server) {
         return info;
     }
 
+    function getOnlineSocketsInfo() {
+        var info = [];
+
+        for (var clientId in io.sockets.connected) {
+            if (io.sockets.connected[clientId].udata) {
+                info.push(io.sockets.connected[clientId].udata);
+            }
+
+        }
+
+        return info;
+    }
+
     return io;
 };
 
-function getOnlineSocketsInfo(io) {
-    var info = [];
 
-    for (var cliendId in io.sockets.connected) {
-        if (io.sockets.connected[cliendId].udata) {
-            info.push(io.sockets.connected[cliendId].udata);
-        }
-
-    }
-
-    return info;
-}
 
 function chooseTypeOfQuestion() {
     var QUESTIONS_COUNT = 10;

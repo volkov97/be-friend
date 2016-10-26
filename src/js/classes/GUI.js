@@ -34,6 +34,7 @@ define([
                 setTimeout(function() {
                     $(".welcomeBlocks .rate, .welcomeBlocks .descr, .about").addClass("hidden");
 
+                    $(".stats").removeClass("hidden");
                     $(".stats .rate.miniTop, .charts").addClass("bounceInRight").removeClass("hidden");
                     $(".modes, .rate.userTopRate").addClass("bounceInLeft").removeClass("hidden");
 
@@ -50,28 +51,43 @@ define([
     };
 
     gui.drawQuestion = function(questionData, multiplayer) {
-        // Добавляем вопрос
-        $(".question__text").html(questionData.questionObj.question);
+        $questionText = $(".question__text");
+        $questionProps = $(".question__properties");
+        $questionAnswers = $(".question__answers");
 
-        $(".question__properties").html("");
-        // Добавляем изображение, если нужно
+        // adding question text
+        var str = '<div class="question__text">' + questionData.questionObj.question + '</div>';
+
+        // adding properties wrap
+        str += '<div class="question__properties clearfix">';
+
+        // adding image
         if (questionData.questionObj.withPhoto) {
-            $(".question__properties").html($(".question__properties").html() + '<div class="question__image"><img src=\'' + questionData.rightUser.photo_200 + '\' class="question__img" width="200px" height="200px" alt="Quiz Question Image"></div>');
+            str += '<div class="question__image"><img src=\'' + questionData.rightUser.photo_200 + '\' class="question__img" width="200px" height="200px" alt="Quiz Question Image"></div>';
         }
-        // Варианты ответа
-        $(".question__properties").html($(".question__properties").html() + "<div class='question__answers clearfix'>");
-        for (var i = 0; i < questionData.options.length; i++){
-            $(".question__answers").html($(".question__answers").html() + "<div class=question__answer>" + questionData.options[i] + "</div>");
+
+        // answers
+        str += '<div class="question__answers clearfix">';
+        for (var i = 0; i < questionData.options.length; i++) {
+            str += '<div class=question__answer>' + questionData.options[i] + '</div>';
         }
-        $(".question__properties").html($(".question__properties").html() + "</div>");
+        str += '</div>';
+
+        str += '</div>';
 
         if (multiplayer) {
+            $('.quizForMultiplayerGame .question').html(str);
+            if ($('.quizForMultiplayerGame').hasClass('hidden')) {
+                $('.quizForMultiplayerGame').addClass('bounceInRight').removeClass('hidden');
+            }
+            if (!$('.roomInfo .waiting').hasClass('hidden')) {
+                $('.roomInfo .waiting').addClass('hidden');
+            }
             require('events').addListenersToOptionsForMultiplayerGame();
         } else {
+            $('.quizForSingleGame .question').html(str);
             require('events').addListenersToOptionsForSingleGame();
         }
-
-        $('.quiz.hidden').addClass('bounceInLeft').removeClass('hidden');
     };
 
     gui.updatePoints = function() {
@@ -82,21 +98,43 @@ define([
         $("#onlineSeconds").text(timer.getSecondsLeft());
     };
 
-    gui.endGame = function() {
-        $(".question").addClass('hidden');
-        $('#gameResult').text(gameVariables.getScore());
-        $(".gameResult").removeClass('hidden');
+    gui.endGame = function(single) {
 
-        $.post("/vl/sendGameResults", {
-            user_id: vkapi.getId(),
-            score: gameVariables.getScore(),
-            statistics: statistics.getOneGameStatistics(),
-            access_token: security.getToken()
-        }, function(data) {
-            gui.updateTopList();
-            gui.updateNeighbors();
-            gui.updateStatistics();
-        });
+        if (single) {
+            $(".quizForSingleGame .question").addClass('hidden');
+            $('#gameResultPoints').text(gameVariables.getScore());
+            $(".gameResult").removeClass('hidden');
+
+            $.post("/vl/sendGameResults", {
+                user_id: vkapi.getId(),
+                score: gameVariables.getScore(),
+                statistics: statistics.getOneGameStatistics(),
+                access_token: security.getToken()
+            }, function(data) {
+                gui.updateTopList();
+                gui.updateNeighbors();
+                gui.updateStatistics();
+            });
+        } else {
+            var place = 0;
+
+            // find user's place in a table
+            /*console.log($('.members .rate__table tbody tr'));
+            $('.members .rate__table tbody tr').each(function(index) {
+                console.log('AAAAAwqdqdqdwqdqwdqdqwd');
+                console.log($(this).find('td.name'));
+                if ($(this).find('td.name').find('a').text() == (vkapi.getUserInfo().first_name + " " + vkapi.getUserInfo().last_name)) {
+                    place = index + 1;
+                    $('#gameResultPlace').text(place);
+                    return false;
+                }
+            });*/
+
+            $(".quizForMultiplayerGame .question").addClass('hidden');
+
+            $(".gameResult").removeClass('hidden');
+        }
+
 
     };
 
@@ -172,7 +210,7 @@ define([
             if (ms == -1){
                 return;
             }
-            var str = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr>';
+            var str = '<thead><tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr></thead><tbody>';
 
             for (var i = 0; i < ms.length; i++) {
                 if (data.userPos == ms[i].realPos) {
@@ -185,18 +223,20 @@ define([
                     + "' target = '_blank'>"+ms[i].first_name + " " + ms[i].last_name
                     + "</a></td><td class='points'>" + ms[i].max_score + "</td></tr>";
             }
+            str += '</tbody>';
 
-            $('.userTopRate table.rate__table tbody').html(str);
+            $('.userTopRate table.rate__table').html(str);
         });
     };
 
+    // mode third block
     gui.updateOnlinePlayersList = function(list) {
         var code = "";
 
         for (var i = 0; i < list.length; i++) {
             code += "<a href=\'https://vk.com/id" + list[i].id + "\' class='onlinePlayers__player'><img src='" +
-                    list[i].img_src+ "' class='onlinePlayers__img' width='32' height='32'>" +
-                    list[i].first_name + " " + list[i].last_name + "</a>"
+                list[i].img_src+ "' class='onlinePlayers__img' width='32' height='32'>" +
+                list[i].first_name + " " + list[i].last_name + "</a>"
         }
 
         $('.onlinePlayers__list').html(code);
@@ -204,8 +244,12 @@ define([
         require('events').setEventListenerOnOnlineUsers();
     };
 
-    gui.noSuchRoom = function() {
-        $('.joinGame .errorSpan').removeClass('hidden');
+    gui.showMultiplayerError = function(str) {
+        $('.multiplayerMode .error').text(str).removeClass('hidden');
+    };
+
+    gui.showMultiplayerStartError = function(str) {
+        $('.roomInfo .error').text(str).removeClass('hidden');
     };
 
     gui.updateOnlineRoom = function(obj) {
@@ -214,7 +258,9 @@ define([
         // updating online room users list
         var list = obj.list;
 
-        var code = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Баллов</th></tr>';
+        // TODO: sort list
+
+        var code = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Баллов</th></tr><tdody>';
 
         for (var i = 0; i < list.length; i++) {
             code += "<td class ='number'>" + (i + 1)
@@ -223,14 +269,22 @@ define([
                 + "</a></td><td class='points'>" + list[i].points + "</td></tr>";
         }
 
-        $('.roomOnline tbody').html(code);
+        code += '</tdody>';
+
+        $('.members .rate__table').html(code);
 
         // update room key
         var key = obj.key;
-        $('.styledInput.key input').val(key);
+        $('.key.styledInput input').val(key);
 
+        // for viewing
         if ($('.multiplayer').hasClass('hidden')) {
-            $('.multiplayer').addClass('bounceInLeft').removeClass('hidden');
+            $('.multiplayer').removeClass('bounceOutRight').addClass('bounceInLeft').removeClass('hidden');
+        }
+
+        // end game
+        if (obj.endGame) {
+            gui.endGame(false);
         }
     };
 
