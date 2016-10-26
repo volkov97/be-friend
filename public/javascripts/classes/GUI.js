@@ -116,19 +116,16 @@ define([
                 gui.updateStatistics();
             });
         } else {
-            var place = 0;
-
             // find user's place in a table
-            /*console.log($('.members .rate__table tbody tr'));
-            $('.members .rate__table tbody tr').each(function(index) {
-                console.log('AAAAAwqdqdqdwqdqwdqdqwd');
-                console.log($(this).find('td.name'));
-                if ($(this).find('td.name').find('a').text() == (vkapi.getUserInfo().first_name + " " + vkapi.getUserInfo().last_name)) {
-                    place = index + 1;
-                    $('#gameResultPlace').text(place);
-                    return false;
+            var table = $(".rate__table.roomOnline tr").each(function(index){
+                if (index == 0) return true;
+                var userName = this.getElementsByClassName("name")[0].innerText;
+                if (userName == vkapi.getUserInfo().first_name + " " + vkapi.getUserInfo().last_name) {
+                    $("#gameResultPlace").text(this.getElementsByClassName("number")[0].innerText);
                 }
-            });*/
+            });
+
+            console.log(statistics.getOneGameStatistics());
 
             $(".quizForMultiplayerGame .question").addClass('hidden');
 
@@ -258,7 +255,10 @@ define([
         // updating online room users list
         var list = obj.list;
 
-        // TODO: sort list
+        // sort list
+        list.sort(function(a, b){
+            return a.points < b.points ? 1 : -1;
+        });
 
         var code = '<tr class="tableHead"><th>№</th><th>Имя</th><th>Баллов</th></tr><tdody>';
 

@@ -16,7 +16,6 @@ define([], function() {
     };
 
     vkapi.getUserInfo = function() {
-        console.log(userObj);
         return {
             id: userObj.mid,
             first_name: userObj.user.first_name,
