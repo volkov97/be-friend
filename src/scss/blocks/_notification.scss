@@ -2,18 +2,77 @@
 
 .notification {
     position: fixed;
-    top: 40px;
+    bottom: 40px;
     width: 400px;
     left: 50%;
     margin-left: -200px;
-    text-align: center;
     background-color: white;
     padding: 20px;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 
-    @media only screen and (max-width: $screen_small) {
-        width: 200px;
-        margin-left: -100px;
+    &__close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+
+        svg {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    &__header {
+        margin-bottom: 20px;
+        font-size: 1.4em;
+        line-height: 40px;
+    }
+
+    &__image {
+        float: left;
+        margin-right: 20px;
+
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+
+    &__content {
+        margin-bottom: 20px;
+    }
+
+    &__activities {
+        text-align: center;
+
+        button {
+            border: none;
+            outline: none;
+            margin-right: 20px;
+            padding: 5px 15px;
+            width: 140px;
+            color: white;
+            text-transform: uppercase;
+
+            &:last-child {
+                margin-right: 0px;
+            }
+
+            &.confirm {
+                background-color: #4caf50;
+
+                &:hover {
+                    background-color: #3f9042;
+                }
+            }
+
+            &.reject {
+                background-color: #f44336;
+
+                &:hover {
+                    background-color: #b9372d;
+                }
+            }
+        }
     }
 
 }

@@ -3,7 +3,7 @@ define(['sw'], function(sw) {
     var notify = {};
 
     notify.showNotification = function(title, text, src) {
-
+        /*
         Notification.requestPermission(function(result) {
             if (result === 'granted') {
                 navigator.serviceWorker.ready.then(function(registration) {
@@ -17,6 +17,13 @@ define(['sw'], function(sw) {
                 });
             }
         });
+        */
+
+        $('.notification__text').text(text);
+        $('.notification__image').attr('src', src);
+        $('.notification__title').text(title);
+
+        $('.notification').removeClass('hidden');
     };
 
     return notify;
