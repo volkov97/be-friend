@@ -28,6 +28,8 @@ module.exports = function(server) {
             socket.join(obj.roomName);
 
             if (roomExists(obj.roomName)) {
+                roomOpen(obj.roomName);
+
                 io.to(obj.roomName).emit('update online room list', {
                     key: obj.roomName,
                     list: getUsersInRoom(obj.roomName)
@@ -38,7 +40,7 @@ module.exports = function(server) {
         socket.on('multiplayer join', function(obj) {
             console.log("joining room \'" + obj.roomName + "\'");
 
-            if (roomExists(obj.roomName)) {
+            if (roomExists(obj.roomName) && roomOpenedStatus(obj.roomName)) {
                 socket.join(obj.roomName);
 
                 io.to(obj.roomName).emit('update online room list', {
@@ -59,6 +61,7 @@ module.exports = function(server) {
 
         socket.on('choose new question', function(obj) {
             if (roomExists(obj.roomName)) {
+                roomClose(obj.roomName);
 
                 io.to(obj.roomName).emit('choosed question', {
                     num: chooseTypeOfQuestion()
@@ -110,11 +113,19 @@ module.exports = function(server) {
     });
 
     function roomExists(room) {
-        if (io.nsps["/"].adapter.rooms[room]) {
-            return true;
-        } else {
-            return false;
-        }
+        return io.nsps["/"].adapter.rooms[room] ? true : false;
+    }
+
+    function roomOpenedStatus(room) {
+        return io.nsps["/"].adapter.rooms[room].opened ? true : false;
+    }
+
+    function roomOpen(room) {
+        io.nsps["/"].adapter.rooms[room].opened = true;
+    }
+
+    function roomClose(room) {
+        io.nsps["/"].adapter.rooms[room].opened = false;
     }
 
     function getSocketIdByVkId(vk_id) {

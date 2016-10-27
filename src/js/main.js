@@ -22,6 +22,7 @@ requirejs.config({
 		vibration: 'html5apis/vibration',
 		notify: 'html5apis/notification',
 		sw: 'html5apis/serviceWorker',
+		fullscreen: 'html5apis/screenfull',
 
 		// Game
 		gameLogic: 'game/gameLogic',

@@ -5,6 +5,7 @@ define(['events', 'multiplayer', 'notify', 'sw'], function(events, onlineUser, n
     app.init = function() {
 
         onlineUser.connect();
+        events.triggerFullscreen();
         events.setEventListenerOnAuth();
 
         if (sw.register()) {

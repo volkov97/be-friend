@@ -42,7 +42,7 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
         });
 
         onlineUser.socket.on('room not exists', function(obj) {
-            require('gui').showMultiplayerError("Извините, но такой комнаты не существует, проверьте секретный код еще раз");
+            require('gui').showMultiplayerError("Извините, но такой комнаты не существует или игра в данной комнате уже начилась, проверьте секретный код еще раз");
         });
 
         onlineUser.socket.on('game request', function(obj) {
@@ -61,7 +61,7 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
 
     onlineUser.createRoom = function(vk_id) {
         // TODO: Random numbers in room num
-        onlineUser.setRoom("roomOf" + vk_id);
+        onlineUser.setRoom(vk_id.toString().substr(0, 3) + Math.floor((Math.random() * 1000)));
 
         onlineUser.socket.emit('multiplayer create', {
             roomName: onlineUser.getRoom()

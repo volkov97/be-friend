@@ -3,12 +3,12 @@ header.header
 		.header__top.clearfix
 			a.logo(href='/')
 				img.logo__image(src='images/logo_beta.png', alt='vkQuiz Logo')
-			.social.clearfix
-				.social__network.vk
+			.controls.clearfix
+				.controls__item.fullscreen.open
+					a(href='#', target='_blank')
+						svg
+							use(xlink:href='#fullscreenEnter')
+				.controls__item.share
 					a(href='http://vk.com/share.php?url=http%3A%2F%2Fbefriend.owuteam.com&title=BeFriend&description=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.&image=http%3A%2F%2Fbefriend.owuteam.com%2Fimg%2Ffriends.jpeg', target='_blank')
-						svg.contact.vk
-							use(xlink:href='#vk')
-				.social__network.tw
-					a(href='http://twitter.com/share?url=http%3A%2F%2Fbefriend.owuteam.com&text=Наше%20приложение%20позволит%20Вам%20сблизиться%20со%20всеми%20вашими%20знакомыми%20и%20заводить%20настоящих%20друзей.', target='_blank')
-						svg.contact.tw
-							use(xlink:href='#tw')
+						svg
+							use(xlink:href='#share')

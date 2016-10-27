@@ -6,11 +6,37 @@ define(['jquery',
         'vibration',
         'vkapi',
         'timer',
-        'gameLogic'
-], function($, gui, onlineUser, gameVariables, statistics, vibration, vkapi, timer, gameLogic) {
+        'gameLogic',
+        'fullscreen'
+], function($, gui, onlineUser, gameVariables, statistics, vibration, vkapi, timer, gameLogic, fullscreen) {
 
     var events = {
         slickActive: false
+    };
+
+    events.triggerFullscreen = function() {
+
+        if (screenfull.enabled) {
+            document.addEventListener(screenfull.raw.fullscreenchange, function() {
+                    if (screenfull.isFullscreen) {
+                        $('.controls .fullscreen svg use').attr('xlink:href', '#fullscreenExit');
+                    } else {
+                        $('.controls .fullscreen svg use').attr('xlink:href', '#fullscreenEnter');
+                    }
+            });
+        }
+
+        $('.controls .fullscreen a').click(function(event) {
+            event.preventDefault();
+
+            if (screenfull.enabled) {
+                screenfull.toggle();
+            } else {
+                alert('Полноэкранный режим не поддерживается на Вашем устройстве.');
+            }
+
+            return false;
+        });
     };
 
     events.makeSlickSlider = function() {
@@ -29,12 +55,12 @@ define(['jquery',
     events.setEventListenerOnWindowResize = function() {
         $(window).resize(function() {
             if (events.slickActive) {
-                console.log('1');
                 if ($( window ).width() > 992) {
                     $('.modes .row').slick('unslick');
 
                     events.slickActive = false;
                 }
+                // else do nothing!
             } else {
                 events.makeSlickSlider();
             }

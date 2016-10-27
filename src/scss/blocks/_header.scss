@@ -64,7 +64,7 @@ header {
     }
 }
 
-.social {
+.controls {
     float: right; 
     padding-right: 80px;
 
@@ -78,7 +78,7 @@ header {
         text-align: center;
     }
 
-    &__network {
+    &__item {
         display: inline-block;
         padding: 30px 0 0;
         margin-left: 40px;
@@ -102,6 +102,14 @@ header {
                 height: 40px;
                 width: 40px;
             }
+        }
+
+        &.fullscreen svg {
+            width: 40px;
+        }
+
+        &.share svg {
+            width: 50px;
         }
     }
 }
