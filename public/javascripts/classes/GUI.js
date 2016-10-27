@@ -207,6 +207,7 @@ define([
             if (ms == -1){
                 return;
             }
+
             var str = '<thead><tr class="tableHead"><th>№</th><th>Имя</th><th>Оценка</th></tr></thead><tbody>';
 
             for (var i = 0; i < ms.length; i++) {
