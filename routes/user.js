@@ -19,7 +19,7 @@ var user = {
 
 function vkAuthPOST(req, res) {
 
-    var user = {
+    var cur_user = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         vk_id: req.body.vk_id
@@ -27,18 +27,19 @@ function vkAuthPOST(req, res) {
 
     pool.getConnection(function(err, connection) {
 
+        console.log(user);
         var sql = 'SELECT * ' +
             'FROM records ' +
             'WHERE vk_id = ?';
-        connection.query(sql, user.vk_id, function(err, result) {
+        connection.query(sql, cur_user.vk_id, function(err, result) {
 
             if (err) {
                 throw err;
             }
 
-            var user = result[0];
-            if (user) {
+            if (result.length > 0) {
                 // user exists - just response with his id
+                var user = result[0];
 
                 connection.release();
                 var token = genToken(user.id);
@@ -53,7 +54,7 @@ function vkAuthPOST(req, res) {
 
                 var sql = 'INSERT INTO records ' +
                     'SET ?';
-                connection.query(sql, user, function(err, result) {
+                connection.query(sql, cur_user, function(err, result) {
 
                     if (err) {
                         throw err;
