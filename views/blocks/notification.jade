@@ -1,4 +1,4 @@
-.notification.hidden
+.notification.animated.hidden
     a.notification__close(href="#")
         svg.vk(xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink")
             use(xlink:href='#close')
@@ -6,7 +6,8 @@
     .notification__content.clearfix
         .notification__image
             img(src='#' width=100 height=100)
-        .notification__text Герман Волков хочет узнать
+        .notification__title Вызов на дуэль!
+        .notification__text Текст
     .notification__activities
         button.confirm Принять
         button.reject Отказать

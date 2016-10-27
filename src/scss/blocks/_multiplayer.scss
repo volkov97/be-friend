@@ -73,6 +73,11 @@
 
         & + .question__answers {
           padding-left: 240px;
+
+          @media only screen and (max-width: $screen_medium) {
+            padding-bottom: 0;
+            padding-left: 0;
+          }
         }
       }
 

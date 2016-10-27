@@ -52,6 +52,7 @@ define(['jquery',
             events.setEventListenerOnCreateRoom();
             events.setEventListenerOnJoinRoom();
             events.setEventListenerOnStartRoom();
+            events.setEventListenersOnNotifications();
         });
     };
 
@@ -85,7 +86,7 @@ define(['jquery',
             event.preventDefault();
 
             returnAllToDefaultState($(this)).then(function() {
-                onlineUser.createRoom(vkapi.getUserInfo().id, $('#winPoints').val());
+                onlineUser.createRoom(vkapi.getUserInfo().id);
 
                 $(".multiplayer").removeClass("bounceOutRight").addClass("bounceInLeft").removeClass('hidden');
             });
@@ -145,10 +146,35 @@ define(['jquery',
         $('.onlinePlayers__player').click(function(event) {
             event.preventDefault();
 
+            returnAllToDefaultState($('.onlinePlayers__player')).then(function() {
+                onlineUser.createRoom(vkapi.getUserInfo().id);
+
+                $(".multiplayer").removeClass("bounceOutRight").addClass("bounceInLeft").removeClass('hidden');
+            });
+
             onlineUser.sendRequestTo($(this).attr('href').slice(17));
 
             return false;
         });
+    };
+
+    events.setEventListenersOnNotifications = function() {
+
+        $('body').on('click', '.gameRequest .notification__close, .gameRequest .notification__activities .reject', function () {
+            event.preventDefault();
+
+            console.log('a');
+            var notificationBlock = $(this).closest('.notification');
+
+            notificationBlock.removeClass('bounceInUp').addClass('bounceOutDown');
+
+            setTimeout(function() {
+                notificationBlock.addClass('hidden').remove();
+            }, 1000);
+
+            return false;
+        });
+
     };
 
     events.addListenersToOptionsForSingleGame = function() {

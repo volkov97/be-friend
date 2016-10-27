@@ -49,12 +49,12 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
             console.log(obj);
 
             notify.showNotification(
+                "gameRequest",
                 "Вас вызывают на дуэль!",
-                obj.from.first_name + " "
-                + obj.from.last_name
-                + " (id" + obj.from.id
-                + ") хочет проверить, кто лучше знает Ваших общих друзей! Примите вызов?",
-                obj.from.img_src
+                obj.from.first_name + " " + obj.from.last_name
+                + " (id" + obj.from.id + ") хочет проверить, кто лучше знает Ваших общих друзей! Примите вызов?",
+                obj.from.img_src,
+                true
             );
         });
     };
