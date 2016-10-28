@@ -14,6 +14,27 @@ define(['jquery',
         slickActive: false
     };
 
+    events.share = function () {
+        $('.controls .share a').click(function(event) {
+            if (navigator.share !== undefined) {
+                event.preventDefault();
+
+                navigator.share({
+                    title: 'BeFriend',
+                    text: 'Наше приложение позволит Вам сблизиться со всеми вашими знакомыми и заводить настоящих друзей. Мы поможем Вам узнать знакомых намного лучше, а также обнаружить у них Ваши общие интересы. Все это сделает из Вас внимательного, привлекательного в общении человека.',
+                    url: 'https://befriend.herokuapp.com'
+                }).then(function() {
+                    console.log('Successful share');
+                }).catch(function() {
+                    console.log('Error sharing:', error);
+                });
+
+                return false;
+            }
+        });
+
+    };
+
     events.triggerFullscreen = function() {
 
         if (screenfull.enabled) {
