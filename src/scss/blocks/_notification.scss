@@ -11,6 +11,18 @@
     padding: 20px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 
+    @media only screen and (max-width: $screen_small) {
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-left: 0px;
+        box-shadow: none;
+        font-size: 0.9em;
+        border: none;
+        border-top: 1px solid #797979;
+    }
+
     &__close {
         position: absolute;
         top: 15px;
