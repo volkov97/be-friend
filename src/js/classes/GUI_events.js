@@ -209,7 +209,7 @@ define(['jquery',
     events.setEventListenersOnNotifications = function() {
 
         // reject game request
-        $('body').on('click', '.gameRequest .notification__close, .gameRequest .notification__activities .reject', function () {
+        $('body').on('click', '.gameRequest .notification__close, .gameRequest .notification__activities .reject', function (event) {
             event.preventDefault();
 
             var notificationBlock = $(this).closest('.notification');
@@ -224,7 +224,7 @@ define(['jquery',
         });
 
         // confirm game request
-        $('body').on('click', '.gameRequest .notification__activities .confirm', function() {
+        $('body').on('click', '.gameRequest .notification__activities .confirm', function(event) {
             event.preventDefault();
 
             var notificationBlock = $(this).closest('.notification');
