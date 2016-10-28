@@ -8,6 +8,7 @@ requirejs.config({
 		slick: 'libs/slick.min',
 		socketio: 'libs/socket.io',
 		chartLib: 'libs/Chart.min',
+		promise: 'libs/promise.min',
 
 		// Classes
 		vkapi: 'classes/VKFuncs',

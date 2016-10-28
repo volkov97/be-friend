@@ -1,4 +1,4 @@
-define(['events', 'multiplayer', 'notify', 'sw'], function(events, onlineUser, notify, sw, slick) {
+define(['events', 'multiplayer', 'notify', 'sw', 'promise'], function(events, onlineUser, notify, sw, slick, promise) {
 
     var app = {};
 
