@@ -52,7 +52,8 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
                 "gameRequest",
                 "Вас вызывают на дуэль!",
                 obj.from.first_name + " " + obj.from.last_name
-                + " (id" + obj.from.id + ") хочет проверить, кто лучше знает Ваших общих друзей! Примите вызов?",
+                + " (id" + obj.from.id + ") хочет проверить, кто лучше знает Ваших общих друзей! Примите вызов? (ключ "
+                + obj.roomName + ")",
                 obj.from.img_src,
                 true
             );
@@ -60,12 +61,14 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
     };
 
     onlineUser.createRoom = function(vk_id) {
-        // TODO: Random numbers in room num
-        onlineUser.setRoom(vk_id.toString().substr(0, 3) + Math.floor((Math.random() * 1000)));
+        var roomName = vk_id.toString().substr(0, 3) + Math.floor((Math.random() * 1000));
+        onlineUser.setRoom(roomName);
 
         onlineUser.socket.emit('multiplayer create', {
             roomName: onlineUser.getRoom()
         });
+
+        return roomName;
     };
 
     onlineUser.joinRoom = function(roomName) {
@@ -104,12 +107,11 @@ define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (requir
         }
     };
 
-    onlineUser.sendRequestTo = function(id) {
-        console.log("1234");
-        console.log(vkapi.getUserInfo());
+    onlineUser.sendRequestTo = function(id, roomName) {
         onlineUser.socket.emit('game request', {
             from: vkapi.getUserInfo(),
-            to: id
+            to: id,
+            roomName: roomName
         });
     };
 

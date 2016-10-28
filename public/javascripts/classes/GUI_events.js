@@ -193,13 +193,14 @@ define(['jquery',
         $('.onlinePlayers__player').click(function(event) {
             event.preventDefault();
 
+            var $player = $(this);
+
             returnAllToDefaultState($('.onlinePlayers__player')).then(function() {
-                onlineUser.createRoom(vkapi.getUserInfo().id);
+                var roomName = onlineUser.createRoom(vkapi.getUserInfo().id);
+                onlineUser.sendRequestTo($player.attr('href').slice(17), roomName);
 
                 $(".multiplayer").removeClass("bounceOutRight").addClass("bounceInLeft").removeClass('hidden');
             });
-
-            onlineUser.sendRequestTo($(this).attr('href').slice(17));
 
             return false;
         });
@@ -207,11 +208,28 @@ define(['jquery',
 
     events.setEventListenersOnNotifications = function() {
 
+        // reject game request
         $('body').on('click', '.gameRequest .notification__close, .gameRequest .notification__activities .reject', function () {
             event.preventDefault();
 
-            console.log('a');
             var notificationBlock = $(this).closest('.notification');
+
+            notificationBlock.removeClass('bounceInUp').addClass('bounceOutDown');
+
+            setTimeout(function() {
+                notificationBlock.addClass('hidden').remove();
+            }, 1000);
+
+            return false;
+        });
+
+        // confirm game request
+        $('body').on('click', '.gameRequest .notification__activities .confirm', function() {
+            event.preventDefault();
+
+            var notificationBlock = $(this).closest('.notification');
+
+            var roomKey = notificationBlock.find('.')
 
             notificationBlock.removeClass('bounceInUp').addClass('bounceOutDown');
 

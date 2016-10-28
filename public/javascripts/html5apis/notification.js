@@ -3,35 +3,63 @@ define(['sw'], function(sw) {
     var notify = {};
 
     notify.showNotification = function(type, title, text, src, enableButtons) {
-        /*
-        Notification.requestPermission(function(result) {
-            if (result === 'granted') {
-                navigator.serviceWorker.ready.then(function(registration) {
-                    registration.showNotification(title, {
-                        body: text,
-                        dir: 'auto', // or ltr, rtl
-                        lang: 'RU', //lang used within the notification.
-                        tag: 'notificationPopup', //An element ID to get/set the content
-                        icon: src //The URL of an image to be used as an icon
-                    });
-                });
-            }
-        });
-        */
 
-        var imageHTML = '';
-        if (src) {
-            imageHTML = '<div class="notification__image">\
-                             <img src="' + src + '" width=100 height=100 />\
-                         </div>';
+        function isNewNotificationSupported() {
+            if (!window.Notification || !Notification.requestPermission)
+                return false;
+            if (Notification.permission == 'granted')
+                throw new Error('You must only call this \*before\* calling Notification.requestPermission(),\ ' +
+                    'otherwise this feature detect would bug the user with an actual notification!');
+            try {
+                new Notification('');
+            } catch (e) {
+                if (e.name == 'TypeError')
+                    return false;
+            }
+            return true;
         }
 
-        var activities = '<div class="notification__activities">\
+        if (window.Notification && Notification.permission == 'granted') {
+            // We would only have prompted the user for permission if new
+            // Notification was supported (see below), so assume it is supported.
+            showNotification();
+        } else if (isNewNotificationSupported()) {
+            // new Notification is supported, so prompt the user for permission.
+            Notification.requestPermission(function(result) {
+                if (result === 'granted') {
+                    showNotification();
+                }
+            });
+        } else {
+            makeCustomNotification();
+        }
+
+        function showNotification() {
+            navigator.serviceWorker.ready.then(function(registration) {
+                registration.showNotification(title, {
+                    body: text,
+                    dir: 'auto', // or ltr, rtl
+                    lang: 'RU', //lang used within the notification.
+                    tag: 'notificationPopup', //An element ID to get/set the content
+                    icon: src //The URL of an image to be used as an icon
+                });
+            });
+        }
+
+        function makeCustomNotification() {
+            var imageHTML = '';
+            if (src) {
+                imageHTML = '<div class="notification__image">\
+                             <img src="' + src + '" width=100 height=100 />\
+                         </div>';
+            }
+
+            var activities = '<div class="notification__activities">\
                              <button class="confirm">Принять</button>\
                              <button class="reject">Отказать</button>\
                           </div>';
 
-        var notificationHTML = '<div class="' + type + ' notification animated bounceInUp">\
+            var notificationHTML = '<div class="' + type + ' notification animated bounceInUp">\
                                     <a class="notification__close" href="#">\
                                         <svg class="vk" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\
                                             <use xlink:href="#close"></use>\
@@ -46,7 +74,9 @@ define(['sw'], function(sw) {
                                     ' + (enableButtons ? activities : '') + '\
                                 </div>';
 
-        $('body').append(notificationHTML);
+            $('body').append(notificationHTML);
+        }
+
     };
 
     return notify;

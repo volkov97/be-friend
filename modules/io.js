@@ -15,10 +15,10 @@ module.exports = function(server) {
 
         socket.on('game request', function(obj) {
             console.log('new game request');
-            console.log(obj);
 
             io.to(getSocketIdByVkId(obj.to)).emit('game request', {
-                from: obj.from
+                from: obj.from,
+                roomName: obj.roomName
             });
         });
 
