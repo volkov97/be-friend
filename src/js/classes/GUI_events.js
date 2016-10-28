@@ -229,7 +229,21 @@ define(['jquery',
 
             var notificationBlock = $(this).closest('.notification');
 
-            var roomKey = notificationBlock.find('.')
+            var notificationText = notificationBlock.find('.notification__text').text();
+            var startIndex = notificationText.lastIndexOf('(') + 6;
+            var endIndex = notificationText.lastIndexOf(')');
+            var roomKey = notificationText.substring(startIndex, endIndex);
+
+            returnAllToDefaultState($(this)).then(function() {
+
+                if (onlineUser.getRoom()) {
+                    onlineUser.clearRoom();
+                }
+                onlineUser.joinRoom(roomKey);
+
+                $('.roomInfo .forCreator').addClass('hidden');
+                $('.roomInfo .forUser').removeClass('hidden');
+            });
 
             notificationBlock.removeClass('bounceInUp').addClass('bounceOutDown');
 
@@ -333,7 +347,7 @@ define(['jquery',
             var waiting = false;
 
             // disable the button
-            $clickedButton.prop("disabled",true);
+            $clickedButton.prop("disabled", true);
 
             // hide single mode
             if (!$singleGameBlock.hasClass('hidden')) {

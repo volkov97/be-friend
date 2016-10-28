@@ -30,8 +30,6 @@ define(['sw'], function(sw) {
                     showNotification();
                 }
             });
-        } else {
-            makeCustomNotification();
         }
 
         function showNotification() {
@@ -76,6 +74,8 @@ define(['sw'], function(sw) {
 
             $('body').append(notificationHTML);
         }
+
+        makeCustomNotification();
 
     };
 
