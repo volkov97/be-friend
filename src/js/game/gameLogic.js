@@ -534,7 +534,7 @@ define([], function() {
      */
     function _getNumberOfQuestion(){
         if (_questionNumbersToSelect.length == 0){
-            for (var i = 0; i < quiz.length; i++){
+            for (var i = 0; i < _quiz.length; i++){
                 _questionNumbersToSelect[i] = i;
             }
         }
@@ -564,9 +564,9 @@ define([], function() {
      */
     gameLogic.makeNewQuestion = function(typeNum) {
 
-        if (typeNum < 0 || typeNum >= quiz.length) return false;
+        if (typeNum < 0 || typeNum >= _quiz.length) return false;
 
-        var questionObj = quiz[typeNum || _getNumberOfQuestion()];
+        var questionObj = _quiz[typeNum || _getNumberOfQuestion()];
         questionObj.getAvailableUsers();
         var options = questionObj.chooseOptions();
         var rightAnswerUser = options[1];
