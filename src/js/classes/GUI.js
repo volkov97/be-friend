@@ -1,19 +1,36 @@
-define([
-    'jquery',
-    'vkapi',
-    'gameLogic',
-    'vibration',
-    'gameVariables',
-    'timer',
-    'statistics',
-    'multiplayer',
-    'chart',
-    'security',
-    'events'
-], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, events) {
+define(
+    [
+        'jquery',
+        'vkapi',
+        'gameLogic',
+        'vibration',
+        'gameVariables',
+        'timer',
+        'statistics',
+        'multiplayer',
+        'chart',
+        'security',
+        'events'
+    ],
+    function(
+        $,
+        vkapi,
+        gameLogic,
+        vibration,
+        gameVariables,
+        timer,
+        statistics,
+        onlineUser,
+        chart,
+        security,
+        events
+    ) {
 
     var gui = {};
 
+    /**
+     *  VK Auth
+     */
     gui.login = function() {
 
         $('.authButton').addClass('loading');
@@ -42,30 +59,34 @@ define([
                 }, 1000);
             },
             function(error) {
-                // вторая функция - запустится при вызове reject
                 alert("Rejected: " + error); // error - аргумент reject
             }
         );
 
     };
 
+    /**
+     * Shows generated question
+     * @param questionData data of chosen question
+     * @param multiplayer 'isMultiplayer?' flag
+     */
     gui.drawQuestion = function(questionData, multiplayer) {
         $questionText = $(".question__text");
         $questionProps = $(".question__properties");
         $questionAnswers = $(".question__answers");
 
-        // adding question text
+        // Shows question text
         var str = '<div class="question__text">' + questionData.questionObj.question + '</div>';
 
-        // adding properties wrap
+        // Shows properties wrap
         str += '<div class="question__properties clearfix">';
 
-        // adding image
+        // Shows image for question
         if (questionData.questionObj.withPhoto) {
             str += '<div class="question__image"><img src=\'' + questionData.rightUser.photo_200 + '\' class="question__img" width="200px" height="200px" alt="Quiz Question Image"></div>';
         }
 
-        // answers
+        // Shows answers
         str += '<div class="question__answers clearfix">';
         for (var i = 0; i < questionData.options.length; i++) {
             str += '<div class=question__answer>' + questionData.options[i] + '</div>';
@@ -89,33 +110,44 @@ define([
         }
     };
 
+    /**
+     * Update points on the screen
+     */
     gui.updatePoints = function() {
         $("#onlinePoints").text(gameVariables.getScore());
     };
 
+    /**
+     * Update time on the screen
+     */
     gui.updateTimer = function() {
         $("#onlineSeconds").text(timer.getSecondsLeft());
     };
 
+    /**
+     * Method ends game, sends game results to server
+     * @param single 'isSingle?' flag
+     */
     gui.endGame = function(single) {
-
         if (single) {
             $(".quizForSingleGame .question").addClass('hidden');
             $('#gameResultPoints').text(gameVariables.getScore());
             $(".gameResult").removeClass('hidden');
 
+            // Sending user data and points to server
             $.post("/vl/sendGameResults", {
                 user_id: vkapi.getId(),
                 score: gameVariables.getScore(),
                 statistics: statistics.getOneGameStatistics(),
                 access_token: security.getToken()
             }, function(data) {
+                // Updating tables and statistics
                 gui.updateTopList();
                 gui.updateNeighbors();
                 gui.updateStatistics();
             });
         } else {
-            // find user's place in a table
+            // Find user's place in a table
             var table = $(".rate__table.roomOnline tr").each(function(index){
                 if (index == 0) return true;
                 var userName = this.getElementsByClassName("name")[0].innerText;
@@ -124,17 +156,16 @@ define([
                 }
             });
 
-            console.log(statistics.getOneGameStatistics());
-
             $(".quizForMultiplayerGame .question").addClass('hidden');
-
             $(".gameResult").removeClass('hidden');
         }
-
-
     };
 
+    /**
+     * Updates top-players table
+     */
     gui.updateTopList = function() {
+        // Getting top-5 players from database
         $.post("/getTopList", {
             number: 5
         }, function(data) {
@@ -151,13 +182,17 @@ define([
         }, "json");
     };
 
+    /**
+     * Method updates statistics
+     * @param show
+     */
     gui.updateStatistics = function(show) {
+        // Getting statistics data about logged user
         $.post("/vl/getStatistics", {
             id: vkapi.getId(),
             access_token: security.getToken()
         }, function(statisticsData){
             var stats = statistics.getFullStatistics(statisticsData[0]);
-            console.log(stats);
 
             $('.mistakesPerGame').text(stats.averageMistakesPerGame);
             $('.pointsPerGame').text(stats.averageScorePerGame);
@@ -166,11 +201,13 @@ define([
 
             var countOfGames = 10;
 
+            // Getting last {countOfGames} games statistics data
             $.post("/vl/getLastGames", {
                 id: vkapi.getId(),
                 num: countOfGames,
                 access_token: security.getToken()
             }, function(lastGamesData){
+                // Preparing and structuring data for pie and bar charts
                 var pieChartData = [stats.rightAnswers_count, stats.mistakes_count, stats.firstTryRightAnswers_count];
 
                 var barChartData = {
@@ -182,19 +219,18 @@ define([
                     barChartData.data[lastGamesData.rows.length - 1 - i] = lastGamesData.rows[i].score;
                 }
 
-                console.log(pieChartData);
-                console.log(barChartData);
-
                 chart.drawCharts(pieChartData, {
                     labels: barChartData.labels,
                     data: barChartData.data
                 });
             }, "json");
-
         }, "json");
     };
 
-    gui.updateNeighbors = function(show) {
+    /**
+     * Method updates neighbours table
+     */
+    gui.updateNeighbors = function() {
         $.post("/vl/getNeighbours", {
             id: vkapi.getId(),
             num: 5,
@@ -226,7 +262,10 @@ define([
         });
     };
 
-    // mode third block
+    /**
+     * Method updates online players list
+     * @param list list of online players
+     */
     gui.updateOnlinePlayersList = function(list) {
         var code = "";
 
@@ -237,7 +276,6 @@ define([
         }
 
         $('.onlinePlayers__list').html(code);
-
         require('events').setEventListenerOnOnlineUsers();
     };
 
@@ -249,13 +287,15 @@ define([
         $('.roomInfo .error').text(str).removeClass('hidden');
     };
 
+    /**
+     * Updates points of players in room(multiplayer)
+     * @param obj players information
+     */
     gui.updateOnlineRoom = function(obj) {
         $('.joinGame .errorSpan').addClass('hidden');
 
-        // updating online room users list
         var list = obj.list;
-
-        // sort list
+        // Sorting list
         list.sort(function(a, b){
             return a.points < b.points ? 1 : -1;
         });
@@ -270,24 +310,19 @@ define([
         }
 
         code += '</tdody>';
-
         $('.members .rate__table').html(code);
-
-        // update room key
+        // Updating room key
         var key = obj.key;
         $('.key.styledInput input').val(key);
-
-        // for viewing
         if ($('.multiplayer').hasClass('hidden')) {
             $('.multiplayer').removeClass('bounceOutRight').addClass('bounceInLeft').removeClass('hidden');
         }
 
-        // end game
+        // End game
         if (obj.endGame) {
             gui.endGame(false);
         }
     };
 
     return gui;
-
 });

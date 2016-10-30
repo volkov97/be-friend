@@ -1,16 +1,28 @@
-define([], function() {
+define(
+    [],
+    function() {
 
     var vkapi = {};
     var userObj;
 
+    /**
+     * Sets user database-id
+     * @param num user database-id
+     */
     vkapi.setId = function(num){
         userObj.id = num;
     };
 
+    /**
+     * Getting user database id
+     */
     vkapi.getId = function(){
         return userObj.id;
     };
-    
+
+    /**
+     * Getting user vk id
+     */
     vkapi.getUser = function() {
         return userObj.mid;
     };
@@ -24,6 +36,9 @@ define([], function() {
         };
     }
 
+    /**
+     * VK Authorization
+     */
     vkapi.loginUser = function() {
         var promise = new Promise(function(resolve, reject) {
             VK.Auth.login(function (response) {
@@ -39,6 +54,9 @@ define([], function() {
         return promise;
     };
 
+    /**
+     * Getting user friends ids
+     */
     vkapi.getFriendsIDs = function(resolve, reject) {
         VK.Api.call('friends.get', {
             user_id: userObj.mid,
@@ -56,15 +74,20 @@ define([], function() {
         });
     }
 
+    /**
+     * Getting user friends information
+     */
     vkapi.getFriendsInfo = function(resolve, reject) {
         VK.Api.call('users.get', {
             user_ids: stringOfUserIDs,
-            fields: "bdate,city,photo_200,relation,education,universities,schools,status,followers_count,sex,followers_count,personal,first_name_gen,last_name_gen,relation",
+            fields: "bdate,city,photo_200,relation,education,universities,schools," +
+            "status,followers_count,sex,followers_count,personal,first_name_gen,last_name_gen,relation",
             version: "5.53"
         }, function(r) {
             if (r.response){
                 friends = r.response;
                 userObj.img_src = friends.shift().photo_200;
+                // Remove deleted users
                 friends = friends.filter(function(tempUser){
                     if (tempUser.deactivated == "deleted") {
                         return false;
@@ -85,6 +108,9 @@ define([], function() {
         });
     };
 
+    /**
+     * Tranlate cities ids to cities names
+     */
     vkapi.getFriendsCities = function(resolve, reject) {
         VK.Api.call('database.getCitiesById', {
             city_ids: stringOfUsersCitiesIDs,
@@ -94,15 +120,12 @@ define([], function() {
                 var cities = r.response;
 
                 for (var i = 0; i < friends.length; i++) {
-
                     var cityId = friends[i].city;
-
                     for (var j = 0; j < cities.length; j++) {
                         if (cityId == cities[j].cid) {
                             friends[i].cityName = cities[j].name;
                         }
                     }
-
                 }
 
                 var sendingInfo = {
@@ -111,6 +134,7 @@ define([], function() {
                     vk_id: userObj.user.id
                 };
 
+                // Sending user information to server
                 $.post("/auth", sendingInfo, function(data) {
                     resolve(data);
                 }, "json");

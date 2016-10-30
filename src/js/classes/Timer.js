@@ -1,9 +1,18 @@
-define(['require', 'gui'], function (require, gui) {
+define(
+    [
+        'require',
+        'gui'
+    ],
+    function (
+        require,
+        gui) {
 
     var timer, gameTime = 0, gameTimeMax = 9000, totalGameTime = 0, self = this;
 
+    /**
+     * Starts timer, calculate game time
+     */
     this.start = function() {
-        console.log('timer started');
         timer = setInterval(function() {
             totalGameTime += 1000;
             gameTime += 1000;
@@ -42,6 +51,7 @@ define(['require', 'gui'], function (require, gui) {
         gameTime += 1000;
     };
 
+    // Returns total time of the game
     this.getTotalGameTime = function(){
         return (totalGameTime / 1000);
     };

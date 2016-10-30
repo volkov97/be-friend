@@ -1,5 +1,12 @@
-define(['timer'], function(timer){
+define(
+	[
+		'timer'
+	],
+	function(
+		timer
+	) {
 
+	// Statistics info
 	var statistics = {
 		rightAnswers_count: 0,
 		mistakes_count: 0,
@@ -24,6 +31,12 @@ define(['timer'], function(timer){
 		statistics.firstTryRightAnswers_count++;
 	}
 
+	/**
+	 * Returns information about last game
+	 * @returns {{rightAnswers_count: number, mistakes_count: number,
+	 *            game_time, firstTryRightAnswers_count: number
+	 *           }}
+	 */
 	statistics.getOneGameStatistics = function(){
 		var obj = {
 			rightAnswers_count: statistics.rightAnswers_count,
@@ -35,6 +48,10 @@ define(['timer'], function(timer){
 		return obj;
 	}
 
+	/**
+	 * Structures data from database and calculate average values
+	 * @param data statistics data from database
+	 */
 	statistics.getFullStatistics = function(data){
 
 		var obj = {};
@@ -58,7 +75,8 @@ define(['timer'], function(timer){
 		if (obj.rightAnswers_count + obj.mistakes_count == 0){
 			obj.rightAnswers_percent = 0;
 		} else {
-			obj.rightAnswers_percent = Math.round((obj.rightAnswers_count/(obj.rightAnswers_count + obj.mistakes_count)) * 10000)/100 + "%";
+			obj.rightAnswers_percent = Math.round((obj.rightAnswers_count/(obj.rightAnswers_count + obj.mistakes_count))
+					* 10000)/100 + "%";
 		}
 
 		return obj;
