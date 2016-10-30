@@ -1,6 +1,7 @@
 var express = require('express');
-var router = express.Router();
 var mysql = require('mysql');
+
+var router = express.Router();
 var pool = mysql.createPool({
     host     : 'us-cdbr-iron-east-04.cleardb.net',
     user     : 'b1c67bc0ce692d',
@@ -27,7 +28,7 @@ function getTopListPOST(req, res) {
             res.json(result);
         },
         function(error) {
-            console.log(error);
+            return console.log(error);
         }
     );
 }
@@ -44,11 +45,16 @@ function sendGameResultsPOST(req, res) {
 
     pool.getConnection(function(err, connection) {
 
+        if(err) {
+            throw err;
+        }
+
         var sql = 'INSERT INTO games ' +
             'SET ?';
-        connection.query(sql, last_game, function(err, result) {
-            if (err) {
-                throw err;
+        connection.query(sql, last_game, function(error, result) {
+
+            if (error) {
+                throw error;
             }
 
             connection.release();
@@ -60,16 +66,14 @@ function sendGameResultsPOST(req, res) {
 function getStatisticsPOST(req, res) {
 
     var vk_id = req.body.id;
-    console.log(req.body);
 
     getStatistics(vk_id).then(
         function(result) {
-            console.log(result);
             res.status(200);
             res.json(result);
         },
         function(error) {
-            console.log(error);
+            throw error;
         }
     );
 }
@@ -80,26 +84,26 @@ function getNeighboursPOST(req, res) {
     var num = req.body.num || 5;
 
     getNeighbours(num, id).then(
-        function(result){
+        function(result) {
             res.json(result);
         },
-        function(error){
-            console.log(error);
+        function(error) {
+            return console.log(error);
         }
     );
 }
 
-function getLastGamesPOST(req, res){
+function getLastGamesPOST(req, res) {
 
     var id = req.body.id;
     var num = req.body.num;
 
     getLastGames(id, num).then(
-        function(result){
+        function(result) {
             res.json(result);
         },
-        function(error){
-            console.log(error);
+        function(error) {
+            return console.log(error);
         }
     );
 }
@@ -107,6 +111,7 @@ function getLastGamesPOST(req, res){
 function getTopList(num) {
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
+
             if (err) {
                 reject("error");
                 throw err;
@@ -119,12 +124,10 @@ function getTopList(num) {
                 'INNER JOIN games g ON g.user_id = r.id ' +
                 'ORDER BY max_score DESC ' +
                 'LIMIT ?';
-            // забыл про Limit и порядок выдачи
-            // выдает несколько раз, если играл несколько раз - хотя может это норм?
-            connection.query(sql, top_limit,function (err, rows) {
-                if (err) {
+            connection.query(sql, top_limit,function (error, rows) {
+                if (error) {
                     reject("error");
-                    throw err;
+                    throw error;
                 }
 
                 connection.release();
@@ -135,7 +138,7 @@ function getTopList(num) {
     });
 }
 
-function getNeighbours(num, user_id){
+function getNeighbours(num, user_id) {
 
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
@@ -149,23 +152,21 @@ function getNeighbours(num, user_id){
                 'FROM records r ' +
                 'INNER JOIN games g ON g.user_id = r.id ' +
                 'ORDER BY max_score DESC';
-            connection.query(sql,function (err, rows) {
-                if (err) {
+            connection.query(sql,function (error, rows) {
+                if (error) {
                     reject("error");
-                    throw err;
+                    throw error;
                 }
 
                 var pos = -1;
                 for (var i = 0; i < rows.length; i++) {
-                    if (rows[i].user_id == user_id){
+                    if (rows[i].user_id == user_id) {
                         pos = i;
                         break;
                     }
                 }
 
-                console.log("TRY");
-                console.log(pos);
-                if (pos == -1){
+                if (pos == -1) {
                     connection.release();
                     resolve({
                         userPos: -1,
@@ -178,13 +179,13 @@ function getNeighbours(num, user_id){
                 pos++;
 
                 if (pos != -1) {
-                    if (pos >= 1 && pos <= Math.floor(num / 2) + 1){
+                    if (pos >= 1 && pos <= Math.floor(num / 2) + 1) {
                         result = rows.slice(0, num);
 
                         for (var i = 0; i < num; i++) {
                             result[i].realPos = i + 1;
                         }
-                    } else if (pos >= rows.length - Math.floor(num / 2) && pos <= rows.length){
+                    } else if (pos >= rows.length - Math.floor(num / 2) && pos <= rows.length) {
                         result = rows.slice(rows.length - num);
 
                         for (var i = 0; i < num; i++) {
@@ -209,7 +210,7 @@ function getNeighbours(num, user_id){
     });
 }
 
-function getStatistics(id){
+function getStatistics(id) {
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -220,15 +221,15 @@ function getStatistics(id){
             var sql = 'SELECT COUNT(*), SUM(score), SUM(hits), SUM(first_try_hits), SUM(misses), SUM(game_time), MAX(score) ' +
                 'FROM games g ' +
                 'WHERE g.user_id = ?';
-            connection.query(sql, id, function (err, rows) {
-                if (err) {
+            connection.query(sql, id, function (error, rows) {
+                if (error) {
                     reject("error");
-                    throw err;
+                    throw error;
                 }
 
                 connection.release();
 
-                if (rows[0]['COUNT(*)'] == 0){
+                if (rows[0]['COUNT(*)'] == 0) {
                     rows[0]['SUM(score)'] = 0;
                     rows[0]['SUM(hits)'] = 0;
                     rows[0]['SUM(first_try_hits)'] = 0;
@@ -243,7 +244,7 @@ function getStatistics(id){
     });
 }
 
-function getLastGames(id, num){
+function getLastGames(id, num) {
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -258,10 +259,10 @@ function getLastGames(id, num){
                 'FROM games g ' +
                 'WHERE g.user_id = ? ' +
                 'ORDER BY g.id DESC';
-            connection.query(sql, id, function (err, rows) {
-                if (err) {
+            connection.query(sql, id, function (error, rows) {
+                if (error) {
                     reject("error");
-                    throw err;
+                    throw error;
                 }
 
                 var obj = {
@@ -275,6 +276,5 @@ function getLastGames(id, num){
         });
     });
 }
-
 
 module.exports = game;
