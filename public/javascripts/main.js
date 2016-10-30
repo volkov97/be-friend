@@ -34,6 +34,10 @@ requirejs.config({
 
 		// App
 		app: 'app'
+	},
+	shim: {
+		'jquery.md5': ['jquery'],
+		'jquery.cookie': ['jquery']
 	}
 });
 
