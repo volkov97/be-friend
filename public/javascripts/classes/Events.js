@@ -18,6 +18,7 @@ define(['jquery',
 
     events.connectHeaderButtons = function() {
         events.setEventListenerOnAuth();
+
         events.triggerSound();
         events.share();
         events.triggerFullscreen();
@@ -30,10 +31,7 @@ define(['jquery',
 
                 navigator.share({
                     title: 'BeFriend',
-                    text: 'Наше приложение позволит Вам сблизиться со всеми вашими знакомыми и заводить ' +
-                    'настоящих друзей. Мы поможем Вам узнать знакомых намного лучше, а также обнаружить у ' +
-                    'них Ваши общие интересы. Все это сделает из Вас внимательного, привлекательного ' +
-                    'в общении человека.',
+                    text: 'Наше приложение позволит Вам сблизиться со всеми вашими знакомыми и заводить настоящих друзей. Мы поможем Вам узнать знакомых намного лучше, а также обнаружить у них Ваши общие интересы. Все это сделает из Вас внимательного, привлекательного в общении человека.',
                     url: 'https://befriend.herokuapp.com'
                 }).then(function() {
                     console.log('Successful share');
@@ -225,6 +223,7 @@ define(['jquery',
     };
 
     events.setEventListenerOnOnlineUsers = function() {
+        console.log("setttted");
         $('.onlinePlayers__player').click(function(event) {
             event.preventDefault();
 
@@ -438,6 +437,7 @@ define(['jquery',
 
             // other buttons text to default, except clicked
             if (!$singleGameButton.is($clickedButton)) {
+                console.log("ATTEMPT");
                 $singleGameButton.text('Начать');
             }
 

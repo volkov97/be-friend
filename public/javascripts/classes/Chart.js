@@ -7,11 +7,10 @@ define(
         $,
         Chart
     ) {
-        
-    var _myPieChart;
-    var _myBarChart;
 
     var chart = {};
+    var _myPieChart;
+    var _myBarChart;
 
     /**
      * Calls draw charts methods

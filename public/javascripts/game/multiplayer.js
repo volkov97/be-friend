@@ -59,6 +59,7 @@ define(
         });
 
         onlineUser.socket.on('game request', function(obj) {
+            console.log(obj);
 
             notify.showNotification(
                 "gameRequest",
@@ -99,6 +100,8 @@ define(
     };
 
     onlineUser.getNewQuestion = function(roomName){
+        console.log("DAWdwWDDWDWA");
+        console.log(roomName);
         onlineUser.socket.emit('choose new question', {
             roomName: roomName
         });

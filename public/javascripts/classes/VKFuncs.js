@@ -1,36 +1,36 @@
 define([], function() {
 
     var vkapi = {};
-    var _userObj;
+    var userObj;
 
     /**
      * Sets user database-id
      * @param num user database-id
      */
     vkapi.setId = function(num){
-        _userObj.id = num;
+        userObj.id = num;
     };
 
     /**
      * Getting user database id
      */
     vkapi.getId = function(){
-        return _userObj.id;
+        return userObj.id;
     };
 
     /**
      * Getting user vk id
      */
     vkapi.getUser = function() {
-        return _userObj.mid;
+        return userObj.mid;
     };
 
     vkapi.getUserInfo = function() {
         return {
-            id: _userObj.mid,
-            first_name: _userObj.user.first_name,
-            last_name: _userObj.user.last_name,
-            img_src: _userObj.img_src
+            id: userObj.mid,
+            first_name: userObj.user.first_name,
+            last_name: userObj.user.last_name,
+            img_src: userObj.img_src
         };
     }
 
@@ -41,7 +41,7 @@ define([], function() {
         var promise = new Promise(function(resolve, reject) {
             VK.Auth.login(function (response) {
                 if (response.session) {
-                    _userObj = response.session;
+                    userObj = response.session;
                     vkapi.getFriendsIDs(resolve, reject);
                 } else {
                     console.log("login err");
@@ -57,12 +57,12 @@ define([], function() {
      */
     vkapi.getFriendsIDs = function(resolve, reject) {
         VK.Api.call('friends.get', {
-            user_id: _userObj.mid,
+            user_id: userObj.mid,
             version: "5.53"
         }, function(r){
             if (r.response){
                 friends = r.response;
-                stringOfUserIDs = _userObj.mid + ',' + friends.join();
+                stringOfUserIDs = userObj.mid + ',' + friends.join();
 
                 vkapi.getFriendsInfo(resolve, reject);
             }
@@ -84,7 +84,7 @@ define([], function() {
         }, function(r) {
             if (r.response){
                 friends = r.response;
-                _userObj.img_src = friends.shift().photo_200;
+                userObj.img_src = friends.shift().photo_200;
                 // Remove deleted users
                 friends = friends.filter(function(tempUser){
                     if (tempUser.deactivated == "deleted") {
@@ -127,9 +127,9 @@ define([], function() {
                 }
 
                 var sendingInfo = {
-                    first_name: _userObj.user.first_name,
-                    last_name: _userObj.user.last_name,
-                    vk_id: _userObj.user.id
+                    first_name: userObj.user.first_name,
+                    last_name: userObj.user.last_name,
+                    vk_id: userObj.user.id
                 };
 
                 // Sending user information to server
