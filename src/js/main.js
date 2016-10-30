@@ -13,7 +13,7 @@ requirejs.config({
 		// Classes
 		vkapi: 'classes/VKFuncs',
 		gui: 'classes/GUI',
-		events: 'classes/GUI_events',
+		events: 'classes/Events',
 		timer: 'classes/Timer',
 		statistics: 'classes/Statistics',
 		chart: 'classes/Chart',

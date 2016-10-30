@@ -5,14 +5,13 @@ define(['events', 'multiplayer', 'notify', 'sw', 'promise', 'audio'], function(e
     app.init = function() {
 
         onlineUser.connect();
-        events.triggerFullscreen();
-        events.setEventListenerOnAuth();
+        audio.init();
+
+        events.connectHeaderButtons();
 
         if (sw.register()) {
             console.log("Service Workers are not working!");
         }
-
-        audio.init();
     };
 
     return app;

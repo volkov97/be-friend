@@ -6,8 +6,9 @@ define(
         BufferLoader
     ) {
 
-        var _context;
+        var _status = true;
         var _hasSupport;
+        var _context;
         var _bufferLoader;
         var _soundFiles = [
             '../../sounds/correct.wav',
@@ -28,7 +29,7 @@ define(
         }
 
         function _playSound(buffer) {
-            if (_hasSupport) {
+            if (_hasSupport && _status) {
                 var source = _context.createBufferSource();
                 source.buffer = buffer;
                 source.connect(_context.destination);
@@ -58,17 +59,37 @@ define(
             }
         };
 
-        // play correct answer sound
+        // Check if audio is supported
+        audio.isSupported = function() {
+            return _hasSupport;
+        };
+
+        // Check if audio is turned on
+        audio.isTurnedOn = function() {
+            return _status;
+        };
+
+        // Turn audio on
+        audio.turnOn = function() {
+            _status = true;
+        };
+
+        // Turn audio off
+        audio.turnOff = function() {
+            _status = false;
+        };
+
+        // Play correct answer sound
         audio.correctAnswer = function() {
             _playSound(_buffers.correct);
         };
 
-        // play wrong answer sound
+        // Play wrong answer sound
         audio.wrongAnswer = function() {
             _playSound(_buffers.wrong);
         };
 
-        // play finish game sound
+        // Play finish game sound
         audio.finishGame = function() {
             _playSound(_buffers.finish);
         };

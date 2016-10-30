@@ -16,6 +16,14 @@ define(['jquery',
         slickActive: false
     };
 
+    events.connectHeaderButtons = function() {
+        events.setEventListenerOnAuth();
+
+        events.triggerSound();
+        events.share();
+        events.triggerFullscreen();
+    };
+
     events.share = function () {
         $('.controls .share a').click(function(event) {
             if (navigator.share !== undefined) {
@@ -60,6 +68,30 @@ define(['jquery',
 
             return false;
         });
+    };
+
+    events.triggerSound = function() {
+
+        if (!audio.isSupported()) {
+            $('.controls .sound svg use').attr('xlink:href', '#soundOff');
+        }
+
+        $('.controls .sound a').click(function(event) {
+            event.preventDefault();
+
+            if (audio.isSupported()) {
+                if (audio.isTurnedOn()) {
+                    $('.controls .sound svg use').attr('xlink:href', '#soundOff');
+                    audio.turnOff();
+                } else {
+                    $('.controls .sound svg use').attr('xlink:href', '#soundOn');
+                    audio.turnOn();
+                }
+            }
+
+            return false;
+        });
+
     };
 
     events.makeSlickSlider = function() {
@@ -363,6 +395,13 @@ define(['jquery',
 
                 setTimeout(function() {
                     $singleGameBlock.addClass('hidden');
+
+                    // if game already ended and results are in the view, for both modes
+                    if (!$gameResultBlock.hasClass('hidden')) {
+                        $gameResultBlock.addClass('hidden');
+                        $questionBlock.removeClass('hidden');
+                    }
+
                     $clickedButton.prop("disabled", false);
                     resolve();
                 }, 1000);
@@ -384,15 +423,16 @@ define(['jquery',
                     $quizForMultiplayerGame.removeClass('bounceInRight').addClass('hidden');
                     $elementsForAdmin.removeClass('hidden');
                     $elementsForUser.addClass('hidden');
+
+                    // if game already ended and results are in the view, for both modes
+                    if (!$gameResultBlock.hasClass('hidden')) {
+                        $gameResultBlock.addClass('hidden');
+                        $questionBlock.removeClass('hidden');
+                    }
+
                     $clickedButton.prop("disabled", false);
                     resolve();
                 }, 1000);
-            }
-
-            // if game already ended and results are in the view, for both modes
-            if (!$gameResultBlock.hasClass('hidden')) {
-                $gameResultBlock.addClass('hidden');
-                $questionBlock.removeClass('hidden');
             }
 
             // other buttons text to default, except clicked
