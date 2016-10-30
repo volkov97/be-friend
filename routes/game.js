@@ -58,7 +58,7 @@ function sendGameResultsPOST(req, res) {
             }
 
             connection.release();
-            res.end("success");
+            res.end('success');
         });
     });
 }
@@ -113,7 +113,7 @@ function getTopList(num) {
         pool.getConnection(function (err, connection) {
 
             if (err) {
-                reject("error");
+                reject('error');
                 throw err;
             }
  
@@ -126,7 +126,7 @@ function getTopList(num) {
                 'LIMIT ?';
             connection.query(sql, top_limit,function (error, rows) {
                 if (error) {
-                    reject("error");
+                    reject('error');
                     throw error;
                 }
 
@@ -143,7 +143,7 @@ function getNeighbours(num, user_id) {
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
             if (err) {
-                reject("error");
+                reject('error');
                 throw err;
             }
 
@@ -154,7 +154,7 @@ function getNeighbours(num, user_id) {
                 'ORDER BY max_score DESC';
             connection.query(sql,function (error, rows) {
                 if (error) {
-                    reject("error");
+                    reject('error');
                     throw error;
                 }
 
@@ -214,7 +214,7 @@ function getStatistics(id) {
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
             if (err) {
-                reject("error");
+                reject('error');
                 throw err;
             }
 
@@ -223,7 +223,7 @@ function getStatistics(id) {
                 'WHERE g.user_id = ?';
             connection.query(sql, id, function (error, rows) {
                 if (error) {
-                    reject("error");
+                    reject('error');
                     throw error;
                 }
 
@@ -248,7 +248,7 @@ function getLastGames(id, num) {
     return new Promise(function(resolve, reject) {
         pool.getConnection(function (err, connection) {
             if (err) {
-                reject("error");
+                reject('error');
                 throw err;
             }
 
@@ -261,7 +261,7 @@ function getLastGames(id, num) {
                 'ORDER BY g.id DESC';
             connection.query(sql, id, function (error, rows) {
                 if (error) {
-                    reject("error");
+                    reject('error');
                     throw error;
                 }
 
