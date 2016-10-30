@@ -9,9 +9,8 @@ define([
     'multiplayer',
     'chart',
     'security',
-    'slick',
     'events'
-], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, events, slick) {
+], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, events) {
 
     var gui = {};
 
