@@ -8,13 +8,12 @@ define(
         $
     ) {
 
-    var security = {
-        getToken: getToken
-    }
+        var security = {};
 
-    function getToken(){
-        return $.cookie($.md5('hashToken'));
-    }
+        security.getToken = function() {
+            return $.cookie($.md5('hashToken'));
+        };
 
-    return security;
-})
+        return security;
+    }
+);

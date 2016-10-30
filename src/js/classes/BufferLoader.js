@@ -1,7 +1,7 @@
 define([], function () {
 
     /**
-     *
+     * BufferLoader Class Constructor
      * @param context
      * @param urlList
      * @param callback

@@ -8,55 +8,60 @@ define(
         gui
     ) {
 
-    var timer, gameTime = 0, gameTimeMax = 9000, totalGameTime = 0, self = this;
+        var _timerVar;
+        var _gameTime = 0
+        var _gameTimeMax = 9000;
+        var _totalGameTime = 0;
 
-    /**
-     * Starts timer, calculate game time
-     */
-    this.start = function() {
-        timer = setInterval(function() {
-            totalGameTime += 1000;
-            gameTime += 1000;
-            require("gui").updateTimer();
+        var timer = {};
 
-            if (gameTime >= gameTimeMax) {
-                self.end();
-            }
-        }, 1000);
-    };
+        /**
+         * Starts timer, calculate game time
+         */
+        timer.start = function() {
+            _timerVar = setInterval(function() {
+                _totalGameTime += 1000;
+                _gameTime += 1000;
+                require("gui").updateTimer();
 
-    this.end = function() {
-        require("gui").endGame(true);
-        clearInterval(timer);
-    };
+                if (_gameTime >= _gameTimeMax) {
+                    timer.end();
+                }
+            }, 1000);
+        };
 
-    this.clrInterval = function(){
-        clearInterval(timer);
-    };
+        timer.end = function() {
+            require("gui").endGame(true);
+            clearInterval(_timerVar);
+        };
 
-    this.reset = function() {
-        this.clrInterval();
-        gameTime = 0;
-        totalGameTime = 0;
-    };
+        timer.clrInterval = function(){
+            clearInterval(_timerVar);
+        };
 
-    this.getSecondsLeft = function() {
-        return (gameTimeMax - gameTime) / 1000;
-    };
+        timer.reset = function() {
+            timer.clrInterval();
+            _gameTime = 0;
+            _totalGameTime = 0;
+        };
 
-    this.addTime = function() {
-        gameTime -= 2000;
-    };
+        timer.getSecondsLeft = function() {
+            return (_gameTimeMax - _gameTime) / 1000;
+        };
 
-    this.substractTime = function() {
-        gameTime += 1000;
-    };
+        timer.addTime = function() {
+            _gameTime -= 2000;
+        };
 
-    // Returns total time of the game
-    this.getTotalGameTime = function(){
-        return (totalGameTime / 1000);
-    };
+        timer.substractTime = function() {
+            _gameTime += 1000;
+        };
 
-    return this;
+        // Returns total time of the game
+        timer.getTotalGameTime = function(){
+            return (_totalGameTime / 1000);
+        };
 
-});
+        return timer;
+    }
+);

@@ -1,9 +1,10 @@
 define([], function() {
 
+    var _questionNumbersToSelect = [];
+
     var gameLogic = {
         rightAnswer: ""
     };
-    var _questionNumbersToSelect = [];
 
     gameLogic.getRightAnswer = function() {
         return gameLogic.rightAnswer;
@@ -160,7 +161,7 @@ define([], function() {
                         return true;
                     }
                 });
-            },
+            }
         },
         {
             // [3]
@@ -200,12 +201,8 @@ define([], function() {
                 }
 
                 universitiesWithoutDuplicates = universitiesWithoutDuplicates.filter(function(tempUniversity){
-                    if (tempUniversity == randomUser.universities[0].name){
-                        return false;
-                    } else {
-                        return true;
-                    }
-                })
+                    return tempUniversity != randomUser.universities[0].name;
+                });
 
                 universitiesWithoutDuplicates.sort(function(a, b) {
                     return Math.random() - 0.5;
@@ -236,7 +233,7 @@ define([], function() {
         },
         {
             // [4]
-            quetion: "",
+            question: "",
             users_available: [],
             withPhoto: false,
             chooseOptions: function(){
@@ -300,7 +297,7 @@ define([], function() {
                     monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1);
                 } else { // если формат с двумя точками XX.YY.ZZZZ
                     monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1, randomUser.bdate.lastIndexOf("."));
-                };
+                }
 
                 gameLogic.setRightAnswer(months[monthNumber - 1]);
 
@@ -540,7 +537,7 @@ define([], function() {
         delete questionObj.users_available;
 
         return questionData;
-    }
+    };
 
     return gameLogic;
 });

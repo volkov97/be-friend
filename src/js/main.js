@@ -47,7 +47,6 @@ define(
 	], function (
 		app
 	) {
-
-	app.init();
-
-});
+		app.init();
+	}
+);

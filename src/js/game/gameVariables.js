@@ -36,12 +36,11 @@ define([], function() {
 
     gameObj.getIsFirstTryValue = function() {
         return gameObj.isFirstTry;
-    }
+    };
 
     gameObj.setIsFirstTryValue = function(bool){
         gameObj.isFirstTry = bool;
-    }
+    };
 
     return gameObj;
-
 });

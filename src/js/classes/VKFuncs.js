@@ -1,7 +1,8 @@
 define([], function() {
 
-    var vkapi = {};
     var _userObj;
+
+    var vkapi = {};
 
     /**
      * Sets user database-id
@@ -144,7 +145,6 @@ define([], function() {
     };
 
     return vkapi;
-
 });
 
 

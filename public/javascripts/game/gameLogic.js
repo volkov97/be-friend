@@ -1,9 +1,10 @@
 define([], function() {
 
+    var _questionNumbersToSelect = [];
+
     var gameLogic = {
         rightAnswer: ""
     };
-    var questionNumbersToSelect = [];
 
     gameLogic.getRightAnswer = function() {
         return gameLogic.rightAnswer;
@@ -160,7 +161,7 @@ define([], function() {
                         return true;
                     }
                 });
-            },
+            }
         },
         {
             // [3]
@@ -200,12 +201,8 @@ define([], function() {
                 }
 
                 universitiesWithoutDuplicates = universitiesWithoutDuplicates.filter(function(tempUniversity){
-                    if (tempUniversity == randomUser.universities[0].name){
-                        return false;
-                    } else {
-                        return true;
-                    }
-                })
+                    return tempUniversity != randomUser.universities[0].name;
+                });
 
                 universitiesWithoutDuplicates.sort(function(a, b) {
                     return Math.random() - 0.5;
@@ -236,7 +233,7 @@ define([], function() {
         },
         {
             // [4]
-            quetion: "",
+            question: "",
             users_available: [],
             withPhoto: false,
             chooseOptions: function(){
@@ -300,7 +297,7 @@ define([], function() {
                     monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1);
                 } else { // если формат с двумя точками XX.YY.ZZZZ
                     monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1, randomUser.bdate.lastIndexOf("."));
-                };
+                }
 
                 gameLogic.setRightAnswer(months[monthNumber - 1]);
 
@@ -385,13 +382,7 @@ define([], function() {
                 this.question = "Как " + randomUser.first_name + " " + randomUser.last_name + " относится к алкоголю ?";
 
                 gameLogic.setRightAnswer(opinions[randomUser.personal.alcohol - 1]);
-
-                //console.log(randomUser);
-                //console.log(window.rightAnswer);
-
                 opinions.splice(randomUser.personal.alcohol - 1, 1);
-
-                //console.log(opinions);
 
                 // Перемешиваем массив
                 opinions.sort(function(a, b) {
@@ -507,15 +498,15 @@ define([], function() {
     ];
 
     function getNumberOfQuestion(){
-        if (questionNumbersToSelect.length == 0){
+        if (_questionNumbersToSelect.length == 0){
             for (var i = 0; i < quiz.length; i++){
-                questionNumbersToSelect[i] = i;
+                _questionNumbersToSelect[i] = i;
             }
         }
 
-        var randomSelect = Math.round(Math.random() * (questionNumbersToSelect.length - 1));
-        var returnValue = questionNumbersToSelect[randomSelect];
-        questionNumbersToSelect.splice(randomSelect, 1);
+        var randomSelect = Math.round(Math.random() * (_questionNumbersToSelect.length - 1));
+        var returnValue = _questionNumbersToSelect[randomSelect];
+        _questionNumbersToSelect.splice(randomSelect, 1);
 
         return returnValue;
     }
@@ -527,7 +518,6 @@ define([], function() {
         var questionObj = quiz[typeNum || getNumberOfQuestion()];
         questionObj.getAvailableUsers();
         var options = questionObj.chooseOptions();
-        //console.log(options);
         var rightAnswerUser = options[1];
         var rightUser = options[0];
 
@@ -547,7 +537,7 @@ define([], function() {
         delete questionObj.users_available;
 
         return questionData;
-    }
+    };
 
     return gameLogic;
 });

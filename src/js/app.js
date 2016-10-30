@@ -15,20 +15,20 @@ define(
         audio
     ) {
 
-    var app = {};
+        var app = {};
 
-    app.init = function() {
+        app.init = function() {
 
-        onlineUser.connect();
-        audio.init();
+            onlineUser.connect();
+            audio.init();
 
-        events.connectHeaderButtons();
+            events.connectHeaderButtons();
 
-        if (sw.register()) {
-            console.log("Service Workers are not working!");
-        }
-    };
+            if (!sw.register()) {
+                console.log("Service Workers are not working!");
+            }
+        };
 
-    return app;
-
-});
+        return app;
+    }
+);
