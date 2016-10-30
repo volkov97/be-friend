@@ -9,9 +9,9 @@ define([
     'multiplayer',
     'chart',
     'security',
-    'slick',
-    'events'
-], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, events, slick) {
+    'events',
+    'audio'
+], function($, vkapi, gameLogic, vibration, gameVariables, timer, statistics, onlineUser, chart, security, events, audio) {
 
     var gui = {};
 
@@ -99,6 +99,8 @@ define([
     };
 
     gui.endGame = function(single) {
+
+        audio.finishGame();
 
         if (single) {
             $(".quizForSingleGame .question").addClass('hidden');

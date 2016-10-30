@@ -1,4 +1,4 @@
-define(['events', 'multiplayer', 'notify', 'sw', 'promise'], function(events, onlineUser, notify, sw, slick, promise) {
+define(['events', 'multiplayer', 'notify', 'sw', 'promise', 'audio'], function(events, onlineUser, notify, sw, promise, audio) {
 
     var app = {};
 
@@ -11,6 +11,8 @@ define(['events', 'multiplayer', 'notify', 'sw', 'promise'], function(events, on
         if (sw.register()) {
             console.log("Service Workers are not working!");
         }
+
+        audio.init();
     };
 
     return app;

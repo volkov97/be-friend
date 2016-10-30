@@ -7,8 +7,10 @@ define(['jquery',
         'vkapi',
         'timer',
         'gameLogic',
-        'fullscreen'
-], function($, gui, onlineUser, gameVariables, statistics, vibration, vkapi, timer, gameLogic, fullscreen) {
+        'fullscreen',
+        'audio',
+        'slick'
+], function($, gui, onlineUser, gameVariables, statistics, vibration, vkapi, timer, gameLogic, fullscreen, audio, slick) {
 
     var events = {
         slickActive: false
@@ -262,6 +264,7 @@ define(['jquery',
             $(this).click(function(){
                 if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1){
                     $(this).addClass("right");
+                    audio.correctAnswer();
                     gameVariables.addPoints();
                     if (gameVariables.getIsFirstTryValue() == true){
                         statistics.incFirstTryRightAnswers();
@@ -282,6 +285,7 @@ define(['jquery',
                 } else {
                     vibration.vibrate(100);
                     $(this).addClass("wrong");
+                    audio.wrongAnswer();
                     gameVariables.subtractPoints();
                     gameVariables.setIsFirstTryValue(false);
 

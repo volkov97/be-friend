@@ -18,12 +18,14 @@ requirejs.config({
 		statistics: 'classes/Statistics',
 		chart: 'classes/Chart',
 		security: 'classes/Security',
+		bufferLoader: 'classes/BufferLoader',
 
 		// HTML5 APIs
 		vibration: 'html5apis/vibration',
 		notify: 'html5apis/notification',
 		sw: 'html5apis/serviceWorker',
 		fullscreen: 'html5apis/screenfull',
+		audio: 'html5apis/audio',
 
 		// Game
 		gameLogic: 'game/gameLogic',
