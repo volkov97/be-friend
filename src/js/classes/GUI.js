@@ -39,7 +39,6 @@ define(
         vkapi.loginUser().then(
             function(result) {
 
-                console.log(result);
                 vkapi.setId(result.user_id);
 
                 onlineUser.identify(vkapi.getUserInfo());

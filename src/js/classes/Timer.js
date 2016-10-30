@@ -8,53 +8,57 @@ define(
         gui
     ) {
 
-    var timer, gameTime = 0, gameTimeMax = 9000, totalGameTime = 0, self = this;
+    var _timer;
+    var _gameTime = 0
+    var _gameTimeMax = 9000;
+    var _totalGameTime = 0;
+    var _self = this;
 
     /**
      * Starts timer, calculate game time
      */
     this.start = function() {
-        timer = setInterval(function() {
-            totalGameTime += 1000;
-            gameTime += 1000;
+        _timer = setInterval(function() {
+            _totalGameTime += 1000;
+            _gameTime += 1000;
             require("gui").updateTimer();
 
-            if (gameTime >= gameTimeMax) {
-                self.end();
+            if (_gameTime >= _gameTimeMax) {
+                _self.end();
             }
         }, 1000);
     };
 
     this.end = function() {
         require("gui").endGame(true);
-        clearInterval(timer);
+        clearInterval(_timer);
     };
 
     this.clrInterval = function(){
-        clearInterval(timer);
+        clearInterval(_timer);
     };
 
     this.reset = function() {
         this.clrInterval();
-        gameTime = 0;
-        totalGameTime = 0;
+        _gameTime = 0;
+        _totalGameTime = 0;
     };
 
     this.getSecondsLeft = function() {
-        return (gameTimeMax - gameTime) / 1000;
+        return (_gameTimeMax - _gameTime) / 1000;
     };
 
     this.addTime = function() {
-        gameTime -= 2000;
+        _gameTime -= 2000;
     };
 
     this.substractTime = function() {
-        gameTime += 1000;
+        _gameTime += 1000;
     };
 
     // Returns total time of the game
     this.getTotalGameTime = function(){
-        return (totalGameTime / 1000);
+        return (_totalGameTime / 1000);
     };
 
     return this;
