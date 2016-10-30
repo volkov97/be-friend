@@ -1,5 +1,12 @@
 define([], function () {
 
+    /**
+     *
+     * @param context
+     * @param urlList
+     * @param callback
+     * @constructor
+     */
     function BufferLoader(context, urlList, callback) {
         this.context = context;
         this.urlList = urlList;
@@ -8,6 +15,11 @@ define([], function () {
         this.loadCount = 0;
     }
 
+    /**
+     *
+     * @param url
+     * @param index
+     */
     BufferLoader.prototype.loadBuffer = function(url, index) {
         // Load buffer asynchronously
         var request = new XMLHttpRequest();

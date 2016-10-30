@@ -3,7 +3,7 @@ define([], function() {
     var gameLogic = {
         rightAnswer: ""
     };
-    var questionNumbersToSelect = [];
+    var _questionNumbersToSelect = [];
 
     gameLogic.getRightAnswer = function() {
         return gameLogic.rightAnswer;
@@ -385,13 +385,7 @@ define([], function() {
                 this.question = "Как " + randomUser.first_name + " " + randomUser.last_name + " относится к алкоголю ?";
 
                 gameLogic.setRightAnswer(opinions[randomUser.personal.alcohol - 1]);
-
-                //console.log(randomUser);
-                //console.log(window.rightAnswer);
-
                 opinions.splice(randomUser.personal.alcohol - 1, 1);
-
-                //console.log(opinions);
 
                 // Перемешиваем массив
                 opinions.sort(function(a, b) {
@@ -507,15 +501,15 @@ define([], function() {
     ];
 
     function getNumberOfQuestion(){
-        if (questionNumbersToSelect.length == 0){
+        if (_questionNumbersToSelect.length == 0){
             for (var i = 0; i < quiz.length; i++){
-                questionNumbersToSelect[i] = i;
+                _questionNumbersToSelect[i] = i;
             }
         }
 
-        var randomSelect = Math.round(Math.random() * (questionNumbersToSelect.length - 1));
-        var returnValue = questionNumbersToSelect[randomSelect];
-        questionNumbersToSelect.splice(randomSelect, 1);
+        var randomSelect = Math.round(Math.random() * (_questionNumbersToSelect.length - 1));
+        var returnValue = _questionNumbersToSelect[randomSelect];
+        _questionNumbersToSelect.splice(randomSelect, 1);
 
         return returnValue;
     }
@@ -527,7 +521,6 @@ define([], function() {
         var questionObj = quiz[typeNum || getNumberOfQuestion()];
         questionObj.getAvailableUsers();
         var options = questionObj.chooseOptions();
-        //console.log(options);
         var rightAnswerUser = options[1];
         var rightUser = options[0];
 
