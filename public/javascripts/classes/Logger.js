@@ -11,7 +11,6 @@ function Logger(){
 
     this.log = function(data){
         if (loggerFlag){
-            console.log(data);
             return true;
         } else {
             return false;

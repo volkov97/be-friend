@@ -9,11 +9,7 @@ authButton.click(function(e) {
             localStorage.setItem('name', userObj.user.first_name);
             localStorage.setItem('vk_id', userObj.mid);
 
-            //console.log(response.session);
             getFriendsIDs();
-            if (response.settings){
-                //console.log(response.settings);
-            }
         } else {
             console.log("login err");
         }
@@ -27,7 +23,7 @@ startButton.click(function(e) {
     $.post("/getFriends", {
         id: localStorage.getItem('vk_id')
     }, function( data ) {
-        console.log(data);
+        // todo
     }, "json");
 
     return false;

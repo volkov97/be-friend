@@ -191,7 +191,6 @@ define(['jquery',
     };
 
     events.setEventListenerOnOnlineUsers = function() {
-        console.log("setttted");
         $('.onlinePlayers__player').click(function(event) {
             event.preventDefault();
 
@@ -397,7 +396,6 @@ define(['jquery',
 
             // other buttons text to default, except clicked
             if (!$singleGameButton.is($clickedButton)) {
-                console.log("ATTEMPT");
                 $singleGameButton.text('Начать');
             }
 
