@@ -7,6 +7,7 @@ define(
     ) {
 
         var _context;
+        var _hasSupport;
         var _bufferLoader;
         var _soundFiles = [
             '../../sounds/correct.wav',
@@ -27,26 +28,34 @@ define(
         }
 
         function _playSound(buffer) {
-            var source = _context.createBufferSource();
-            source.buffer = buffer;
-            source.connect(_context.destination);
-            source.start(0);
+            if (_hasSupport) {
+                var source = _context.createBufferSource();
+                source.buffer = buffer;
+                source.connect(_context.destination);
+                source.start(0);
+            }
         }
 
         var audio = {};
 
         // initialize audio module, load sounds
         audio.init = function() {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            _context = new AudioContext();
+            window.AudioContext = window.AudioContext || window.webkitAudioContext || null;
+            _hasSupport = window.AudioContext;
 
-            _bufferLoader = new BufferLoader(
-                _context,
-                _soundFiles,
-                _finishedLoading
-            );
+            if (_hasSupport) {
+                _context = new AudioContext();
 
-            _bufferLoader.load();
+                _bufferLoader = new BufferLoader(
+                    _context,
+                    _soundFiles,
+                    _finishedLoading
+                );
+
+                _bufferLoader.load();
+            } else {
+                console.warn('Web Audio API is not supported by your device.');
+            }
         };
 
         // play correct answer sound
