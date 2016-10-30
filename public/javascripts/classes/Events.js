@@ -7,11 +7,21 @@ define(['jquery',
         'vkapi',
         'timer',
         'gameLogic',
-        'fullscreen'
-], function($, gui, onlineUser, gameVariables, statistics, vibration, vkapi, timer, gameLogic, fullscreen) {
+        'fullscreen',
+        'audio',
+        'slick'
+    ], function($, gui, onlineUser, gameVariables, statistics, vibration, vkapi, timer, gameLogic, fullscreen, audio, slick) {
 
     var events = {
         slickActive: false
+    };
+
+    events.connectHeaderButtons = function() {
+        events.setEventListenerOnAuth();
+
+        events.triggerSound();
+        events.share();
+        events.triggerFullscreen();
     };
 
     events.share = function () {
@@ -58,6 +68,30 @@ define(['jquery',
 
             return false;
         });
+    };
+
+    events.triggerSound = function() {
+
+        if (!audio.isSupported()) {
+            $('.controls .sound svg use').attr('xlink:href', '#soundOff');
+        }
+
+        $('.controls .sound a').click(function(event) {
+            event.preventDefault();
+
+            if (audio.isSupported()) {
+                if (audio.isTurnedOn()) {
+                    $('.controls .sound svg use').attr('xlink:href', '#soundOff');
+                    audio.turnOff();
+                } else {
+                    $('.controls .sound svg use').attr('xlink:href', '#soundOn');
+                    audio.turnOn();
+                }
+            }
+
+            return false;
+        });
+
     };
 
     events.makeSlickSlider = function() {
@@ -262,6 +296,7 @@ define(['jquery',
             $(this).click(function(){
                 if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1){
                     $(this).addClass("right");
+                    audio.correctAnswer();
                     gameVariables.addPoints();
                     if (gameVariables.getIsFirstTryValue() == true){
                         statistics.incFirstTryRightAnswers();
@@ -282,6 +317,7 @@ define(['jquery',
                 } else {
                     vibration.vibrate(100);
                     $(this).addClass("wrong");
+                    audio.wrongAnswer();
                     gameVariables.subtractPoints();
                     gameVariables.setIsFirstTryValue(false);
 
@@ -300,6 +336,7 @@ define(['jquery',
             $(this).click(function () {
                 if ($(this).text().indexOf(gameLogic.getRightAnswer()) != -1) {
                     $(this).addClass("right");
+                    audio.correctAnswer();
                     gameVariables.addPoints();
                     statistics.incRightAnswers_count();
 
@@ -313,6 +350,7 @@ define(['jquery',
                 } else {
                     vibration.vibrate(100);
                     $(this).addClass("wrong");
+                    audio.wrongAnswer();
                     gameVariables.subtractPoints();
                     statistics.incMistakes_count();
 
@@ -357,6 +395,13 @@ define(['jquery',
 
                 setTimeout(function() {
                     $singleGameBlock.addClass('hidden');
+
+                    // if game already ended and results are in the view, for both modes
+                    if (!$gameResultBlock.hasClass('hidden')) {
+                        $gameResultBlock.addClass('hidden');
+                        $questionBlock.removeClass('hidden');
+                    }
+
                     $clickedButton.prop("disabled", false);
                     resolve();
                 }, 1000);
@@ -378,15 +423,16 @@ define(['jquery',
                     $quizForMultiplayerGame.removeClass('bounceInRight').addClass('hidden');
                     $elementsForAdmin.removeClass('hidden');
                     $elementsForUser.addClass('hidden');
+
+                    // if game already ended and results are in the view, for both modes
+                    if (!$gameResultBlock.hasClass('hidden')) {
+                        $gameResultBlock.addClass('hidden');
+                        $questionBlock.removeClass('hidden');
+                    }
+
                     $clickedButton.prop("disabled", false);
                     resolve();
                 }, 1000);
-            }
-
-            // if game already ended and results are in the view, for both modes
-            if (!$gameResultBlock.hasClass('hidden')) {
-                $gameResultBlock.addClass('hidden');
-                $questionBlock.removeClass('hidden');
             }
 
             // other buttons text to default, except clicked

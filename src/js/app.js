@@ -1,12 +1,13 @@
-define(['events', 'multiplayer', 'notify', 'sw', 'promise'], function(events, onlineUser, notify, sw, slick, promise) {
+define(['events', 'multiplayer', 'notify', 'sw', 'promise', 'audio'], function(events, onlineUser, notify, sw, promise, audio) {
 
     var app = {};
 
     app.init = function() {
 
         onlineUser.connect();
-        events.triggerFullscreen();
-        events.setEventListenerOnAuth();
+        audio.init();
+
+        events.connectHeaderButtons();
 
         if (sw.register()) {
             console.log("Service Workers are not working!");

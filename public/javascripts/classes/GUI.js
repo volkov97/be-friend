@@ -10,9 +10,9 @@ define(
         'multiplayer',
         'chart',
         'security',
-        'events'
-    ],
-    function(
+        'events',
+        'audio'
+    ], function(
         $,
         vkapi,
         gameLogic,
@@ -23,8 +23,8 @@ define(
         onlineUser,
         chart,
         security,
-        events
-    ) {
+        events,
+        audio) {
 
     var gui = {};
 
@@ -129,6 +129,8 @@ define(
      * @param single 'isSingle?' flag
      */
     gui.endGame = function(single) {
+        audio.finishGame();
+
         if (single) {
             $(".quizForSingleGame .question").addClass('hidden');
             $('#gameResultPoints').text(gameVariables.getScore());
