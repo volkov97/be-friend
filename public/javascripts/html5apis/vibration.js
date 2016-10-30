@@ -1,17 +1,18 @@
 define([], function() {
 
-    var obj = {};
+    var vibration = {};
 
-    obj.vibrate = function(val){
+    vibration.vibrate = function(val){
         if("vibrate" in navigator) return navigator.vibrate(val);
         if("oVibrate" in navigator) return navigator.oVibrate(val);
         if("mozVibrate" in navigator) return navigator.mozVibrate(val);
         if("webkitVibrate" in navigator) return navigator.webkitVibrate(val);
 
-        // error
-    }
+        // Error
+        console.warn("Vibrate API is not supported on your device.");
+    };
 
-    return obj;
+    return vibration;
 
 });
 

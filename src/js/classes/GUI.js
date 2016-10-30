@@ -24,7 +24,8 @@ define(
         chart,
         security,
         events,
-        audio) {
+        audio
+    ) {
 
     var gui = {};
 

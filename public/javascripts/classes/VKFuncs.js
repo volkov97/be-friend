@@ -1,6 +1,4 @@
-define(
-    [],
-    function() {
+define([], function() {
 
     var vkapi = {};
     var userObj;

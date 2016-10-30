@@ -41,7 +41,12 @@ requirejs.config({
 	}
 });
 
-define(['app'], function (app) {
+define(
+	[
+		'app'
+	], function (
+		app
+	) {
 
 	app.init();
 

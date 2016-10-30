@@ -1,4 +1,19 @@
-define(['events', 'multiplayer', 'notify', 'sw', 'promise', 'audio'], function(events, onlineUser, notify, sw, promise, audio) {
+define(
+    [
+        'events',
+        'multiplayer',
+        'notify',
+        'sw',
+        'promise',
+        'audio'
+    ], function(
+        events,
+        onlineUser,
+        notify,
+        sw,
+        promise,
+        audio
+    ) {
 
     var app = {};
 

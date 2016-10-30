@@ -1,4 +1,17 @@
-define(['require', 'socketio', 'vkapi', 'notify', 'gameLogic'], function (require, io, vkapi, notify, gameLogic) {
+define(
+    [
+        'require',
+        'socketio',
+        'vkapi',
+        'notify',
+        'gameLogic'
+    ], function (
+        require,
+        io,
+        vkapi,
+        notify,
+        gameLogic
+    ) {
 
     var onlineUser = {
         socket: null,

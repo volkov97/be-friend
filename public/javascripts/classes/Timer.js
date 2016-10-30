@@ -5,7 +5,8 @@ define(
     ],
     function (
         require,
-        gui) {
+        gui
+    ) {
 
     var timer, gameTime = 0, gameTimeMax = 9000, totalGameTime = 0, self = this;
 
