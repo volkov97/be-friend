@@ -2,30 +2,16 @@ define([], function() {
 
     var _questionNumbersToSelect = [];
 
-    var gameLogic = {
-        rightAnswer: ""
-    };
-
-    gameLogic.getRightAnswer = function() {
-        return gameLogic.rightAnswer;
-    };
-
-    gameLogic.setRightAnswer = function(str) {
-        gameLogic.rightAnswer = str;
-    };
-
-    var quiz = [
+    var _quiz = [
         {
             // [0]
             question: "Кто из ваших друзей изображен на этом фото?",
             withPhoto: true,
             users_available: [],
             chooseOptions: function(){
-
-                // M -> 2, Ж -> 1
+                // Man -> 2, Woman -> 1
                 var randomSex = Math.ceil(Math.random() * 2);
 
-                // Что делать если мало друзей такого пола ?
                 this.users_available = this.users_available.filter(function(tempUser){
                     if (tempUser.sex != randomSex){
                         return false;
@@ -34,12 +20,15 @@ define([], function() {
                     }
                 });
 
+                // Mix available users
                 this.users_available.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Choose right answer
                 gameLogic.setRightAnswer(this.users_available[0].first_name + " " + this.users_available[0].last_name);
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     this.users_available[0],
                     gameLogic.getRightAnswer(),
@@ -51,6 +40,7 @@ define([], function() {
                 return result;
             },
             getAvailableUsers: function(){
+                // Filter users without photo
                 this.users_available = friends.filter(function(tempUser){
                     if ((!tempUser.photo_200) || (tempUser.photo_200.indexOf("camera_200") != -1)) {
                         return false;
@@ -73,21 +63,21 @@ define([], function() {
                 });
 
                 var citiesWithoutDuplicates = [];
+                // Create cities list without duplicates
                 for (var i = 0; i < cities.length; i++) {
                     var fl = 0;
-
                     for (var j = 0; j < citiesWithoutDuplicates.length; j++) {
                         if (cities[i] == citiesWithoutDuplicates[j]) {
                             fl = 1;
                             break;
                         }
                     }
-
                     if (fl == 0) {
                         citiesWithoutDuplicates.push(cities[i]);
                     }
                 }
 
+                // Delete right answer from list
                 citiesWithoutDuplicates = citiesWithoutDuplicates.filter(function(tempCity){
                     if (tempCity == randomUser.cityName){
                         return false;
@@ -96,10 +86,12 @@ define([], function() {
                     }
                 });
 
+                // Mix cities
                 citiesWithoutDuplicates.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     randomUser.cityName,
@@ -113,9 +105,10 @@ define([], function() {
                 return result;
             },
             getAvailableUsers: function(){
+                // Filter users without photo and city
                 this.users_available = friends.filter(function(tempUser){
-                    // undefined ?
-                    if ((!tempUser.photo_200) || (tempUser.city == 0) ||  (tempUser.photo_200.indexOf("camera_200") != -1 )) {
+                    if ((!tempUser.photo_200) || (tempUser.city == 0) ||
+                        (tempUser.photo_200.indexOf("camera_200") != -1 )) {
                         return false;
                     } else {
                         return true;
@@ -125,7 +118,6 @@ define([], function() {
         },
         {
             // [2]
-            // Вопрос о статусе
             question: "",
             users_available: [],
             withPhoto: false,
@@ -134,13 +126,15 @@ define([], function() {
 
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
 
+                // Mix friends list
                 tempFriends.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
-                // Дополняем вопрос
+                // Create question
                 this.question = 'Кому принадлежит этот статус: "' + randomUser.status + '" ?';
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     randomUser.first_name + " " + randomUser.last_name,
@@ -154,6 +148,7 @@ define([], function() {
                 return result;
             },
             getAvailableUsers: function(){
+                // Filter users without status
                 this.users_available = friends.filter(function(obj){
                     if (obj.status == ""){
                         return false;
@@ -171,43 +166,47 @@ define([], function() {
             chooseOptions: function(){
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
                 var endOfWord = ' ';
-                // Генерируем вопрос
+                // Change ending of word depending on the sex
                 if (randomUser.sex == 2){
                     endOfWord = "(-лся) ";
                 } else {
                     endOfWord = "(-лась) ";
                 }
 
-                this.question = "В каком из университетов учится" + endOfWord + randomUser.first_name + " " + randomUser.last_name + " ?";
+                // Create question
+                this.question = "В каком из университетов учится" + endOfWord +
+                    randomUser.first_name + " " + randomUser.last_name + " ?";
 
                 var universities = this.users_available.map(function(obj) {
                     return obj.universities[0].name;
                 });
 
                 var universitiesWithoutDuplicates = [];
+                // Create universities list without duplicates
                 for (var i = 0; i < universities.length; i++) {
                     var fl = 0;
-
                     for (var j = 0; j < universitiesWithoutDuplicates.length; j++) {
                         if (universities[i] == universitiesWithoutDuplicates[j]) {
                             fl = 1;
                             break;
                         }
                     }
-
                     if (fl == 0) {
                         universitiesWithoutDuplicates.push(universities[i]);
                     }
                 }
 
+                // Delete right answer
                 universitiesWithoutDuplicates = universitiesWithoutDuplicates.filter(function(tempUniversity){
                     return tempUniversity != randomUser.universities[0].name;
                 });
 
+                // Mix list
                 universitiesWithoutDuplicates.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     randomUser.universities[0].name,
@@ -221,7 +220,7 @@ define([], function() {
                 return result;
             },
             getAvailableUsers: function(){
-                // Выкидываем тех, у кого поле universities пустое или отсутствует вовсе
+                // Filter friends without universities info
                 this.users_available = friends.filter(function(obj){
                     if ((!obj.universities) || (obj.universities.lenght < 1) || (obj.university == 0)){
                         return false;
@@ -238,11 +237,12 @@ define([], function() {
             withPhoto: false,
             chooseOptions: function(){
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
-                var endOfWord = ' ';
-                // Генерируем вопрос
-                this.question = "Кто из нижеперечисленных людей учится(-лся, -лась) в " + randomUser.universities[0].name + " ?";
 
-                // Удаляем юзеров, которые учились в том же универе, что и выбранный
+                // Create question
+                this.question = "Кто из нижеперечисленных людей учится(-лся, -лась) в " +
+                    randomUser.universities[0].name + " ?";
+
+                // Filter friends, who studied at the same uni as selected friend
                 this.users_available = this.users_available.filter(function(obj){
                     for (var i = 0; i<obj.universities.length; i++){
                         if (obj.universities[i].name == randomUser.universities[0].name){
@@ -253,11 +253,12 @@ define([], function() {
                     return true;
                 });
 
-                // Перемешиваем массив
+                // Mix list
                 this.users_available.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     randomUser.first_name + " " + randomUser.last_name,
@@ -271,6 +272,7 @@ define([], function() {
                 return result;
             },
             getAvailableUsers: function(){
+                // Filter friends without universities info
                 this.users_available = friends.filter(function(obj){
                     if ((!obj.universities) || (obj.universities.lenght < 1) || (obj.university == 0)){
                         return false;
@@ -286,28 +288,34 @@ define([], function() {
             users_available: [],
             withPhoto: true,
             chooseOptions: function(){
-                var months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+                var months = ["Январь", "Февраль", "Март", "Апрель", "Май",
+                    "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
                 var monthNumber;
-                // Генерируем вопрос
+                // Create question
                 this.question = "В каком месяце родился " + randomUser.first_name + " " + randomUser.last_name + " ?";
 
-                // Отделяем номер месяца из даты
-                if (randomUser.bdate.indexOf(".") == randomUser.bdate.lastIndexOf(".")) { // если дата в формате XX.YY с одной точкой
+                // Getting number of month from data
+                if (randomUser.bdate.indexOf(".") == randomUser.bdate.lastIndexOf(".")) {
+                    // If DD.MM format
                     monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1);
-                } else { // если формат с двумя точками XX.YY.ZZZZ
-                    monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1, randomUser.bdate.lastIndexOf("."));
+                } else {
+                    // If DD.MM.YYYY format
+                    monthNumber = randomUser.bdate.slice(randomUser.bdate.indexOf(".") + 1,
+                        randomUser.bdate.lastIndexOf("."));
                 }
 
                 gameLogic.setRightAnswer(months[monthNumber - 1]);
 
+                // Delete right answer
                 months.splice(monthNumber - 1, 1);
 
-                // Перемешиваем массив
+                // Mix list
                 months.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     gameLogic.getRightAnswer(),
@@ -320,7 +328,9 @@ define([], function() {
             },
             getAvailableUsers: function(){
                 this.users_available = friends.filter(function(tempUser){
-                    if ((!tempUser.bdate) || (tempUser.photo_200==undefined) || (tempUser.photo_200.indexOf("camera_200") != -1 ) || (tempUser.bdate==undefined)){
+                    // Filter friends without birthdate and photo
+                    if ((!tempUser.bdate) || (tempUser.photo_200==undefined) ||
+                        (tempUser.photo_200.indexOf("camera_200") != -1 ) || (tempUser.bdate==undefined)){
                         return false;
                     } else {
                         return true;
@@ -337,18 +347,20 @@ define([], function() {
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
                 var opinions = ["Резко негативно", "Негативно", "Компромиссно", "Нейтрально", "Положительно"];
 
-                // Генерируем вопрос
+                // Create question
                 this.question = "Как " + randomUser.first_name + " " + randomUser.last_name + " относится к курению ?";
 
                 gameLogic.setRightAnswer(opinions[randomUser.personal.smoking - 1]);
 
+                // Delete right answer
                 opinions.splice(randomUser.personal.smoking - 1, 1);
 
-                // Перемешиваем массив
+                // Mix list
                 opinions.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     gameLogic.getRightAnswer(),
@@ -361,7 +373,9 @@ define([], function() {
             },
             getAvailableUsers: function(){
                 this.users_available = friends.filter(function(tempUser){
-                    if ((!tempUser.personal) || (tempUser.personal.smoking == "undefined") || (!tempUser.personal.smoking)){
+                    // Filter friends without personal information about smoking
+                    if ((!tempUser.personal) || (tempUser.personal.smoking == "undefined") ||
+                        (!tempUser.personal.smoking)){
                         return false;
                     } else {
                         return true;
@@ -378,17 +392,20 @@ define([], function() {
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
                 var opinions = ["Резко негативно", "Негативно", "Компромиссно", "Нейтрально", "Положительно"];
 
-                // Генерируем вопрос
+                // Create question
                 this.question = "Как " + randomUser.first_name + " " + randomUser.last_name + " относится к алкоголю ?";
 
                 gameLogic.setRightAnswer(opinions[randomUser.personal.alcohol - 1]);
+
+                // Delete right answer
                 opinions.splice(randomUser.personal.alcohol - 1, 1);
 
-                // Перемешиваем массив
+                // Mix list
                 opinions.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer optionss
                 var result = [
                     randomUser,
                     gameLogic.getRightAnswer(),
@@ -416,20 +433,24 @@ define([], function() {
             withPhoto: true,
             chooseOptions: function(){
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
-                var opinions = ["Семья и дети", "Карьера и деньги", "Развлечения и отдых", "Наука и исследования", "Совершенствование мира", "Саморазвитие", "Красота и искусство", "Слава и влияние"];
+                var opinions = ["Семья и дети", "Карьера и деньги", "Развлечения и отдых",
+                    "Наука и исследования", "Совершенствование мира", "Саморазвитие",
+                    "Красота и искусство", "Слава и влияние"];
 
-                // Генерируем вопрос
+                // Create question
                 this.question = "Что для " + randomUser.first_name_gen + " " + randomUser.last_name_gen + " главное в жизни ?";
 
                 gameLogic.setRightAnswer(opinions[randomUser.personal.life_main - 1]);
 
+                // Delete right answer
                 opinions.splice(randomUser.personal.life_main - 1, 1);
 
-                // Перемешиваем массив
+                // Mix list
                 opinions.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     gameLogic.getRightAnswer(),
@@ -442,7 +463,9 @@ define([], function() {
             },
             getAvailableUsers: function(){
                 this.users_available = friends.filter(function(tempUser){
-                    if ((!tempUser.personal) || (tempUser.personal.life_main == "undefined") || (!tempUser.personal.life_main)){
+                    // Filter friends without personal info
+                    if ((!tempUser.personal) || (tempUser.personal.life_main == "undefined") ||
+                        (!tempUser.personal.life_main)){
                         return false;
                     } else {
                         return true;
@@ -459,22 +482,30 @@ define([], function() {
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
                 var opinions = [];
                 if (randomUser.sex == 1){
-                    opinions = ["Не замужем", "Есть друг", "Помолвлена", "Замужем", "Всё сложно", "В активном поиске", "Влюблена"];
+                    // Woman
+                    opinions = ["Не замужем", "Есть друг", "Помолвлена", "Замужем",
+                        "Всё сложно", "В активном поиске", "Влюблена"];
                 } else {
-                    opinions = ["Не женат", "Есть подруга", "Помолвлен", "Женат", "Всё сложно", "В активном поиске", "Влюблён"];
+                    // Man
+                    opinions = ["Не женат", "Есть подруга", "Помолвлен", "Женат",
+                        "Всё сложно", "В активном поиске", "Влюблён"];
                 }
 
-                this.question = "Семейное положение " + randomUser.first_name_gen + " " + randomUser.last_name_gen + " ?";
+                // Create question
+                this.question = "Семейное положение " + randomUser.first_name_gen + " "
+                    + randomUser.last_name_gen + " ?";
 
                 gameLogic.setRightAnswer(opinions[randomUser.relation - 1]);
 
+                // Delete right answer
                 opinions.splice(randomUser.relation - 1, 1);
 
-                // Перемешиваем массив
+                // Mix list
                 opinions.sort(function(a, b) {
                     return Math.random() - 0.5;
                 });
 
+                // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
                     gameLogic.getRightAnswer(),
@@ -486,6 +517,7 @@ define([], function() {
                 return result;
             },
             getAvailableUsers: function(){
+                // Filter friends without relation info
                 this.users_available = friends.filter(function(tempUser){
                     if ((tempUser.relation == 0) || (tempUser.relation == undefined)){
                         return false
@@ -497,7 +529,10 @@ define([], function() {
         }
     ];
 
-    function getNumberOfQuestion(){
+    /**
+     * Get number of generated question without repeats
+     */
+    function _getNumberOfQuestion(){
         if (_questionNumbersToSelect.length == 0){
             for (var i = 0; i < quiz.length; i++){
                 _questionNumbersToSelect[i] = i;
@@ -511,11 +546,27 @@ define([], function() {
         return returnValue;
     }
 
+    var gameLogic = {
+        rightAnswer: ""
+    };
+
+    gameLogic.getRightAnswer = function() {
+        return gameLogic.rightAnswer;
+    };
+
+    gameLogic.setRightAnswer = function(str) {
+        gameLogic.rightAnswer = str;
+    };
+
+    /**
+     * Chose question, returns main information about it: options, right answer
+     * @param typeNum number of generate question
+     */
     gameLogic.makeNewQuestion = function(typeNum) {
 
         if (typeNum < 0 || typeNum >= quiz.length) return false;
 
-        var questionObj = quiz[typeNum || getNumberOfQuestion()];
+        var questionObj = quiz[typeNum || _getNumberOfQuestion()];
         questionObj.getAvailableUsers();
         var options = questionObj.chooseOptions();
         var rightAnswerUser = options[1];
@@ -533,7 +584,6 @@ define([], function() {
             rightUser: rightUser,
             rightAnswerUser: rightAnswerUser
         };
-
         delete questionObj.users_available;
 
         return questionData;

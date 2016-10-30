@@ -108,7 +108,7 @@ define([], function() {
     };
 
     /**
-     * Tranlate cities ids to cities names
+     * Translate cities ids to cities names
      */
     vkapi.getFriendsCities = function(resolve, reject) {
         VK.Api.call('database.getCitiesById', {
