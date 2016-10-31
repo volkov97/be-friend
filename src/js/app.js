@@ -20,6 +20,7 @@ define(
         app.init = function() {
 
             onlineUser.connect();
+
             audio.init();
 
             events.connectHeaderButtons();
@@ -27,6 +28,7 @@ define(
             if (!sw.register()) {
                 console.log("Service Workers are not working!");
             }
+
         };
 
         return app;

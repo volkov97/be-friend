@@ -30,6 +30,10 @@ define([
             slickActive: false
         };
 
+        events.setAuthButtonOffline = function() {
+            $('.authButton').text('Offline').addClass('offline');
+        };
+
         events.connectHeaderButtons = function() {
             events.setEventListenerOnAuth();
             events.triggerSound();

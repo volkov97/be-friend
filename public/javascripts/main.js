@@ -41,6 +41,7 @@ requirejs.config({
 	}
 });
 
+
 define(
 	[
 		'app'

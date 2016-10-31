@@ -1,4 +1,11 @@
 {
-  "name": "Push Notifications codelab",
-  "gcm_sender_id": "501809293964"
+  "manifest_version": 2,
+  "name": "BeFriend",
+  "short_name": "BF",
+  "version": "1.0.0",
+
+  "homepage_url": "https:befriendtest.herokuapp.com",
+
+  "default_locale": "ru",
+  "description": "Наше приложение позволит Вам сблизиться со всеми вашими знакомыми и заводить настоящих друзей. Мы поможем Вам узнать знакомых намного лучше, а также обнаружить у них Ваши общие интересы. Все это сделает из Вас внимательного, привлекательного в общении человека."
 }
