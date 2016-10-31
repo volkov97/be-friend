@@ -1,26 +1,26 @@
 @import "../_data";
 
 .footer {
-    padding-bottom: 40px; 
-    color: $white;
+  padding-bottom: 40px;
+  color: $white;
 
-    @media only screen and (max-width: $screen_small) {
-        padding-bottom: 30px;
-    }
+  @media only screen and (max-width: $screen_small) {
+    padding-bottom: 30px;
+  }
 } 
 
 .footerWords {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 5px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .madeby {
-    text-align: center;
-    font-weight: bold;
-    font-size: 5em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 5em;
 
-    @media only screen and (max-width: $screen_small) {
-        font-size: 3em;
-    }
+  @media only screen and (max-width: $screen_small) {
+    font-size: 3em;
+  }
 }

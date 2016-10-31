@@ -70,7 +70,7 @@
     overflow-y: scroll;
 
     &:empty:after {
-      content: 'Сейчас кроме Вас тут никого нет :(';
+      content: 'Сейчас тут никого нет :(';
       display: block;
       text-align: center;
       text-transform: uppercase;

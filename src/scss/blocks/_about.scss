@@ -1,96 +1,93 @@
 @import "../_data";
 
 .about {
-    @extend .block;
+  @extend .block;
 
-    @media only screen and (max-width: $screen_medium) {
-        margin-bottom: 40px;
-        padding: 20px 20px;
+  @media only screen and (max-width: $screen_medium) {
+    margin-bottom: 40px;
+    padding: 20px 20px;
+  }
+
+  &__header {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    font-weight: normal;
+
+    @media only screen and (max-width: $screen_small) {
+      font-size: 1.2em;
     }
+  }
 
-    &__header {
-        margin-top: 0;
-        margin-bottom: 20px;
-        font-size: 1.4em;
-        font-weight: normal;
+  &__content {
+    text-align: justify;
 
-        @media only screen and (max-width: $screen_small) {
-            font-size: 1.2em;
-        }
+    p {
+      margin: 0px 0px 20px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
     }
+  }
 
-    &__content {
-        text-align: justify;
+  .imageWrap {
+    margin-bottom: 20px;
 
-        p {
-            margin: 0px 0px 20px;
-        }
-
-        p:last-child {
-            margin-bottom: 0px;
-        }
-
+    img {
+      width: 100%;
     }
-
-    .imageWrap {
-        margin-bottom: 20px;
-
-        img {
-            width: 100%;
-        }
-
-    }
-
+  }
 }
 
 .authButton {
-    position: relative;
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 15px 0;
-    color: $white;
-    background-color: #167197;
-    text-transform: uppercase;
-    font-size: 2.5em;
-    line-height: 80px;
-    border: none;
-    outline: none;
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+  color: $white;
+  background-color: #167197;
+  text-transform: uppercase;
+  font-size: 2.5em;
+  line-height: 80px;
+  border: none;
+  outline: none;
 
-    &.loading {
-        color: transparent;
-        background: #167197 url('../images/loader.svg') no-repeat 50% 50%;
-
-        svg {
-            fill: transparent;
-        }
-    }
-
-    @media only screen and (max-width: $screen_large) {
-        margin-bottom: 20px;
-    }
-
-    @media only screen and (max-width: $screen_small) {
-        font-size: 1.4em;
-        padding: 5px 0;
-        line-height: 60px;
-    }
-
-    &:hover {
-        background-color: #14557d;
-    }
+  &.loading {
+    color: transparent;
+    background: #167197 url('../images/ring.gif') no-repeat 50% 50%;
 
     svg {
-        display: inline-block;
-        height: 80px;
-        width: 80px;
-        vertical-align: top;
-        margin-right: 15px;
-        fill: $white;
-
-        @media only screen and (max-width: $screen_small) {
-            height: 60px;
-            width: 60px;
-        }
+      fill: transparent;
     }
+  }
+
+  @media only screen and (max-width: $screen_large) {
+    margin-bottom: 20px;
+  }
+
+  @media only screen and (max-width: $screen_small) {
+    font-size: 1.4em;
+    padding: 5px 0;
+    line-height: 60px;
+  }
+
+  &:hover {
+    background-color: #14557d;
+  }
+
+  svg {
+    display: inline-block;
+    height: 80px;
+    width: 80px;
+    vertical-align: top;
+    margin-right: 15px;
+    fill: $white;
+
+    @media only screen and (max-width: $screen_small) {
+      height: 60px;
+      width: 60px;
+    }
+  }
 }

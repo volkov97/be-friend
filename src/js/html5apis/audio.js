@@ -13,12 +13,14 @@ define(
         var _soundFiles = [
             '../../sounds/correct.wav',
             '../../sounds/wrong.wav',
-            '../../sounds/finish.wav'
+            '../../sounds/finish.wav',
+            '../../sounds/notify.wav'
         ];
         var _buffers = {
             correct: null,
             wrong: null,
-            finish: null
+            finish: null,
+            notify: null
         };
 
         function _finishedLoading(bufferList) {
@@ -26,6 +28,7 @@ define(
             _buffers.correct = bufferList[0];
             _buffers.wrong = bufferList[1];
             _buffers.finish = bufferList[2];
+            _buffers.notify = bufferList[3];
         }
 
         function _playSound(buffer) {
@@ -92,6 +95,11 @@ define(
         // Play finish game sound
         audio.finishGame = function() {
             _playSound(_buffers.finish);
+        };
+
+        // Play notification sound
+        audio.notification = function() {
+            _playSound(_buffers.notify);
         };
 
         return audio;

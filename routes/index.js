@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 	game.getTopList(10).then(
 		function(result) {
 			res.render('index', {
-				title: 'beFriend | Узнай, на сколько хорошо ты знаешь своих друзей!',
+				title: 'beFriend | Узнай, насколько хорошо ты знаешь своих друзей!',
 				topList: result
 			});
 		},

@@ -1,1 +1,1 @@
-define(["events","multiplayer","notify","sw","promise","audio"],function(e,n,i,o,t,r){var c={};return c.init=function(){n.connect(),r.init(),e.connectHeaderButtons(),o.register()||console.log("Service Workers are not working!")},c});
+define(["events","multiplayer","notify","sw","promise","audio"],function(e,n,t,i,o,r){var s={};return s.init=function(){n.connect(),r.init(),e.setEventListenerOnAuth(),e.connectHeaderButtons(),i.register()||console.log("Service Workers are not working!")},s});

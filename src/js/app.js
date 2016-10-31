@@ -23,6 +23,7 @@ define(
 
             audio.init();
 
+            events.setEventListenerOnAuth();
             events.connectHeaderButtons();
 
             if (!sw.register()) {

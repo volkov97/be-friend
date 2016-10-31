@@ -1,9 +1,11 @@
 define(
     [
-        'sw'
+        'sw',
+        'audio'
     ],
     function(
-        sw
+        sw,
+        audio
     ) {
 
         function _isNewNotificationSupported() {
@@ -65,6 +67,7 @@ define(
                 '</div>';
 
             $('body').append(notificationHTML);
+            audio.notification();
         }
 
         var notify = {};
