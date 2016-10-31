@@ -10,7 +10,7 @@ define(
 
         var _timerVar;
         var _gameTime = 0;
-        var _gameTimeMax = 9000;
+        var _gameTimeMax = 90000;
         var _totalGameTime = 0;
 
         var timer = {};
