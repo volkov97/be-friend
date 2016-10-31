@@ -433,17 +433,13 @@ define([
                         $(this).addClass("right");
                         audio.correctAnswer();
                         gameVariables.addPoints();
-                        if (gameVariables.getIsFirstTryValue() == true){
-                            statistics.incFirstTryRightAnswers();
-                        } else {
-                            gameVariables.setIsFirstTryValue(true);
-                        }
                         gui.updatePoints();
                         gui.updateTimer();
                         statistics.incRightAnswers_count();
 
-                        if ($(".question__answer.wrong").length == 0) {
+                        if ($(".quizForSingleGame .question__answer.wrong").length == 0) {
                             timer.addTime();
+                            statistics.incFirstTryRightAnswers();
                             gui.updateTimer();
                         }
 
@@ -454,7 +450,6 @@ define([
                         $(this).addClass("wrong");
                         audio.wrongAnswer();
                         gameVariables.subtractPoints();
-                        gameVariables.setIsFirstTryValue(false);
 
                         timer.substractTime();
                         gui.updateTimer();
@@ -476,7 +471,6 @@ define([
                         $(this).addClass("right");
                         audio.correctAnswer();
                         gameVariables.addPoints();
-                        statistics.incRightAnswers_count();
 
                         onlineUser.answer({
                             vk_id: vkapi.getUserInfo().id,
@@ -490,7 +484,6 @@ define([
                         $(this).addClass("wrong");
                         audio.wrongAnswer();
                         gameVariables.subtractPoints();
-                        statistics.incMistakes_count();
 
                         onlineUser.answer({
                             vk_id: vkapi.getUserInfo().id,

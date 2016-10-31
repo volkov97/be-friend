@@ -206,6 +206,8 @@ define([], function() {
                     return Math.random() - 0.5;
                 });
 
+                randomUser.universities[0].name = randomUser.universities[0].name.trim();
+
                 // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
