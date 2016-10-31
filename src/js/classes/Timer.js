@@ -9,7 +9,7 @@ define(
     ) {
 
         var _timerVar;
-        var _gameTime = 0
+        var _gameTime = 0;
         var _gameTimeMax = 9000;
         var _totalGameTime = 0;
 
@@ -25,6 +25,8 @@ define(
                 require("gui").updateTimer();
 
                 if (_gameTime >= _gameTimeMax) {
+                    _gameTime = _gameTimeMax;
+                    require("gui").updateTimer();
                     timer.end();
                 }
             }, 1000);

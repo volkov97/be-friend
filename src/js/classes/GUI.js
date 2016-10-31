@@ -240,8 +240,11 @@ define(
             }, function(data) {
                 var ms = data.list;
 
+                $('.noNeighbors').addClass('hidden');
+
                 // Check for error
-                if (ms == -1){
+                if (ms == -1) {
+                    $('.noNeighbors').removeClass('hidden');
                     return;
                 }
 
@@ -272,19 +275,29 @@ define(
             var code = "";
 
             for (var i = 0; i < list.length; i++) {
-                code += "<a href=\'https://vk.com/id" + list[i].id + "\' class='onlinePlayers__player'><img src='" +
-                    list[i].img_src+ "' class='onlinePlayers__img' width='32' height='32'>" +
-                    list[i].first_name + " " + list[i].last_name + "</a>"
+                if (list[i].id != vkapi.getUserInfo().id) {
+                    code += "<a href=\'https://vk.com/id" + list[i].id + "\' class='onlinePlayers__player'><img src='" +
+                        list[i].img_src+ "' class='onlinePlayers__img' width='32' height='32'>" +
+                        list[i].first_name + " " + list[i].last_name + "</a>";
+                }
             }
 
             $('.onlinePlayers__list').html(code);
             require('events').setEventListenerOnOnlineUsers();
         };
 
+        /**
+         * Shows error in "join" button
+         * @param str Error text
+         */
         gui.showMultiplayerError = function(str) {
             $('.multiplayerMode .error').text(str).removeClass('hidden');
         };
 
+        /**
+         * Shows error in "start room" button
+         * @param str Error text
+         */
         gui.showMultiplayerStartError = function(str) {
             $('.roomInfo .error').text(str).removeClass('hidden');
         };

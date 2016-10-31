@@ -68,6 +68,15 @@
     text-align: justify;
     max-height: 200px;
     overflow-y: scroll;
+
+    &:empty:after {
+      content: 'Сейчас кроме Вас тут никого нет :(';
+      display: block;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: grey;
+    }
   }
 
   &__player {

@@ -2,110 +2,60 @@ console.log('Started', self);
 
 var cacheName = 'beFriendCache-v1';
 var urlsToCache = [
-    '/sw.js',
     '/',
+    '/sw.js',
     '/manifest.json',
     '/stylesheets/fonts.css',
     '/stylesheets/main.css',
     '/images/logo.png',
     '/images/friends.jpeg',
-    '/images/mp-02.png',
-    '/sounds/correct.wav',
-    '/sounds/wrong.wav',
-    '/sounds/finish.wav',
-    '/javascripts/offline.js'
+    '/images/mp-02.png'
 ];
 
-self.addEventListener('install', function(e) {
-    console.log('[ServiceWorker] Installed');
-
-    // e.waitUntil Delays the event until the Promise is resolved
-    e.waitUntil(
-
-        // Open the cache
+this.addEventListener('install', function(event) {
+    event.waitUntil(
         caches.open(cacheName).then(function(cache) {
-
-            // Add all the default files to the cache
-            console.log('[ServiceWorker] Caching cacheFiles');
             return cache.addAll(urlsToCache);
         })
-    ); // end e.waitUntil
+    );
 });
 
+this.addEventListener('activate', function(event) {
+    var cacheWhitelist = [cacheName];
 
-self.addEventListener('activate', function(e) {
-    console.log('[ServiceWorker] Activated');
-
-    e.waitUntil(
-
-        // Get all the cache keys (cacheName)
-        caches.keys().then(function(cacheNames) {
-            return Promise.all(cacheNames.map(function(thisCacheName) {
-
-                // If a cached item is saved under a previous cacheName
-                if (thisCacheName !== cacheName) {
-
-                    // Delete that cached file
-                    console.log('[ServiceWorker] Removing Cached Files from Cache - ', thisCacheName);
-                    return caches.delete(thisCacheName);
+    event.waitUntil(
+        caches.keys().then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if (cacheWhitelist.indexOf(key) === -1) {
+                    return caches.delete(key);
                 }
             }));
         })
-    ); // end e.waitUntil
-
+    );
 });
 
+this.addEventListener('fetch', function(event) {
+    console.log('Handling fetch event for', event.request.url);
 
-self.addEventListener('fetch', function(e) {
-    console.log('[ServiceWorker] Fetch', e.request.url);
+    event.respondWith(
+        caches.match(event.request).then(function(response) {
+            if (response) {
+                console.log('Found response in cache:', response);
 
-    // e.respondWidth Responds to the fetch event
-    e.respondWith(
+                return response;
+            }
+            console.log('No response found in cache. About to fetch from network...');
 
-        // Check in cache for the request being made
-        caches.match(e.request)
+            return fetch(event.request).then(function(response) {
+                console.log('Response from network is:', response);
 
-
-            .then(function(response) {
-
-                // If the request is in the cache
-                if ( response ) {
-                    console.log("[ServiceWorker] Found in Cache", e.request.url, response);
-                    // Return the cached version
-                    return response;
-                }
-
-                // If the request is NOT in the cache, fetch and cache
-
-                var requestClone = e.request.clone();
-                fetch(requestClone)
-                    .then(function(response) {
-
-                        if ( !response ) {
-                            console.log("[ServiceWorker] No response from fetch ")
-                            return response;
-                        }
-
-                        var responseClone = response.clone();
-
-                        //  Open the cache
-                        caches.open(cacheName).then(function(cache) {
-
-                            // Put the fetched response in the cache
-                            cache.put(e.request, responseClone);
-                            console.log('[ServiceWorker] New Data Cached', e.request.url);
-
-                            // Return the response
-                            return response;
-
-                        }); // end caches.open
-
-                    })
-                    .catch(function(err) {
-                        console.log('[ServiceWorker] Error Fetching & Caching New Data', err);
-                    });
+                return response;
+            }).catch(function(error) {
+                console.error('Fetching failed:', error);
 
 
-            }) // end caches.match(e.request)
-    ); // end e.respondWith
+                throw error;
+            });
+        })
+    );
 });

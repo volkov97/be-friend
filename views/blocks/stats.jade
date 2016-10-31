@@ -6,11 +6,14 @@
                     | Ваш лучший результат
                 .rate__main
                     table.rate__table
-                        tbody
+                        thead
                             tr.tableHead
                                 th №
                                 th Имя
                                 th Оценка
+                        tbody
+                .noNeighbors.hidden
+                    | Сыграйте в одиночную игру и мы покажем Ваш результат!
         .col-md-6
             .rate.miniTop.animated
                 header.rate__header
@@ -18,11 +21,12 @@
                     .top ТОП 5
                 .rate__main
                     table.rate__table.winners
-                        tbody
+                        thead
                             tr.tableHead
                                 th №
                                 th Имя
                                 th Оценка
+                        tbody
                             - for (var i = 0; i < 5; i++)
                                 tr
                                     td.number #{i + 1}

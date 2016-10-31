@@ -9,6 +9,8 @@ var svgmin = require('gulp-svgmin');
 var path = require('path');
 var concat   = require('gulp-concat');
 var uglify = require('gulp-uglifyjs');
+var minify = require('gulp-minify');
+var requirejsOptimize = require('gulp-requirejs-optimize');
 var font2css = require('gulp-font2css').default;
 var server = require('gulp-develop-server');
 var browserSync	= require('browser-sync');
@@ -46,10 +48,10 @@ var paths = {
     dest_jsFolder: './public/javascripts',
 
     // Fonts
-    src_fontsFiles: 'src/fonts/**/*.{otf,ttf,woff,woff2}', 
+    src_fontsFiles: './src/fonts/**/*.{otf,ttf,woff,woff2}',
 
     // SVG
-    src_svgFiles: 'src/svg/*.svg',
+    src_svgFiles: './src/svg/*.svg',
     dest_svgFolder: './public/images'
 }
 
@@ -72,8 +74,13 @@ gulp.task('sass:watch', function () {
 
 gulp.task('js', function () {
     return gulp.src(paths.src_jsFiles)
-        //.pipe(uglify())
-        //.pipe(concat("script.js"))
+        .pipe(minify({
+            ext:{
+                src:'-debug.js',
+                min:'.js'
+            },
+            noSource: true
+        }))
         .pipe(gulp.dest(paths.dest_jsFolder))
 });
 

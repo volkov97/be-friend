@@ -1,18 +1,1 @@
-define([], function() {
-
-    var vibration = {};
-
-    vibration.vibrate = function(val){
-        if("vibrate" in navigator) return navigator.vibrate(val);
-        if("oVibrate" in navigator) return navigator.oVibrate(val);
-        if("mozVibrate" in navigator) return navigator.mozVibrate(val);
-        if("webkitVibrate" in navigator) return navigator.webkitVibrate(val);
-
-        // Error
-        console.warn("Vibrate API is not supported on your device.");
-    };
-
-    return vibration;
-});
-
-
+define([],function(){var i={};return i.vibrate=function(i){return"vibrate"in navigator?navigator.vibrate(i):"oVibrate"in navigator?navigator.oVibrate(i):"mozVibrate"in navigator?navigator.mozVibrate(i):"webkitVibrate"in navigator?navigator.webkitVibrate(i):void console.warn("Vibrate API is not supported on your device.")},i});

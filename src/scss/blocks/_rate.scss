@@ -20,8 +20,10 @@
 	    }
     }
 
-    &__main {
-
+    .noNeighbors {
+      text-align: center;
+      padding: 15px 0;
+      color: #b11c1c;
     }
 
     &__table {

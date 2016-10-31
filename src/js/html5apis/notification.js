@@ -84,7 +84,7 @@ define(
                 });
             }
 
-            makeCustomNotification(type, title, text, src, enableButtons);
+            _makeCustomNotification(type, title, text, src, enableButtons);
         };
 
         return notify;
