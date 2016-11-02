@@ -72,6 +72,18 @@ gulp.task('sass:watch', function () {
     gulp.watch("./src/scss/**/*.scss", ['sass']);
 });
 
+gulp.task('sass-offline', function() {
+    return gulp.src('./src/scss/offline.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(concat('offline.css'))
+        .pipe(autoprefixer({
+            browsers: ['last 20 versions'],
+            cascade: false
+        }))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(gulp.dest('./public/stylesheets/'))
+});
+
 gulp.task('js', function () {
     return gulp.src(paths.src_jsFiles)
         .pipe(minify({
@@ -111,7 +123,7 @@ gulp.task('fonts', function() {
         .pipe(font2css())
         .pipe(concat('fonts.css'))
         .pipe(gulp.dest(paths.dest_cssFolder))
-})
+});
 
 gulp.task('watch', function () {
     gulp.watch(paths.src_jsFiles, ['js']);

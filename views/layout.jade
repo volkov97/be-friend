@@ -63,42 +63,29 @@ html(lang="ru")
     block content
 
 
-    script(type="text/javascript").
-      if (navigator.onLine) {
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'javascripts/require.js';
-        script.setAttribute('data-main', 'javascripts/main');
-        head.appendChild(script);
-      } else {
-        document.getElementsByClassName('authButton')[0].innerHTML = 'Offline';
-        document.getElementsByClassName('fullscreen')[0].style.display = 'none';
-        document.getElementsByClassName('sound')[0].style.display = 'none';
-      }
+    script(data-main="javascripts/main" src="javascripts/require.js")
+
     // VK API async
     div(id="vk_api_transport")
     script(type="text/javascript").
-      if (navigator.onLine) {
-        window.vkAsyncInit = function () {
-          VK.init({
-            apiId: 5610207
-          });
-        };
+      window.vkAsyncInit = function () {
+        VK.init({
+          apiId: 5610207
+        });
+      };
 
-        setTimeout(function () {
-          var el = document.createElement("script");
-          el.type = "text/javascript";
-          el.src = "https://vk.com/js/api/openapi.js?136";
-          el.async = true;
-          document.getElementById("vk_api_transport").appendChild(el);
-        }, 0);
-      }
+      setTimeout(function () {
+        var el = document.createElement("script");
+        el.type = "text/javascript";
+        el.src = "https://vk.com/js/api/openapi.js?136";
+        el.async = true;
+        document.getElementById("vk_api_transport").appendChild(el);
+      }, 0);
     //  -/ VK API async
   
     // Yandex.Metrika counter
     script(type="text/javascript").
-      if (navigator.onLine) (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter40587200 = new Ya.Metrika({ id:40587200, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");
+      (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter40587200 = new Ya.Metrika({ id:40587200, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");
     
     noscript
       div
