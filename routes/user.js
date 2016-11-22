@@ -44,7 +44,7 @@ function vkAuthPOST(req, res) {
                 connection.release();
 
                 var token = genToken(user.id);
-                var token_title = md5.string.quiet('hashToken');
+                var token_title = 'hashToken';
                 res.cookie(
                     token_title,
                     token,
@@ -71,7 +71,7 @@ function vkAuthPOST(req, res) {
                     connection.release();
 
                     var token = genToken(result.insertId);
-                    var token_title = md5.string.quiet('hashToken');
+                    var token_title = 'hashToken';
                     res.cookie(
                         token_title,
                         token,

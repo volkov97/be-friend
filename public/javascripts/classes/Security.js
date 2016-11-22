@@ -1,1 +1,1 @@
-define(["jquery","jquery_cookie","jquery_md5"],function(e){var n={};return n.getToken=function(){return e.cookie(e.md5("hashToken"))},n});
+define(["jquery","jquery_cookie","jquery_md5"],function(e){var n={};return n.getToken=function(){return e.cookie("hashToken")},n});

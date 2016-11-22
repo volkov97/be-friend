@@ -11,7 +11,7 @@ define(
         var security = {};
 
         security.getToken = function() {
-            return $.cookie($.md5('hashToken'));
+            return $.cookie('hashToken');
         };
 
         return security;
