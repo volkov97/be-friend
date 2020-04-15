@@ -59,10 +59,11 @@ define([], function() {
     vkapi.getFriendsIDs = function(resolve, reject) {
         VK.Api.call('friends.get', {
             user_id: _userObj.mid,
-            version: "5.53"
+            v: "5.53"
         }, function(r){
+            console.log(r.response);
             if (r.response){
-                friends = r.response;
+                friends = r.response.items;
                 stringOfUserIDs = _userObj.mid + ',' + friends.join();
 
                 vkapi.getFriendsInfo(resolve, reject);
@@ -81,7 +82,7 @@ define([], function() {
             user_ids: stringOfUserIDs,
             fields: "bdate,city,photo_200,relation,education,universities,schools," +
             "status,followers_count,sex,followers_count,personal,first_name_gen,last_name_gen,relation",
-            version: "5.53"
+            v: "5.53"
         }, function(r) {
             if (r.response){
                 friends = r.response;
@@ -113,7 +114,7 @@ define([], function() {
     vkapi.getFriendsCities = function(resolve, reject) {
         VK.Api.call('database.getCitiesById', {
             city_ids: stringOfUsersCitiesIDs,
-            version: "5.53"
+            v: "5.53"
         }, function(r){
             if (r.response){
                 var cities = r.response;
