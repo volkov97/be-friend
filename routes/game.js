@@ -2,12 +2,7 @@ var express = require('express');
 var mysql = require('mysql');
 
 var router = express.Router();
-var pool = mysql.createPool({
-    host     : 'eu-cdbr-west-03.cleardb.net',
-	user     : 'b1be4c963289de',
-	password : '3235c7cf',
-	database : 'heroku_f661a27bd3aac9d'
-});
+var pool = mysql.createPool(process.env.CLEARDB_DATABASE_URL);
 
 var game = {
 
