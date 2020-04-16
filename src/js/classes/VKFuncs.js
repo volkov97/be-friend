@@ -61,7 +61,6 @@ define([], function() {
             user_id: _userObj.mid,
             v: "5.53"
         }, function(r){
-            console.log(r.response);
             if (r.response){
                 friends = r.response.items;
                 stringOfUserIDs = _userObj.mid + ',' + friends.join();

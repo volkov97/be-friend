@@ -57,9 +57,10 @@ define([], function() {
             users_available: [],
             chooseOptions: function(){
                 var randomUser = this.users_available[Math.floor(Math.random() * this.users_available.length)];
+                var randomUserCityTitle = randomUser.city && randomUser.city.title;
 
                 var cities = this.users_available.map(function(obj) {
-                    return obj.cityName;
+                    return obj.city && obj.city.title;
                 });
 
                 var citiesWithoutDuplicates = [];
@@ -79,7 +80,7 @@ define([], function() {
 
                 // Delete right answer from list
                 citiesWithoutDuplicates = citiesWithoutDuplicates.filter(function(tempCity){
-                    if (tempCity == randomUser.cityName){
+                    if (tempCity == randomUserCityTitle){
                         return false;
                     } else {
                         return true;
@@ -94,20 +95,20 @@ define([], function() {
                 // Return info about chosen user and 4 answer options
                 var result = [
                     randomUser,
-                    randomUser.cityName,
+                    randomUserCityTitle,
                     citiesWithoutDuplicates[0],
                     citiesWithoutDuplicates[1],
                     citiesWithoutDuplicates[2]
                 ];
 
-                gameLogic.setRightAnswer(randomUser.cityName);
+                gameLogic.setRightAnswer(randomUserCityTitle);
 
                 return result;
             },
             getAvailableUsers: function(){
                 // Filter users without photo and city
                 this.users_available = friends.filter(function(tempUser){
-                    if ((!tempUser.photo_200) || (tempUser.city == 0) ||
+                    if ((!tempUser.photo_200) || (!tempUser.city) ||
                         (tempUser.photo_200.indexOf("camera_200") != -1 )) {
                         return false;
                     } else {

@@ -7,10 +7,10 @@ var secret = require('../config/secret');
 
 var router = express.Router();
 var pool = mysql.createPool({
-    host     : 'us-cdbr-iron-east-04.cleardb.net',
-    user     : 'b1c67bc0ce692d',
-    password : '1f1be6ce',
-    database : 'heroku_78e942bc13adfed'
+    host     : 'eu-cdbr-west-03.cleardb.net',
+	user     : 'b1be4c963289de',
+	password : '3235c7cf',
+	database : 'heroku_f661a27bd3aac9d'
 });
 
 var user = {

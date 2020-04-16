@@ -3,10 +3,10 @@ var mysql = require('mysql');
 
 var router = express.Router();
 var pool = mysql.createPool({
-    host     : 'us-cdbr-iron-east-04.cleardb.net',
-    user     : 'b1c67bc0ce692d',
-    password : '1f1be6ce',
-    database : 'heroku_78e942bc13adfed'
+    host     : 'eu-cdbr-west-03.cleardb.net',
+	user     : 'b1be4c963289de',
+	password : '3235c7cf',
+	database : 'heroku_f661a27bd3aac9d'
 });
 
 var game = {
@@ -182,19 +182,19 @@ function getNeighbours(num, user_id) {
                     if (pos >= 1 && pos <= Math.floor(num / 2) + 1) {
                         result = rows.slice(0, num);
 
-                        for (var i = 0; i < num; i++) {
+                        for (var i = 0; i < result.length; i++) {
                             result[i].realPos = i + 1;
                         }
                     } else if (pos >= rows.length - Math.floor(num / 2) && pos <= rows.length) {
                         result = rows.slice(rows.length - num);
 
-                        for (var i = 0; i < num; i++) {
+                        for (var i = 0; i < result.length; i++) {
                             result[i].realPos = (rows.length - num + 1) + i;
                         }
                     } else {
                         result = rows.slice(pos - Math.floor(num / 2) - 1, pos + Math.floor(num / 2));
 
-                        for (var i = 0; i < num; i++) {
+                        for (var i = 0; i < result.length; i++) {
                             result[i].realPos = (pos - Math.floor(num / 2)) + i;
                         }
                     }
