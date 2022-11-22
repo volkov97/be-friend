@@ -25,11 +25,11 @@
     "nodejs-md5": "^0.6.0",
     "owl.carousel": "^2.1.4",
     "slick-carousel": "^1.6.0",
-    "socket.io": "^1.5.0",
+    "socket.io": "^4.5.3",
     "static-favicon": "~1.0.0"
   },
   "devDependencies": {
-    "browser-sync": "^2.17.2",
+    "browser-sync": "^2.27.10",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
